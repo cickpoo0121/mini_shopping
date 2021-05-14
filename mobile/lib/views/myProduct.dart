@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:mobile/constants.dart';
 import 'package:mobile/views/components/drawer.dart';
 
-class Home extends StatefulWidget {
+class MyProduct extends StatefulWidget {
   @override
-  _HomeState createState() => _HomeState();
+  _MyProductState createState() => _MyProductState();
 }
 
-class _HomeState extends State<Home> {
+class _MyProductState extends State<MyProduct> {
   final List item = [
     {'name': 'Women Shirt', 'price': 3500},
     {'name': 'Women Shirt', 'price': 3500},
@@ -39,7 +39,7 @@ class _HomeState extends State<Home> {
         iconTheme: IconThemeData(color: Colors.black),
         backgroundColor: kBackgroundColor,
         title: Text(
-          "Home",
+          "My Product",
           style: TextStyle(color: kTextColor, fontWeight: FontWeight.bold),
         ),
         actions: <Widget>[
@@ -92,8 +92,26 @@ class _HomeState extends State<Home> {
                       width: 80,
                     ),
                     title: Text(item[index]['name']),
-                    subtitle: Text('${item[index]['price']} baht'),
-                    trailing: Icon(Icons.favorite_outline),
+                    subtitle: ButtonTheme(
+                      minWidth: 90.0,
+                      height: 30,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20.0),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.fromLTRB(0, 10, 100, 15),
+                        child: RaisedButton(
+                          elevation: 1.0,
+                          hoverColor: Colors.green,
+                          color: kBlueColor,
+                          child: Text(
+                            "Edit Product",
+                            style: TextStyle(color: kBtColor),
+                          ),
+                          onPressed: () {},
+                        ),
+                      ),
+                    ),
                   ),
                 );
               },
@@ -103,10 +121,10 @@ class _HomeState extends State<Home> {
       ),
       floatingActionButton: FloatingActionButton(
           child: Icon(
-            Icons.shopping_cart_outlined,
-            color: kBtColor,
+            Icons.add,
+            color: kBlueColor,
           ),
-          backgroundColor: kBlueColor,
+          backgroundColor: kBtColor,
           onPressed: () {
             setState(() {
               item.add(
