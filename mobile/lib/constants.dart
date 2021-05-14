@@ -6,6 +6,7 @@ const kPrimaryColor = Color(0xFFFF6787);
 // const kPrimaryColor = Color(0xFF00bfa6);
 const kTextColor = Color(0xFF3c4046);
 const kBackgroundColor = Color(0xFFF9F8FD);
+const kText = Color(0xFF4E55AF);
 
 
 const double kDefaultPadding = 20;
