@@ -4,9 +4,9 @@ import 'package:flutter/material.dart';
 // const kPrimaryColor = Colors.pink;
 const kPrimaryColor = Color(0xFFFF6787);
 // const kPrimaryColor = Color(0xFF00bfa6);
-const kTextColor = Color(0xFF3c4046);
-const kBackgroundColor = Color(0xFFF9F8FD);
-const kText = Color(0xFF4E55AF);
-
+const kTextColor = Color(0xFF4E55AF);
+const kBackgroundColor = Color(0xFFF7F7F7);
+const kBtColor = Color(0xFF4E55AF);
+const kBlueColor = Color(0xFFADE1F6);
 
 const double kDefaultPadding = 20;

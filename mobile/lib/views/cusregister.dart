@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mobile/constants.dart';
 
 class Cusregister extends StatefulWidget {
   @override
@@ -9,112 +10,112 @@ class _CusregisterState extends State<Cusregister> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[50],
+      backgroundColor: kBackgroundColor,
       body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Icon(
-                Icons.supervised_user_circle_rounded,
-                color: Colors.blue,
-                size: 120.0,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            SizedBox(height: 15),
+            Icon(
+              Icons.supervised_user_circle_rounded,
+              color: Colors.blue,
+              size: 120.0,
+            ),
+            SizedBox(height: 5),
+            RoundedTextField(
+              // controller: _username,
+              hintText: "Username",
+              icon: Icons.perm_identity_outlined,
+              // color: kTextColor,
+
+              backgroundColor: Colors.white,
+              onChanged: (value) {
+                print(value);
+              },
+            ),
+            SizedBox(height: 3),
+            RoundedTextField(
+              // controller: _password,
+              hintText: "Password",
+              icon: Icons.lock_open,
+
+              backgroundColor: Colors.white,
+              onChanged: (value) {
+                print(value);
+              },
+            ),
+            SizedBox(height: 3),
+            RoundedTextField(
+              // controller: _username,
+              hintText: "Confirm Password",
+              icon: Icons.lock_open,
+              // color: kTextColor,
+
+              backgroundColor: Colors.white,
+              onChanged: (value) {
+                print(value);
+              },
+            ),
+            SizedBox(height: 3),
+            RoundedTextField(
+              // controller: _username,
+              hintText: "Fullname",
+              icon: Icons.account_box_rounded,
+              // color: kTextColor,
+
+              backgroundColor: Colors.white,
+              onChanged: (value) {
+                print(value);
+              },
+            ),
+            SizedBox(height: 3),
+            RoundedTextField(
+              // controller: _username,
+              hintText: "Email",
+              icon: Icons.email_rounded,
+              // color: kTextColor,
+
+              backgroundColor: Colors.white,
+              onChanged: (value) {
+                print(value);
+              },
+            ),
+            SizedBox(height: 3),
+            RoundedTextField(
+              // controller: _username,
+
+              hintText: "Tel",
+              icon: Icons.phone,
+              // color: kTextColor,
+
+              backgroundColor: Colors.white,
+              onChanged: (value) {
+                print(value);
+              },
+            ),
+            SizedBox(height: 4),
+            ButtonTheme(
+              minWidth: 300.0,
+              height: 40,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(30.0),
               ),
-              SizedBox(height: 20),
-              RoundedTextField(
-                // controller: _username,
-                hintText: "Username",
-                icon: Icons.perm_identity_outlined,
-                // color: kTextColor,
-                color: Colors.black,
-                backgroundColor: Colors.white,
-                onChanged: (value) {
-                  print(value);
-                },
-              ),
-              SizedBox(height: 8),
-              RoundedTextField(
-                // controller: _password,
-                hintText: "Password",
-                icon: Icons.lock_open,
-                color: Colors.black,
-                backgroundColor: Colors.white,
-                onChanged: (value) {
-                  print(value);
-                },
-              ),
-              RoundedTextField(
-                // controller: _username,
-                hintText: "Confrim Password",
-                icon: Icons.lock_open,
-                // color: kTextColor,
-                color: Colors.black,
-                backgroundColor: Colors.white,
-                onChanged: (value) {
-                  print(value);
-                },
-              ),
-              SizedBox(height: 8),
-              RoundedTextField(
-                // controller: _username,
-                hintText: "Fullname",
-                icon: Icons.account_box_rounded,
-                // color: kTextColor,
-                color: Colors.black,
-                backgroundColor: Colors.white,
-                onChanged: (value) {
-                  print(value);
-                },
-              ),
-              SizedBox(height: 8),
-              RoundedTextField(
-                // controller: _username,
-                hintText: "Email",
-                icon: Icons.email_rounded,
-                // color: kTextColor,
-                color: Colors.black,
-                backgroundColor: Colors.white,
-                onChanged: (value) {
-                  print(value);
-                },
-              ),
-              SizedBox(height: 8),
-              RoundedTextField(
-                // controller: _username,
-                hintText: "Tel",
-                icon: Icons.phone,
-                // color: kTextColor,
-                color: Colors.black,
-                backgroundColor: Colors.white,
-                onChanged: (value) {
-                  print(value);
-                },
-              ),
-              SizedBox(height: 8),
-              ButtonTheme(
-                minWidth: 300.0,
-                height: 50,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(30.0),
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.fromLTRB(44, 20, 44, 5),
-                  child: RaisedButton(
-                    elevation: 2.0,
-                    hoverColor: Colors.green,
-                    color: Color.fromRGBO(56, 163, 165, 10),
-                    child: Text(
-                      "Register",
-                      style: TextStyle(
-                          color: Colors.white, fontWeight: FontWeight.bold),
-                    ),
-                    onPressed: () {},
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(44, 20, 44, 5),
+                child: RaisedButton(
+                  elevation: 2.0,
+                  hoverColor: Colors.green,
+                  color: kBlueColor,
+                  child: Text(
+                    "Register",
+                    style:
+                        TextStyle(color: kBtColor, fontWeight: FontWeight.bold),
                   ),
+                  onPressed: () {},
                 ),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
@@ -140,10 +141,11 @@ class RoundedTextField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+      height: 50,
+      padding: EdgeInsets.symmetric(horizontal: 10, vertical: 2),
       decoration: BoxDecoration(
         color: backgroundColor,
-        borderRadius: BorderRadius.circular(36),
+        borderRadius: BorderRadius.circular(26),
       ),
       child: TextField(
         controller: controller,
@@ -152,13 +154,14 @@ class RoundedTextField extends StatelessWidget {
         decoration: InputDecoration(
           icon: Icon(
             icon,
-            color: color,
+            color: Colors.black,
           ),
           hintText: hintText,
-          hintStyle: TextStyle(color: color),
+          hintStyle: TextStyle(color: kTextColor),
           border: InputBorder.none,
         ),
       ),
     );
   }
 }
+

@@ -29,6 +29,11 @@ class HamManu extends StatelessWidget {
               Icons.perm_identity_outlined,
             ),
             onTap: () => Navigator.of(context).pop(),
+          ),
+          ListTile(
+            title: Text('Log out'),
+            leading: Icon(Icons.logout),
+            onTap: () => Navigator.of(context).pop(),
           )
         ],
       ),

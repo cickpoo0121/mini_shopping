@@ -6,4 +6,3 @@ import 'package:mobile/views/tabMain.dart';
 void main() {
   runApp(GetMaterialApp(home: Home(),));
 }
-
