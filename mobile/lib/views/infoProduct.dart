@@ -10,6 +10,9 @@ class _infoProductState extends State<infoProduct> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+
+     
+     //AppBar
       appBar: AppBar(
         elevation: 0,
         backgroundColor: Colors.white,
@@ -34,14 +37,21 @@ class _infoProductState extends State<infoProduct> {
           )
         ],
       ),
+
+
       body: Column(
         children: [
           Center(
+
+            //Product Image
               child: Image.network(
             'https://img.ltwebstatic.com/images3_pi/2020/12/24/1608774940060cd4e59644760c0af6fa0d2a9c03a7_thumbnail_900x.webp',
             width: 370,
             height: 370,
           )),
+
+
+          //Information Product
           Container(
             width: 1000,
             decoration: new BoxDecoration(
@@ -54,6 +64,8 @@ class _infoProductState extends State<infoProduct> {
                 SizedBox(
                   height: 15,
                 ),
+
+                //Name Product
                 Text(
                   "WOMEN เสื้อฮู้ด down",
                   style: TextStyle(
@@ -71,6 +83,9 @@ class _infoProductState extends State<infoProduct> {
                 SizedBox(
                   height: 20,
                 ),
+
+
+                //Price
                 Text(
                   "1499 Baht",
                   style: TextStyle(
@@ -81,6 +96,8 @@ class _infoProductState extends State<infoProduct> {
                 SizedBox(
                   height: 15,
                 ),
+
+                //Amount Product
                 Text(
                   "4 Pieces left!",
                   style: TextStyle(color: kTextColor, fontSize: 22),
@@ -88,6 +105,9 @@ class _infoProductState extends State<infoProduct> {
                 SizedBox(
                   height: 20,
                 ),
+
+
+                //Btn Select Product
                 Row(
                   children: [
                     SizedBox(
@@ -99,39 +119,49 @@ class _infoProductState extends State<infoProduct> {
                         onPrimary: Colors.black, // foreground
                       ),
                       onPressed: () {},
+                      // do something
                       child: Text('S'),
                     ),
                     SizedBox(
                       width: 20,
                     ),
+
+
                     ElevatedButton(
                       style: ElevatedButton.styleFrom(
                         primary: Colors.white, // background
                         onPrimary: Colors.black, // foreground
                       ),
                       onPressed: () {},
+                      // do something
                       child: Text('M'),
                     ),
                     SizedBox(
                       width: 20,
                     ),
+
+
                     ElevatedButton(
                       style: ElevatedButton.styleFrom(
                         primary: k2TextColor, // background
                         onPrimary: Colors.white, // foreground
                       ),
                       onPressed: () {},
+                      // do something
                       child: Text('L'),
                     ),
                     SizedBox(
                       width: 20,
                     ),
+
+
                     ElevatedButton(
                       style: ElevatedButton.styleFrom(
                         primary: Colors.white, // background
                         onPrimary: Colors.black, // foreground
                       ),
                       onPressed: () {},
+                      // do something
                       child: Text('XL'),
                     ),
                   ],
@@ -139,26 +169,37 @@ class _infoProductState extends State<infoProduct> {
                 SizedBox(
                   height: 10,
                 ),
+
+                //Select Amount
                 Row(
                   children: [
                     SizedBox(
                       width: 130,
                     ),
+
+                    //Btn - Product
                     ElevatedButton(
                       style: ElevatedButton.styleFrom(
                         primary: k2TextColor, // background
                         onPrimary: Colors.white, // foreground
                       ),
                       onPressed: () {},
+                      // do something
                       child: Text('-'),
                     ),
                     SizedBox(
                       width: 40,
                     ),
+
+                  // Show output of select amount product
                     Text('1'),
+
                     SizedBox(
                       width: 40,
                     ),
+
+
+                    //Btn + Product
                     ElevatedButton(
                       style: ElevatedButton.styleFrom(
                         primary: k2TextColor, // background
@@ -172,6 +213,8 @@ class _infoProductState extends State<infoProduct> {
                 SizedBox(
                   height: 20,
                 ),
+
+              //Add to cart
                 Container(
                   width: 1000,
                   decoration: new BoxDecoration(
@@ -184,6 +227,8 @@ class _infoProductState extends State<infoProduct> {
                       SizedBox(
                         height: 15,
                       ),
+
+                      //Btn Add to cart
                       ElevatedButton(
                         style: ElevatedButton.styleFrom(
                           primary: k2TextColor,
@@ -195,6 +240,8 @@ class _infoProductState extends State<infoProduct> {
                           ),
                         ),
                         onPressed: () {},
+                        // do something
+                        
                         child: Text(
                           'ADD TO CART',
                           style: TextStyle(fontSize: 20),
