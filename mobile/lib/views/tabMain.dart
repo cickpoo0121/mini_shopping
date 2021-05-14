@@ -29,7 +29,8 @@ class TabMain extends StatelessWidget {
         ),
         body: TabBarView(
           children: [
-            
+            Text('data'),
+            Text('Hello'),
           ],
         ),
       ),
