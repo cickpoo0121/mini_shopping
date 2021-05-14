@@ -7,14 +7,52 @@ content-type: application/json
 }
 
 ### JWT verify
-GET http://localhost:35000/blog
-content-type: application/json
-x-access-token:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOjEsInVzZXJuYW1lIjoiYWRtaW4iLCJpYXQiOjE2MTI0MDgwNTEsImV4cCI6MTYxMjQ5NDQ1MX0.wsIyZmozdL9cD45uhA2ZtrdqeFmmfLJbzvFrgYPY1ec
-
-### JWT verify
 GET http://localhost:35000/JWT
 
-### Delete blog
-DELETE http://localhost:35000/blog/1
+### test token
+GET http://localhost:35000/mobile/verify
 content-type: application/json
-x-access-token:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOjEsInVzZXJuYW1lIjoiYWRtaW4iLCJpYXQiOjE2MTM2MTMxNjIsImV4cCI6MTYxMzY5OTU2Mn0.Wxvvrj0qqrj1BqDUxF1Ip6dlo_ck-ttSte8D_vfK5xI
+x-access-token:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOjEsInVzZXJuYW1lIjoiYWRtaW4iLCJpYXQiOjE2MjA5OTQ5MDgsImV4cCI6MTYyMTA4MTMwOH0.yKp93vKrvXyBRNoIDCldbritPRgxoaKQ1WiZiMnu44A
+
+### get own product with category
+GET http://localhost:35000/myproduct/1
+content-type: application/json
+x-access-token:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOjEsInVzZXJuYW1lIjoiYWRtaW4iLCJpYXQiOjE2MjA5OTQ5MDgsImV4cCI6MTYyMTA4MTMwOH0.yKp93vKrvXyBRNoIDCldbritPRgxoaKQ1WiZiMnu44A
+
+### get product with category
+GET http://localhost:35000/product/1
+content-type: application/json
+x-access-token:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOjEsInVzZXJuYW1lIjoiYWRtaW4iLCJpYXQiOjE2MjA5OTQ5MDgsImV4cCI6MTYyMTA4MTMwOH0.yKp93vKrvXyBRNoIDCldbritPRgxoaKQ1WiZiMnu44A
+
+### get product with product id
+POST http://localhost:35000/productDetail
+content-type: application/json
+x-access-token:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOjEsInVzZXJuYW1lIjoiYWRtaW4iLCJpYXQiOjE2MjA5OTQ5MDgsImV4cCI6MTYyMTA4MTMwOH0.yKp93vKrvXyBRNoIDCldbritPRgxoaKQ1WiZiMnu44A
+
+{
+    "ProductID":"2"
+}
+
+
+### sell product
+PUT http://localhost:35000/sellproduct
+content-type: application/json
+x-access-token:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOjEsInVzZXJuYW1lIjoiYWRtaW4iLCJpYXQiOjE2MjA5OTQ5MDgsImV4cCI6MTYyMTA4MTMwOH0.yKp93vKrvXyBRNoIDCldbritPRgxoaKQ1WiZiMnu44A
+
+{
+    "ProductID":"2,3"
+}
+
+### out of order product amount is 0 
+PUT http://localhost:35000/sellproduct
+content-type: application/json
+x-access-token:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOjEsInVzZXJuYW1lIjoiYWRtaW4iLCJpYXQiOjE2MjA5OTQ5MDgsImV4cCI6MTYyMTA4MTMwOH0.yKp93vKrvXyBRNoIDCldbritPRgxoaKQ1WiZiMnu44A
+
+{
+    "ProductID":"2,3"
+}
+
+### out of order product amount is 0 
+GET http://localhost:35000/order/0
+content-type: application/json
+x-access-token:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOjEsInVzZXJuYW1lIjoiYWRtaW4iLCJpYXQiOjE2MjA5OTQ5MDgsImV4cCI6MTYyMTA4MTMwOH0.yKp93vKrvXyBRNoIDCldbritPRgxoaKQ1WiZiMnu44A

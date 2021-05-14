@@ -21,7 +21,7 @@ function checkUserMobile(req, res, next) {
     }
     else {
         // no token, return to homepage
-        res.status(400).send('Invalid token');
+        res.status(400).send('No token');
 
     }
 
