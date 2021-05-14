@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 import 'package:flutter/foundation.dart';
+import 'package:mobile/constants.dart';
+import 'package:mobile/views/components/drawer.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -23,7 +25,8 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[100],
+      backgroundColor: kBackgroundColor,
+      drawer: HamManu(),
       appBar: AppBar(
         title: Text("Home"),
         actions: <Widget>[
@@ -34,36 +37,6 @@ class _HomeState extends State<Home> {
         ],
         centerTitle: true,
         elevation: defaultTargetPlatform == TargetPlatform.android ? 5.0 : 0.0,
-      ),
-      drawer: Drawer(
-        child: ListView(
-          padding: const EdgeInsets.all(0.0),
-          children: <Widget>[
-            UserAccountsDrawerHeader(
-                accountName: Text("Shopping mall"),
-                accountEmail: Text("Shop Owner"),
-                currentAccountPicture: CircleAvatar(
-                  backgroundColor: Colors.red,
-                )),
-            ListTile(title: Text('Home'), leading: Icon(Icons.house_rounded)),
-            ListTile(
-              title: Text('Delivery'),
-              leading: Icon(Icons.local_shipping_rounded),
-            ),
-            ListTile(
-              title: Text('My Product'),
-              leading: Icon(Icons.shopping_cart_rounded),
-              onTap: () => Navigator.of(context).pop(),
-            ),
-            ListTile(
-              title: Text('Profile'),
-              leading: Icon(
-                Icons.perm_identity_outlined,
-              ),
-              onTap: () => Navigator.of(context).pop(),
-            )
-          ],
-        ),
       ),
       body: Column(
         children: [
