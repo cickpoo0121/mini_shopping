@@ -77,11 +77,7 @@ packages:
     source: sdk
     version: "0.0.0"
   flutter_secure_storage:
-<<<<<<< HEAD
     dependency: "direct main"
-=======
-    dependency: "direct dev"
->>>>>>> 477e536d83deaed63017ba90380d59b994ec8f4e
     description:
       name: flutter_secure_storage
       url: "https://pub.dartlang.org"
