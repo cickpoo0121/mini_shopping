@@ -67,12 +67,12 @@ router.get('/logout', (req, res) => {
     res.redirect('/');
 })
 
-// //create JWT
-// router.get('/jwt', (req, res) => {
-//     // res.send(process.env.JWT_KEY)
-//     const playload = { userID: 1, username: 'admin' };
-//     const token = jwt.sign(playload, process.env.JWT_KEY, { expiresIn: '1d' })
-//     res.send(token)
-// })
+//create JWT
+router.get('/jwt', (req, res) => {
+    // res.send(process.env.JWT_KEY)
+    const playload = { userID: 1, username: 'admin' };
+    const token = jwt.sign(playload, process.env.JWT_KEY, { expiresIn: '1d' })
+    res.send(token)
+})
 
 module.exports = router;

@@ -4,6 +4,20 @@ const bcypt = require('bcrypt')
 const con = require('../config/db')
 const jwt = require('jsonwebtoken');
 const checkUserMobile = require('./checkUserMobile')
+const multer = require('multer')
+
+const storageOption = multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, './public/uploads')
+    },
+
+    filename: function (req, file, cb) {
+        cb(null, new Date().toISOString() + file.originalname
+        )
+    }
+})
+
+const upload = multer({ storage: storageOption }).single('photo');
 
 
 // Login
@@ -41,121 +55,177 @@ router.post('/mobile/login', (req, res) => {
 
 });
 
-// Blog
-router.get('/mobile/blog', checkUserMobile, (req, res) => {
 
-    let sql = 'SELECT DISTINCT year FROM blog WHERE userID=? ORDER BY year DESC'
-    con.query(sql, [req.afterDecoded.userID], (err, years) => {
+// ============================= Admin =========================
+// show own product with category
+router.get('/myProduct/:category', checkUserMobile, (req, res) => {
+    // const ProductOwner = req.body.ProductOwner;
+    const CategoryID = req.params.category;
+    let sql = 'SELECT * FROM `product` WHERE ProductOwner=? AND CategoryID=? AND Status=1'
+    con.query(sql, [req.afterDecoded.userID, CategoryID], (err, result) => {
         if (err) {
             console.log(err)
             return res.status(500).send('Database error')
         }
+        res.json(result)
+    })
+})
 
-        sql = 'SELECT blogID , title , detail, year FROM blog WHERE userID=? ORDER BY year DESC'
-        con.query(sql, [req.afterDecoded.userID], (err, blogs) => {
+// add new product
+router.post('/product/new', checkUserMobile, (req, res) => {
+
+    upload(req, res, err => {
+        console.log(req.file)
+
+        if (err) {
+            console.log(err)
+            return res.status(500).send('server error')
+        }
+
+        const { ProductImage, ProductTitle, ProductDescription, ProductPrice, ProductSize, Amount, ProductOwner, CategoryID } = req.body;
+        const sql = "INSERT INTO `product` ( `ProductImage`, `ProductTitle`, `ProductDescription`, `ProductPrice`, `ProductSize`, `Amount`, `ProductOwner`, `CategoryID`) VALUES ( ?, ?, ?, ?, ?, ?, ?, ?);"
+
+        con.query(sql, [req.file.originalname, ProductTitle, ProductDescription, ProductPrice, ProductSize, Amount, ProductOwner, CategoryID], (err, result) => {
             if (err) {
                 console.log(err)
                 return res.status(500).send('Database error')
             }
-            console.log(req.afterDecoded)
-            res.json({ userInfo: req.afterDecoded, year: years, post: blogs })
-
-            // res.render('blog', { userInfo: req.afterDecoded, year: years, post: blogs });
-        })
-    })
-})
-
-// blog for selected year
-router.get('/mobile/blog/:year', checkUserMobile, (req, res) => {
-    const year = req.params.year
-
-    let sql = 'SELECT DISTINCT year FROM blog WHERE userID=? ORDER BY year DESC'
-    con.query(sql, [req.afterDecoded.userID], (err, years) => {
-        if (err) {
-            console.log(err)
-            return res.status(500).send('Database error')
-        }
-
-        sql = 'SELECT blogID , title , detail, year FROM blog WHERE userID=? AND year= ? ORDER BY year DESC'
-
-        con.query(sql, [req.afterDecoded.userID, year], (err, blogs) => {
-            if (err) {
-                console.log(err)
-                return res.status(500).send('Database error')
+            if (result.affectedRows != 1) {
+                return res.status(500).send('Delete failed')
             }
-            res.json({ userInfo: req.afterDecoded, year: years, post: blogs, currentYear: year });
+            res.send('Add Success')
         })
     })
 
-
 })
 
-// delete blog
-router.delete('/mobile/blog/:id', checkUserMobile, (req, res) => {
-    const blogID = req.params.id;
-    const sql = 'DELETE FROM blog WHERE blogID=?';
-    con.query(sql, [blogID], (err, result) => {
+
+// ============================= User =========================
+// ************ Product ***********
+// get product by category
+router.get('/product/:category', checkUserMobile, (req, res) => {
+    // const ProductOwner = req.body.ProductOwner;
+    const CategoryID = req.params.category;
+    let sql = 'SELECT * FROM `product` WHERE CategoryID=? AND Amount > 0 AND Status=1'
+    con.query(sql, [CategoryID], (err, result) => {
         if (err) {
             console.log(err)
             return res.status(500).send('Database error')
         }
-        if (result.affectedRows != 1) {
-            return res.status(500).send('Delete failed')
-        }
-        res.send('Delecte Success')
+        res.json(result)
     })
 })
 
-// add new blog
-router.post('/mobile/blog/new', checkUserMobile, (req, res) => {
-    const { title, detail } = req.body;
-    const year = new Date().getFullYear();
-    const sql = "INSERT INTO `blog` ( `title`, `detail`, `year`, `userID`) VALUES (?, ?, ?, ?);"
-
-    con.query(sql, [title, detail, year, req.afterDecoded.userID], (err, result) => {
+// get product by product id
+router.post('/product/detail', checkUserMobile, (req, res) => {
+    const ProductID = req.body.ProductID;
+    let sql = 'SELECT * FROM `product` WHERE ProductID=? '
+    con.query(sql, [ProductID], (err, result) => {
         if (err) {
             console.log(err)
             return res.status(500).send('Database error')
         }
-        if (result.affectedRows != 1) {
-            return res.status(500).send('Delete failed')
-        }
-        res.send('Add Success')
+        res.json(result)
     })
-
 })
 
-// edit blog
-router.put('/mobile/blog/edit', checkUserMobile, (req, res) => {
-    const { title, detail, blogID } = req.body;
-    const sql = "UPDATE `blog` SET `title` = ?, `detail` = ? WHERE `blogID` = ?;"
-
-    con.query(sql, [title, detail, blogID], (err, result) => {
+// decrease product amount
+router.put('/product/sell', checkUserMobile, (req, res) => {
+    const ProductID = req.body.ProductID;
+    let sql = 'UPDATE product SET Amount= Amount-1 WHERE ProductID IN (?)'
+    con.query(sql, [ProductID], (err, result) => {
         if (err) {
             console.log(err)
             return res.status(500).send('Database error')
         }
-        if (result.affectedRows != 1) {
-            return res.status(500).send('Delete failed')
-        }
-        res.send('Edit Success')
+        res.json(result)
     })
-
 })
 
-//check JWT
-router.get('/mobile/verify', (req, res) => {
-    const token = req.headers['authorization'] || req.headers['x-access-token'];
-    jwt.verify(token, process.env.JWT_KEY, (err, decoded) => {
+// product status (1 is have product, 0 is out of product )
+router.put('/prodect/:status', checkUserMobile, (req, res) => {
+    const ProductID = req.body.ProductID;
+    const status = req.params.status;
+    let sql = 'UPDATE `product` SET `Status` = ? WHERE ProductID = ?;'
+    con.query(sql, [status, ProductID], (err, result) => {
         if (err) {
             console.log(err)
-            res.status(400).send('Invalid token')
+            return res.status(500).send('Database error')
         }
-        else {
-            res.send(decoded)
-        }
+        res.json(result)
     })
+})
 
+
+// ********** Order (Delivery) ***********
+// new Order
+router.post('/order/new', checkUserMobile, (req, res) => {
+    const { ProductID, Amount, Size } = req.body;
+    let sql = 'INSERT INTO `productorder` ( `ProductID`, `BuyerID`, `Amount`, `Size`) VALUES ?'
+    con.query(sql, [ProductID, req.afterDecoded.userID, Amount, Size], (err, result) => {
+        if (err) {
+            console.log(err)
+            return res.status(500).send('Database error')
+        }
+        res.json(result)
+    })
+})
+
+// show deliver or on road (Status 0 is on road, 1 is delivery successed)
+router.get('/order/:status', checkUserMobile, (req, res) => {
+    const status = req.params.status;
+    let sql = 'SELECT * FROM `productorder` WHERE Status =?;'
+    con.query(sql, [status], (err, result) => {
+        if (err) {
+            console.log(err)
+            return res.status(500).send('Database error')
+        }
+        res.json(result)
+    })
+})
+
+// change status of delivery 
+router.put('/order/:status', checkUserMobile, (req, res) => {
+    const status = req.params.status;
+    const OrderID = req.body.OrderID;
+    let sql = 'UPDATE `productorder` SET `Status` = ? WHERE `OrderID` = ?;'
+    con.query(sql, [status, OrderID], (err, result) => {
+        if (err) {
+            console.log(err)
+            return res.status(500).send('Database error')
+        }
+        res.json(result)
+    })
+})
+
+
+// ********* Profile ***********
+// change status of delivery 
+router.put('/profile/edit', checkUserMobile, (req, res) => {
+    const { NameUser, UserEmail, UserTel, UserID } = req.body;
+    let sql = 'UPDATE `user` SET `NameUser` = ?, `UserEmail` = ?, `UserTel` = ? WHERE `user`.`UserID` = ?;'
+    con.query(sql, [NameUser, UserEmail, UserTel, UserID], (err, result) => {
+        if (err) {
+            console.log(err)
+            return res.status(500).send('Database error')
+        }
+        res.json(result)
+    })
+})
+
+
+// ********* Profile ***********
+// get Voucher
+router.post('/voucher', checkUserMobile, (req, res) => {
+    const VoucherCode = req.params.VoucherCode;
+    let sql = 'SELECT * FROM `voucher` WHERE VoucherCode = ?'
+    con.query(sql, [VoucherCode], (err, result) => {
+        if (err) {
+            console.log(err)
+            return res.status(500).send('Database error')
+        }
+        res.json(result)
+    })
 })
 
 module.exports = router;
