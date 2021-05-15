@@ -82,10 +82,10 @@ router.post('/product/new', checkUserMobile, (req, res) => {
             return res.status(500).send('server error')
         }
 
-        const { ProductImage, ProductTitle, ProductDescription, ProductPrice, ProductSize, Amount, ProductOwner, CategoryID } = req.body;
-        const sql = "INSERT INTO `product` ( `ProductImage`, `ProductTitle`, `ProductDescription`, `ProductPrice`, `ProductSize`, `Amount`, `ProductOwner`, `CategoryID`) VALUES ( ?, ?, ?, ?, ?, ?, ?, ?);"
+        const { ProductImage, ProductTitle, ProductDescription, ProductPrice, ProductSize, Amount, CategoryID } = req.body;
+        const sql = "INSERT INTO `product` ( `ProductImage`, `ProductTitle`, `ProductDescription`, `ProductPrice`, `Amount`, `ProductOwner`, `CategoryID`) VALUES ( ?, ?, ?, ?, ?, ?, ?);"
 
-        con.query(sql, [req.file.originalname, ProductTitle, ProductDescription, ProductPrice, ProductSize, Amount, ProductOwner, CategoryID], (err, result) => {
+        con.query(sql, [ProductImage, ProductTitle, ProductDescription, ProductPrice, Amount,1, CategoryID], (err, result) => {
             if (err) {
                 console.log(err)
                 return res.status(500).send('Database error')
