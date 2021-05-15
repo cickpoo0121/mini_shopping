@@ -1,6 +1,6 @@
 require('dotenv').config();
 const router = require('express').Router();
-const bcypt = require('bcrypt')
+const bcrypt = require('bcrypt')
 const con = require('../config/db')
 const jwt = require('jsonwebtoken');
 const checkUserMobile = require('./checkUserMobile')
@@ -34,7 +34,7 @@ router.post('/mobile/login', (req, res) => {
         }
 
         // check password
-        bcypt.compare(password, result[0].password, (err, same) => {
+        bcrypt.compare(password, result[0].password, (err, same) => {
             if (err) {
                 console.log(err);
                 return res.status(500).send('Authen server error')
@@ -54,6 +54,55 @@ router.post('/mobile/login', (req, res) => {
     })
 
 });
+
+// Register
+router.post("/mobile/register", function (req, res) {
+    const username = req.body.username;
+    const password = req.body.password;
+    const name = req.body.name;
+    const email = req.body.email;
+    const phone = req.body.phone;
+ 
+    //checked existing username
+    let sql = "SELECT UserID FROM user WHERE UserName=?";
+    con.query(sql, [username], function (err, result, fields) {
+        if (err) {
+            console.error(err.message);
+            res.status(500).send("Database server error");
+            return;
+        }
+ 
+        const numrows = result.length;
+        //if repeated username
+        if (numrows > 0) {
+            res.status(400).send("Sorry, this username exists");
+        }
+        else {
+            //new user
+            //generate encrypted password and add to DB
+            bcrypt.hash(password, 10, function (err, hash) {
+                //return hashed password, 60 characters
+                sql = "INSERT INTO user(UserName, Password, NameUser, UserEmail, UserTel) VALUES (?,?,?,?,?)";
+                con.query(sql, [username, hash, name, email, phone], function (err, result, fields) {
+                    if (err) {
+                        console.error(err.message);
+                        res.status(500).send("Database server error");
+                        return;
+                    }
+ 
+                    const numrows = result.affectedRows;
+                    if (numrows != 1) {
+                        res.status(500).send("Insert failed");
+                    }
+                    else {
+                        res.send("Register done");
+                    }
+                });
+            });
+        }
+    });
+});
+
 
 
 // ============================= Admin =========================
