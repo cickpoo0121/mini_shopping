@@ -1,3 +1,4 @@
+### login
 POST http://localhost:35000/mobile/login
 content-type: application/json
 
@@ -56,3 +57,16 @@ x-access-token:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOjEsInVzZXJuYW1l
 GET http://localhost:35000/order/0
 content-type: application/json
 x-access-token:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOjEsInVzZXJuYW1lIjoiYWRtaW4iLCJpYXQiOjE2MjA5OTQ5MDgsImV4cCI6MTYyMTA4MTMwOH0.yKp93vKrvXyBRNoIDCldbritPRgxoaKQ1WiZiMnu44A
+
+
+### register
+POST http://localhost:35000/mobile/register
+content-type: application/json
+
+{
+    "username" : "admin",
+    "password" : "1234",
+    "name" : "nutza",
+    "email" : "nut_1234@hotmail.com",
+    "phone" : "0834566544"
+}
