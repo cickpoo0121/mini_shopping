@@ -1,7 +1,10 @@
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:flutter/material.dart';
-import 'package:flutter/foundation.dart';
 import 'package:mobile/constants.dart';
 import 'package:mobile/views/components/drawer.dart';
+import 'package:http/http.dart' as http;
 
 class Delivery extends StatefulWidget {
   @override
@@ -9,28 +12,117 @@ class Delivery extends StatefulWidget {
 }
 
 class _DeliveryState extends State<Delivery> {
+  var size;
+  String _url = 'http://10.0.2.2:35000/order';
+  String _token =
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOjEsInVzZXJuYW1lIjoiYWRtaW4iLCJpYXQiOjE2MjExMDAxNzksImV4cCI6MTYyMTE4NjU3OX0.gDHoJeKezwqleAGyV3ilqLeypoice7gqjWOruN-oW7w';
+
+  Future onRoad() async {
+    String onRoadURL = '$_url/1';
+    if (_token != null) {
+      http.Response response = await http.get(Uri.parse(onRoadURL),
+          headers: {HttpHeaders.authorizationHeader: _token});
+      if (response.statusCode == 200) {
+        return json.decode(response.body);
+      } else {
+        print('Server Error');
+      }
+    }
+    print('No token');
+  }
+
+  Widget createListview(data) {
+    return Expanded(
+      child: ListView.builder(
+          itemCount: data = null ? 0 : data.length,
+          itemBuilder: (context, index) {
+            return GestureDetector(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                // mainAxisSize: MainAxisSize.min,
+                children: [
+                  Stack(
+                    children: [
+                      Container(
+                        decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(18)),
+                        height: size.height / 7,
+                        width: size.width / 1.2,
+                        child: Row(
+                          children: [
+                            Image.asset(
+                              'assets/images/${data[index]['']}',
+                              height: size.height / 8,
+                              width: size.width / 4,
+                            ),
+                            SizedBox(
+                              width: size.height / 15,
+                            ),
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  data[index]['ProductTitle'],
+                                  style: TextStyle(
+                                      color: kBtColor,
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold),
+                                ), //Title
+                                SizedBox(height: size.height / 200),
+                                Text(
+                                  'Feel Good',
+                                  style: TextStyle(color: kBtColor),
+                                ), //Description
+                                SizedBox(height: size.height / 100),
+
+                                Text(
+                                  '1499 Baht',
+                                  style: TextStyle(fontSize: 18),
+                                ), //Prince
+                              ],
+                            )
+                          ],
+                        ),
+                      ),
+                      Positioned(
+                        bottom: 5,
+                        right: 10,
+                        child: Text(
+                          'x1',
+                          style: TextStyle(
+                              fontSize: 20, fontWeight: FontWeight.bold),
+                        ),
+                      )
+                    ],
+                  ),
+                  SizedBox(
+                    height: size.height / 5.5,
+                  )
+                ],
+              ),
+              onTap: () {},
+            );
+          }),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
+    size = MediaQuery.of(context).size;
     return Scaffold(
-        backgroundColor: Colors.white,
+        backgroundColor: kBackgroundColor,
         drawer: HamManu(),
         appBar: AppBar(
-          toolbarHeight: 120,
-          leading: Builder(
-            builder: (context) => IconButton(
-              icon: Icon(
-                Icons.view_comfortable_sharp,
-                color: Colors.black,
-              ),
-              onPressed: () => Scaffold.of(context).openDrawer(),
-            ),
-          ),
+          // toolbarHeight: 120,
+          iconTheme: IconThemeData(color: Colors.black),
           elevation: 0,
           backgroundColor: kBackgroundColor,
           title: Center(
               child: Text(
             "Delivery",
-            style: TextStyle(color: Colors.blue, fontSize: 30),
+            style: TextStyle(
+                color: kBtColor, fontSize: 30, fontWeight: FontWeight.bold),
           )),
           actions: <Widget>[
             IconButton(
@@ -45,439 +137,69 @@ class _DeliveryState extends State<Delivery> {
         body: Column(
           children: [
             Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              ButtonBar(
-                alignment: MainAxisAlignment.center,
-                children: [
-                  FlatButton(
-                    onPressed: () {},
-                    child: Text("On road",style: TextStyle(color: Colors.black)),
-                    color: Colors.white,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(15.0)),
-                  ),
-                  SizedBox(width: 125),
-                  FlatButton(
-                    onPressed: () {},
-                    child: Text(
-                      "Successed",
-                      
-                    ),
-                    color: kBtColor,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(15.0)),
-                  ),
-                ],
-              )
-            ],
-          ),
-            Container(
-              //Listview
-              width: 600,
-              height: 850,
-              child: ListView(
-                children: [
-                  //Card1
-                  Row(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(top: 40, left: 20),
-                        child: Container(
-                          padding: EdgeInsets.fromLTRB(15, 10, 5, 0),
-                          height: 190,
-                          width: 550,
-                          child: Card(
-                            elevation: 5,
-                            child: Stack(
-                              children: [
-                                Row(
-                                  children: [
-                                    Spacer(),
-                                    Padding(
-                                      padding: const EdgeInsets.only(
-                                          left: 5, top: 20),
-                                      child: Column(
-                                        children: [
-                                          Image.network(
-                                            'https://picsum.photos/250?image=9',
-                                            scale: 2.0,
-                                          )
-                                        ], //รูปภาพ
-                                      ),
-                                    ),
-                                    Spacer(
-                                      flex: 20,
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(
-                                          left: 3, top: 20),
-                                      child: Column(
-                                        children: [
-                                          Text(
-                                            'Women เสือฮู้ด',
-                                            style: TextStyle(
-                                              fontSize: 20,
-                                            ),
-                                          ),
-                                          Text(
-                                            '1499 Baht',
-                                            style: TextStyle(
-                                              fontSize: 25,
-                                            ),
-                                          )
-                                        ],
-                                      ),
-                                    ),
-                                    Spacer(
-                                      flex: 20,
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(
-                                          top: 110, right: 30),
-                                      child: Column(
-                                        children: [
-                                          Text(
-                                            'x1',
-                                            style: TextStyle(
-                                                fontSize: 30,
-                                                fontWeight: FontWeight.bold),
-                                          )
-                                        ],
-                                      ),
-                                    ),
-                                    Spacer(
-                                      flex: 2,
-                                    ),
-                                  ],
-                                )
-                              ],
-                            ),
-                          ),
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                ButtonBar(
+                  alignment: MainAxisAlignment.center,
+                  children: [
+                    ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        primary: kBtColor,
+                        onPrimary: Colors.white,
+                        padding:
+                            EdgeInsets.symmetric(horizontal: 40, vertical: 10),
+                        shape: new RoundedRectangleBorder(
+                          borderRadius: new BorderRadius.circular(20.0),
                         ),
                       ),
-                    ],
-                  ),
-                  //Card2
-                  Row(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(top: 40, left: 20),
-                        child: Container(
-                          padding: EdgeInsets.fromLTRB(15, 10, 5, 0),
-                          height: 190,
-                          width: 550,
-                          child: Card(
-                            elevation: 5,
-                            child: Stack(
-                              children: [
-                                Row(
-                                  children: [
-                                    Spacer(),
-                                    Padding(
-                                      padding: const EdgeInsets.only(
-                                          left: 5, top: 20),
-                                      child: Column(
-                                        children: [
-                                          Image.network(
-                                            'https://picsum.photos/250?image=9',
-                                            scale: 2.0,
-                                          )
-                                        ], //รูปภาพ
-                                      ),
-                                    ),
-                                    Spacer(
-                                      flex: 20,
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(
-                                          left: 3, top: 20),
-                                      child: Column(
-                                        children: [
-                                          Text(
-                                            'Women เสือฮู้ด',
-                                            style: TextStyle(
-                                              fontSize: 20,
-                                            ),
-                                          ),
-                                          Text(
-                                            '1499 Baht',
-                                            style: TextStyle(
-                                              fontSize: 25,
-                                            ),
-                                          )
-                                        ],
-                                      ),
-                                    ),
-                                    Spacer(
-                                      flex: 20,
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(
-                                          top: 110, right: 30),
-                                      child: Column(
-                                        children: [
-                                          Text(
-                                            'x1',
-                                            style: TextStyle(
-                                                fontSize: 30,
-                                                fontWeight: FontWeight.bold),
-                                          )
-                                        ],
-                                      ),
-                                    ),
-                                    Spacer(
-                                      flex: 2,
-                                    ),
-                                  ],
-                                )
-                              ],
-                            ),
-                          ),
+                      child: Text(
+                        'On Road',
+                        // style: TextStyle(color: Colors.black),
+                      ),
+                      onPressed: () {},
+                    )
+                  ],
+                ),
+                SizedBox(
+                  width: size.width / 7,
+                ),
+                ButtonBar(
+                  alignment: MainAxisAlignment.center,
+                  children: [
+                    ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        primary: Colors.white,
+                        onPrimary: Colors.black,
+                        padding:
+                            EdgeInsets.symmetric(horizontal: 25, vertical: 10),
+                        shape: new RoundedRectangleBorder(
+                          borderRadius: new BorderRadius.circular(20.0),
                         ),
                       ),
-                    ],
-                  ), //Card3
-                  Row(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(top: 40, left: 20),
-                        child: Container(
-                          padding: EdgeInsets.fromLTRB(15, 10, 5, 0),
-                          height: 190,
-                          width: 550,
-                          child: Card(
-                            elevation: 5,
-                            child: Stack(
-                              children: [
-                                Row(
-                                  children: [
-                                    Spacer(),
-                                    Padding(
-                                      padding: const EdgeInsets.only(
-                                          left: 5, top: 20),
-                                      child: Column(
-                                        children: [
-                                          Image.network(
-                                            'https://picsum.photos/250?image=9',
-                                            scale: 2.0,
-                                          )
-                                        ], //รูปภาพ
-                                      ),
-                                    ),
-                                    Spacer(
-                                      flex: 20,
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(
-                                          left: 3, top: 20),
-                                      child: Column(
-                                        children: [
-                                          Text(
-                                            'Women เสือฮู้ด',
-                                            style: TextStyle(
-                                              fontSize: 20,
-                                            ),
-                                          ),
-                                          Text(
-                                            '1499 Baht',
-                                            style: TextStyle(
-                                              fontSize: 25,
-                                            ),
-                                          )
-                                        ],
-                                      ),
-                                    ),
-                                    Spacer(
-                                      flex: 20,
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(
-                                          top: 110, right: 30),
-                                      child: Column(
-                                        children: [
-                                          Text(
-                                            'x1',
-                                            style: TextStyle(
-                                                fontSize: 30,
-                                                fontWeight: FontWeight.bold),
-                                          )
-                                        ],
-                                      ),
-                                    ),
-                                    Spacer(
-                                      flex: 2,
-                                    ),
-                                  ],
-                                )
-                              ],
-                            ),
-                          ),
-                        ),
+                      child: Text(
+                        'Successed',
+                        // style: TextStyle(color: Colors.black),
                       ),
-                    ],
-                  ), //Card4
-                  Row(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(top: 40, left: 20),
-                        child: Container(
-                          padding: EdgeInsets.fromLTRB(15, 10, 5, 0),
-                          height: 190,
-                          width: 550,
-                          child: Card(
-                            elevation: 5,
-                            child: Stack(
-                              children: [
-                                Row(
-                                  children: [
-                                    Spacer(),
-                                    Padding(
-                                      padding: const EdgeInsets.only(
-                                          left: 5, top: 20),
-                                      child: Column(
-                                        children: [
-                                          Image.network(
-                                            'https://picsum.photos/250?image=9',
-                                            scale: 2.0,
-                                          )
-                                        ], //รูปภาพ
-                                      ),
-                                    ),
-                                    Spacer(
-                                      flex: 20,
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(
-                                          left: 3, top: 20),
-                                      child: Column(
-                                        children: [
-                                          Text(
-                                            'Women เสือฮู้ด',
-                                            style: TextStyle(
-                                              fontSize: 20,
-                                            ),
-                                          ),
-                                          Text(
-                                            '1499 Baht',
-                                            style: TextStyle(
-                                              fontSize: 25,
-                                            ),
-                                          )
-                                        ],
-                                      ),
-                                    ),
-                                    Spacer(
-                                      flex: 20,
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(
-                                          top: 110, right: 30),
-                                      child: Column(
-                                        children: [
-                                          Text(
-                                            'x1',
-                                            style: TextStyle(
-                                                fontSize: 30,
-                                                fontWeight: FontWeight.bold),
-                                          )
-                                        ],
-                                      ),
-                                    ),
-                                    Spacer(
-                                      flex: 2,
-                                    ),
-                                  ],
-                                )
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ), //Card5
-                  Row(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(top: 40, left: 20),
-                        child: Container(
-                          padding: EdgeInsets.fromLTRB(15, 10, 5, 0),
-                          height: 190,
-                          width: 550,
-                          child: Card(
-                            elevation: 5,
-                            child: Stack(
-                              children: [
-                                Row(
-                                  children: [
-                                    Spacer(),
-                                    Padding(
-                                      padding: const EdgeInsets.only(
-                                          left: 5, top: 20),
-                                      child: Column(
-                                        children: [
-                                          Image.network(
-                                            'https://picsum.photos/250?image=9',
-                                            scale: 2.0,
-                                          )
-                                        ], //รูปภาพ
-                                      ),
-                                    ),
-                                    Spacer(
-                                      flex: 20,
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(
-                                          left: 3, top: 20),
-                                      child: Column(
-                                        children: [
-                                          Text(
-                                            'Women เสือฮู้ด',
-                                            style: TextStyle(
-                                              fontSize: 20,
-                                            ),
-                                          ),
-                                          Text(
-                                            '1499 Baht',
-                                            style: TextStyle(
-                                              fontSize: 25,
-                                            ),
-                                          )
-                                        ],
-                                      ),
-                                    ),
-                                    Spacer(
-                                      flex: 20,
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(
-                                          top: 110, right: 30),
-                                      child: Column(
-                                        children: [
-                                          Text(
-                                            'x1',
-                                            style: TextStyle(
-                                                fontSize: 30,
-                                                fontWeight: FontWeight.bold),
-                                          )
-                                        ],
-                                      ),
-                                    ),
-                                    Spacer(
-                                      flex: 2,
-                                    ),
-                                  ],
-                                )
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
+                      onPressed: () {},
+                    )
+                  ],
+                )
+              ],
             ),
+            FutureBuilder(
+                future: onRoad(),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.done) {
+                    if (snapshot.hasData) {
+                      print(snapshot.data);
+                      return createListview(snapshot.data);
+                    } else {
+                      print(snapshot.error);
+                      return Text('Connection error, try again');
+                    }
+                  }
+                  return CircularProgressIndicator();
+                })
           ],
         ));
   }
