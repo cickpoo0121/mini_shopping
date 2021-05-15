@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:mobile/constants.dart';
 import 'package:mobile/views/components/drawer.dart';
 import 'package:http/http.dart' as http;
@@ -13,12 +14,19 @@ class Delivery extends StatefulWidget {
 
 class _DeliveryState extends State<Delivery> {
   var size;
+  var data;
+  String catergory = 'onRoad';
   String _url = 'http://10.0.2.2:35000/order';
   String _token =
       'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOjEsInVzZXJuYW1lIjoiYWRtaW4iLCJpYXQiOjE2MjExMDAxNzksImV4cCI6MTYyMTE4NjU3OX0.gDHoJeKezwqleAGyV3ilqLeypoice7gqjWOruN-oW7w';
 
-  Future onRoad() async {
-    String onRoadURL = '$_url/1';
+  Future roadData() async {
+    String onRoadURL;
+    if (catergory == 'onRoad') {
+      onRoadURL = '$_url/0';
+    } else {
+      onRoadURL = '$_url/1';
+    }
     if (_token != null) {
       http.Response response = await http.get(Uri.parse(onRoadURL),
           headers: {HttpHeaders.authorizationHeader: _token});
@@ -31,10 +39,45 @@ class _DeliveryState extends State<Delivery> {
     print('No token');
   }
 
+  Future accept(orderID) async {
+    print('orderID ======== $orderID');
+    String accpetURL = '$_url/1';
+    Get.defaultDialog(
+        title: 'Accept the product',
+        middleText: 'Do you want to accept ?',
+        confirmTextColor: Colors.white,
+        onConfirm: () async {
+          if (_token != null) {
+            http.Response response = await http.put(Uri.parse(accpetURL),
+                headers: {
+                  HttpHeaders.authorizationHeader: _token,
+                  'Content-Type': 'application/json; charset=UTF-8'
+                },
+                body: jsonEncode(
+                  {
+                    'OrderID': orderID,
+                  },
+                ));
+
+            if (response.statusCode == 200) {
+              Get.back();
+              Get.snackbar('Accept', 'one product',
+                  duration: Duration(seconds: 1));
+              setState(() {});
+            } else {
+              print('Server error');
+            }
+          } else {
+            print('no token');
+          }
+        },
+        onCancel: () => Get.back());
+  }
+
   Widget createListview(data) {
     return Expanded(
       child: ListView.builder(
-          itemCount: data = null ? 0 : data.length,
+          itemCount: data == null ? 0 : data.length,
           itemBuilder: (context, index) {
             return GestureDetector(
               child: Row(
@@ -52,7 +95,7 @@ class _DeliveryState extends State<Delivery> {
                         child: Row(
                           children: [
                             Image.asset(
-                              'assets/images/${data[index]['']}',
+                              'assets/images/hoodie.jpg',
                               height: size.height / 8,
                               width: size.width / 4,
                             ),
@@ -85,11 +128,25 @@ class _DeliveryState extends State<Delivery> {
                           ],
                         ),
                       ),
+                      catergory != 'onRoad'
+                          ? SizedBox()
+                          : Positioned(
+                              bottom: 5,
+                              right: 10,
+                              child: ElevatedButton(
+                                style: ElevatedButton.styleFrom(
+                                    primary: Colors.green),
+                                child: Text('Accept'),
+                                onPressed: () {
+                                  accept(data[index]['OrderID']);
+                                  print(data[index]['OrderID']);
+                                },
+                              )),
                       Positioned(
-                        bottom: 5,
+                        top: 5,
                         right: 10,
                         child: Text(
-                          'x1',
+                          'x${data[index]['Order_amount']}',
                           style: TextStyle(
                               fontSize: 20, fontWeight: FontWeight.bold),
                         ),
@@ -144,8 +201,10 @@ class _DeliveryState extends State<Delivery> {
                   children: [
                     ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                        primary: kBtColor,
-                        onPrimary: Colors.white,
+                        primary:
+                            catergory == 'onRoad' ? kBtColor : Colors.white,
+                        onPrimary:
+                            catergory == 'onRoad' ? Colors.white : Colors.black,
                         padding:
                             EdgeInsets.symmetric(horizontal: 40, vertical: 10),
                         shape: new RoundedRectangleBorder(
@@ -156,7 +215,11 @@ class _DeliveryState extends State<Delivery> {
                         'On Road',
                         // style: TextStyle(color: Colors.black),
                       ),
-                      onPressed: () {},
+                      onPressed: () {
+                        setState(() {
+                          catergory = 'onRoad';
+                        });
+                      },
                     )
                   ],
                 ),
@@ -168,8 +231,10 @@ class _DeliveryState extends State<Delivery> {
                   children: [
                     ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                        primary: Colors.white,
-                        onPrimary: Colors.black,
+                        primary:
+                            catergory != 'onRoad' ? kBtColor : Colors.white,
+                        onPrimary:
+                            catergory != 'onRoad' ? Colors.white : Colors.black,
                         padding:
                             EdgeInsets.symmetric(horizontal: 25, vertical: 10),
                         shape: new RoundedRectangleBorder(
@@ -180,19 +245,24 @@ class _DeliveryState extends State<Delivery> {
                         'Successed',
                         // style: TextStyle(color: Colors.black),
                       ),
-                      onPressed: () {},
+                      onPressed: () {
+                        setState(() {
+                          catergory = 'success';
+                        });
+                      },
                     )
                   ],
                 )
               ],
             ),
             FutureBuilder(
-                future: onRoad(),
+                future: roadData(),
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.done) {
                     if (snapshot.hasData) {
+                      data = snapshot.data;
                       print(snapshot.data);
-                      return createListview(snapshot.data);
+                      return createListview(data);
                     } else {
                       print(snapshot.error);
                       return Text('Connection error, try again');
