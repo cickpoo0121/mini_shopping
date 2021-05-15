@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:mobile/constants.dart';
 
-class infoProduct extends StatefulWidget {
+class InfoProduct extends StatefulWidget {
   @override
-  _infoProductState createState() => _infoProductState();
+  _InfoProductState createState() => _InfoProductState();
 }
 
-class _infoProductState extends State<infoProduct> {
+class _InfoProductState extends State<InfoProduct> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -19,7 +19,7 @@ class _infoProductState extends State<infoProduct> {
         title: IconButton(
           icon: Icon(
             Icons.arrow_back_ios,
-            color: k2TextColor,
+            color: kBtColor,
           ),
           onPressed: () {
             // do something
@@ -29,7 +29,7 @@ class _infoProductState extends State<infoProduct> {
           IconButton(
             icon: Icon(
               Icons.favorite_outline_sharp,
-              color: k2TextColor,
+              color: kBtColor,
             ),
             onPressed: () {
               // do something
@@ -70,14 +70,14 @@ class _infoProductState extends State<infoProduct> {
                   "WOMEN เสื้อฮู้ด down",
                   style: TextStyle(
                       fontWeight: FontWeight.bold,
-                      color: k2TextColor,
+                      color: kBtColor,
                       fontSize: 22),
                 ),
                 Text(
                   "ไร้ตะเข็บ",
                   style: TextStyle(
                       fontWeight: FontWeight.bold,
-                      color: k2TextColor,
+                      color: kBtColor,
                       fontSize: 22),
                 ),
                 SizedBox(
@@ -143,7 +143,7 @@ class _infoProductState extends State<infoProduct> {
 
                     ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                        primary: k2TextColor, // background
+                        primary: kBtColor, // background
                         onPrimary: Colors.white, // foreground
                       ),
                       onPressed: () {},
@@ -180,7 +180,7 @@ class _infoProductState extends State<infoProduct> {
                     //Btn - Product
                     ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                        primary: k2TextColor, // background
+                        primary: kBtColor, // background
                         onPrimary: Colors.white, // foreground
                       ),
                       onPressed: () {},
@@ -202,7 +202,7 @@ class _infoProductState extends State<infoProduct> {
                     //Btn + Product
                     ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                        primary: k2TextColor, // background
+                        primary: kBtColor, // background
                         onPrimary: Colors.white, // foreground
                       ),
                       onPressed: () {},
@@ -231,7 +231,7 @@ class _infoProductState extends State<infoProduct> {
                       //Btn Add to cart
                       ElevatedButton(
                         style: ElevatedButton.styleFrom(
-                          primary: k2TextColor,
+                          primary: kBtColor,
                           onPrimary: Colors.white,
                           padding: EdgeInsets.symmetric(
                               horizontal: 80, vertical: 10),
