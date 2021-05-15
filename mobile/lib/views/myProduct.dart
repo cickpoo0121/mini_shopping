@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:mobile/constants.dart';
 import 'package:mobile/views/components/drawer.dart';
 
@@ -126,11 +127,12 @@ class _MyProductState extends State<MyProduct> {
           ),
           backgroundColor: kBtColor,
           onPressed: () {
-            setState(() {
-              item.add(
-                {'name': 'Kiwi', 'price': 14, 'image': 'kiwi.png'},
-              );
-            });
+            Get.toNamed('/addproduct');
+            // setState(() {
+            //   item.add(
+            //     {'name': 'Kiwi', 'price': 14, 'image': 'kiwi.png'},
+            //   );
+            // });
           }),
     );
   }

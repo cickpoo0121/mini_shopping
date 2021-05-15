@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mobile/constants.dart';
+import 'package:get/get.dart';
 
 class Cusregister extends StatefulWidget {
   @override
@@ -164,4 +165,3 @@ class RoundedTextField extends StatelessWidget {
     );
   }
 }
-

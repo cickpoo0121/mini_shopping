@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class HamManu extends StatelessWidget {
   @override
@@ -13,27 +14,47 @@ class HamManu extends StatelessWidget {
               currentAccountPicture: CircleAvatar(
                 backgroundColor: Colors.red,
               )),
-          ListTile(title: Text('Home'), leading: Icon(Icons.house_rounded)),
+          ListTile(
+            title: Text('Home'),
+            leading: Icon(Icons.house_rounded),
+            onTap: () {
+              Get.back();
+              Get.toNamed('/home');
+            },
+          ),
           ListTile(
             title: Text('Delivery'),
             leading: Icon(Icons.local_shipping_rounded),
+            onTap: () {
+              Get.back();
+              Get.toNamed('/delivery');
+            },
           ),
           ListTile(
             title: Text('My Product'),
             leading: Icon(Icons.shopping_cart_rounded),
-            onTap: () => Navigator.of(context).pop(),
+            onTap: () {
+              Get.back();
+              Get.toNamed('/myproduct');
+            },
           ),
           ListTile(
             title: Text('Profile'),
             leading: Icon(
               Icons.perm_identity_outlined,
             ),
-            onTap: () => Navigator.of(context).pop(),
+            onTap: () {
+              Get.back();
+              Get.toNamed('/Profile');
+            },
           ),
           ListTile(
             title: Text('Log out'),
             leading: Icon(Icons.logout),
-            onTap: () => Navigator.of(context).pop(),
+            onTap: () {
+              Get.back();
+              Get.toNamed('/login');
+            },
           )
         ],
       ),

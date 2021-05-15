@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:mobile/constants.dart';
 
 class InfoProduct extends StatefulWidget {
@@ -10,9 +11,7 @@ class _InfoProductState extends State<InfoProduct> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
-     
-     //AppBar
+      //AppBar
       appBar: AppBar(
         elevation: 0,
         backgroundColor: Colors.white,
@@ -38,18 +37,16 @@ class _InfoProductState extends State<InfoProduct> {
         ],
       ),
 
-
       body: Column(
         children: [
           Center(
 
-            //Product Image
+              //Product Image
               child: Image.network(
             'https://img.ltwebstatic.com/images3_pi/2020/12/24/1608774940060cd4e59644760c0af6fa0d2a9c03a7_thumbnail_900x.webp',
             width: 370,
             height: 370,
           )),
-
 
           //Information Product
           Container(
@@ -84,7 +81,6 @@ class _InfoProductState extends State<InfoProduct> {
                   height: 20,
                 ),
 
-
                 //Price
                 Text(
                   "1499 Baht",
@@ -106,7 +102,6 @@ class _InfoProductState extends State<InfoProduct> {
                   height: 20,
                 ),
 
-
                 //Btn Select Product
                 Row(
                   children: [
@@ -125,8 +120,6 @@ class _InfoProductState extends State<InfoProduct> {
                     SizedBox(
                       width: 20,
                     ),
-
-
                     ElevatedButton(
                       style: ElevatedButton.styleFrom(
                         primary: Colors.white, // background
@@ -139,8 +132,6 @@ class _InfoProductState extends State<InfoProduct> {
                     SizedBox(
                       width: 20,
                     ),
-
-
                     ElevatedButton(
                       style: ElevatedButton.styleFrom(
                         primary: kBtColor, // background
@@ -153,8 +144,6 @@ class _InfoProductState extends State<InfoProduct> {
                     SizedBox(
                       width: 20,
                     ),
-
-
                     ElevatedButton(
                       style: ElevatedButton.styleFrom(
                         primary: Colors.white, // background
@@ -191,13 +180,12 @@ class _InfoProductState extends State<InfoProduct> {
                       width: 40,
                     ),
 
-                  // Show output of select amount product
+                    // Show output of select amount product
                     Text('1'),
 
                     SizedBox(
                       width: 40,
                     ),
-
 
                     //Btn + Product
                     ElevatedButton(
@@ -214,7 +202,7 @@ class _InfoProductState extends State<InfoProduct> {
                   height: 20,
                 ),
 
-              //Add to cart
+                //Add to cart
                 Container(
                   width: 1000,
                   decoration: new BoxDecoration(
@@ -239,9 +227,11 @@ class _InfoProductState extends State<InfoProduct> {
                             borderRadius: new BorderRadius.circular(20.0),
                           ),
                         ),
-                        onPressed: () {},
+                        onPressed: () {
+                          Get.toNamed('/cart');
+                        },
                         // do something
-                        
+
                         child: Text(
                           'ADD TO CART',
                           style: TextStyle(fontSize: 20),

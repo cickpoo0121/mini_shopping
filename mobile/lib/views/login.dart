@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:mobile/constants.dart';
+import 'package:mobile/views/addproduct.dart';
+import 'package:mobile/views/cusregister.dart';
 
 class Login extends StatefulWidget {
   @override
@@ -75,7 +78,9 @@ class _LoginState extends State<Login> {
                       style: TextStyle(
                           color: Colors.white, fontWeight: FontWeight.bold),
                     ),
-                    onPressed: () {},
+                    onPressed: () {
+                      Get.offAllNamed('/home');
+                    },
                   ),
                 ),
               ),
@@ -96,7 +101,10 @@ class _LoginState extends State<Login> {
                       style: TextStyle(
                           color: kTextColor, fontWeight: FontWeight.bold),
                     ),
-                    onPressed: () {},
+                    onPressed: () {
+                      Get.toNamed('/register');
+  
+                    },
                   ),
                 ),
               ),

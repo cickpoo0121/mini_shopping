@@ -19,12 +19,6 @@ class _AddproductState extends State<Addproduct> {
       drawer: HamManu(),
       appBar: AppBar(
         title: Text("Addproduct"),
-        actions: <Widget>[
-          IconButton(
-            icon: const Icon(Icons.search),
-            onPressed: () {},
-          )
-        ],
         centerTitle: true,
         elevation: defaultTargetPlatform == TargetPlatform.android ? 5.0 : 0.0,
       ),

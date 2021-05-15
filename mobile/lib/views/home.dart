@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:mobile/constants.dart';
 import 'package:mobile/views/components/drawer.dart';
 
@@ -84,17 +85,22 @@ class _HomeState extends State<Home> {
             child: ListView.builder(
               itemCount: item.length,
               itemBuilder: (context, index) {
-                return Card(
-                  child: ListTile(
-                    leading: Image.asset(
-                      'assets/images/hoodie.jpg',
-                      height: 80,
-                      width: 80,
+                return GestureDetector(
+                  child: Card(
+                    child: ListTile(
+                      leading: Image.asset(
+                        'assets/images/hoodie.jpg',
+                        height: 80,
+                        width: 80,
+                      ),
+                      title: Text(item[index]['name']),
+                      subtitle: Text('${item[index]['price']} baht'),
+                      trailing: Icon(Icons.favorite_outline),
                     ),
-                    title: Text(item[index]['name']),
-                    subtitle: Text('${item[index]['price']} baht'),
-                    trailing: Icon(Icons.favorite_outline),
                   ),
+                  onTap: () {
+                    Get.toNamed('/productInfo');
+                  },
                 );
               },
             ),
@@ -108,11 +114,12 @@ class _HomeState extends State<Home> {
           ),
           backgroundColor: kBlueColor,
           onPressed: () {
-            setState(() {
-              item.add(
-                {'name': 'Kiwi', 'price': 14, 'image': 'kiwi.png'},
-              );
-            });
+            Get.toNamed('/cart');
+            // setState(() {
+            //   item.add(
+            //     {'name': 'Kiwi', 'price': 14, 'image': 'kiwi.png'},
+            //   );
+            // });
           }),
     );
   }
