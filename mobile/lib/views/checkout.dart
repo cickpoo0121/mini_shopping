@@ -29,7 +29,7 @@ class _CheckoutState extends State<Checkout> {
         title: Center(
             child: Text(
           "Check Out",
-          style: TextStyle(color: kText, fontSize: 30),
+          style: TextStyle(color: kTextColor, fontSize: 30),
         )),
         actions: <Widget>[
           IconButton(
@@ -171,7 +171,7 @@ class _CheckoutState extends State<Checkout> {
                 Spacer(),
                 Text(
                   '4497 Baht',
-                  style: TextStyle(color: kText, fontSize: 20),
+                  style: TextStyle(color: kTextColor, fontSize: 20),
                 ),
               ],
             ),
@@ -189,7 +189,7 @@ class _CheckoutState extends State<Checkout> {
                 Spacer(),
                 Text(
                   '29 Baht',
-                  style: TextStyle(color: kText, fontSize: 20),
+                  style: TextStyle(color: kTextColor, fontSize: 20),
                 ),
               ],
             ),
@@ -207,7 +207,7 @@ class _CheckoutState extends State<Checkout> {
                 Spacer(),
                 Text(
                   '4526 Baht',
-                  style: TextStyle(color: kText, fontSize: 20),
+                  style: TextStyle(color: kTextColor, fontSize: 20),
                 ),
               ],
             ),
@@ -258,7 +258,7 @@ class _CheckoutState extends State<Checkout> {
                 Spacer(),
                 Text(
                   '199 Baht',
-                  style: TextStyle(color: kText, fontSize: 20),
+                  style: TextStyle(color: kTextColor, fontSize: 20),
                 ),
               ],
             ),
@@ -292,7 +292,7 @@ class _CheckoutState extends State<Checkout> {
                       ),
                       Text(
                         '4327 Baht',
-                        style: TextStyle(color: kText, fontSize: 25),
+                        style: TextStyle(color: kTextColor, fontSize: 25),
                       ),
                     ],
                   ),
@@ -308,11 +308,11 @@ class _CheckoutState extends State<Checkout> {
                       child: Container(
                         decoration: BoxDecoration(
                           border: Border.all(
-                            color: kText,
+                            color: kTextColor,
                             style: BorderStyle.solid,
                             width: 1.0,
                           ),
-                          color: kText,
+                          color: kTextColor,
                           borderRadius: BorderRadius.circular(30.0),
                         ),
                         child: Row(
