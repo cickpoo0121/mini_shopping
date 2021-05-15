@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:mobile/favorite.dart';
 import 'package:mobile/views/Cart2.dart';
 import 'package:mobile/views/Delivery.dart';
 import 'package:mobile/views/addproduct.dart';
@@ -14,7 +15,7 @@ import 'package:mobile/views/profile.dart';
 void main() {
   runApp(
     GetMaterialApp(
-       initialRoute: '/login',
+      initialRoute: '/login',
       getPages: [
         GetPage(name: '/home', page: () => Home()),
         GetPage(name: '/login', page: () => Login()),
@@ -26,6 +27,7 @@ void main() {
         GetPage(name: '/Profile', page: () => Profile()),
         GetPage(name: '/myproduct', page: () => MyProduct()),
         GetPage(name: '/addproduct', page: () => Addproduct()),
+        GetPage(name: '/favorite', page: () => Favorite()),
       ],
     ),
   );
