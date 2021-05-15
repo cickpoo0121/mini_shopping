@@ -39,6 +39,16 @@ class HamManu extends StatelessWidget {
             },
           ),
           ListTile(
+            title: Text('My Order'),
+            leading: Icon(Icons.shopping_cart_rounded),
+            onTap: () {},
+          ),
+          ListTile(
+            title: Text('My Favorite'),
+            leading: Icon(Icons.favorite),
+            onTap: () {},
+          ),
+          ListTile(
             title: Text('Profile'),
             leading: Icon(
               Icons.perm_identity_outlined,
