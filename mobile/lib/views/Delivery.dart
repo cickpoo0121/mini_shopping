@@ -45,73 +45,33 @@ class _DeliveryState extends State<Delivery> {
         body: Column(
           children: [
             Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Spacer(),
-                Container(
-                  height: 50.0,
-                  width: 200,
-                  child: GestureDetector(
-                    onTap: () {},
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: Colors.grey[100],
-                        borderRadius: BorderRadius.circular(30.0),
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          Center(
-                            child: Text(
-                              "On Road",
-                              style: TextStyle(
-                                color: Colors.black,
-                                fontFamily: 'Montserrat',
-                                fontSize: 16,
-                                fontWeight: FontWeight.w600,
-                                letterSpacing: 1,
-                              ),
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              ButtonBar(
+                alignment: MainAxisAlignment.center,
+                children: [
+                  FlatButton(
+                    onPressed: () {},
+                    child: Text("On road",style: TextStyle(color: Colors.black)),
+                    color: Colors.white,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(15.0)),
                   ),
-                ),
-                Spacer(),
-                Container(
-                  height: 50.0,
-                  width: 200,
-                  child: GestureDetector(
-                    onTap: () {},
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: Colors.purple,
-                        borderRadius: BorderRadius.circular(30.0),
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          Center(
-                            child: Text(
-                              "Successed",
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontFamily: 'Montserrat',
-                                fontSize: 16,
-                                fontWeight: FontWeight.w600,
-                                letterSpacing: 1,
-                              ),
-                            ),
-                          )
-                        ],
-                      ),
+                  SizedBox(width: 125),
+                  FlatButton(
+                    onPressed: () {},
+                    child: Text(
+                      "Successed",
+                      
                     ),
+                    color: kBtColor,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(15.0)),
                   ),
-                ),
-                Spacer(),
-              ],
-            ),
+                ],
+              )
+            ],
+          ),
             Container(
               //Listview
               width: 600,
