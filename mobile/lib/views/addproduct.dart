@@ -5,7 +5,8 @@ import 'package:mobile/constants.dart';
 import 'package:mobile/views/components/drawer.dart';
 import 'package:path/path.dart';
 import 'package:http/http.dart' as http;
-import 'package:camera/camera.dart';
+import 'dart:io';
+import 'package:image_picker/image_picker.dart';
 
 class Addproduct extends StatefulWidget {
   @override
@@ -19,8 +20,6 @@ TextEditingController amount = TextEditingController();
 String dropdownValue = 'Snicker';
 TextEditingController size = TextEditingController();
 var catagory = '1';
-
-final tokenall = GetStorage();
 
 class _AddproductState extends State<Addproduct> {
   void addproduct() async {
@@ -53,6 +52,21 @@ class _AddproductState extends State<Addproduct> {
     );
   }
 
+  File _image;
+  final picker = ImagePicker();
+  final tokenall = GetStorage();
+  Future getImage() async {
+    final pickedFile = await picker.getImage(source: ImageSource.camera);
+
+    setState(() {
+      if (pickedFile != null) {
+        _image = File(pickedFile.path);
+      } else {
+        print('No image selected.');
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -70,16 +84,20 @@ class _AddproductState extends State<Addproduct> {
               Column(
                 children: [
                   GestureDetector(
-                    onTap: () {print(0);},
-                    child: Container(
-                      alignment: Alignment.center,
-                      height: MediaQuery.of(context).size.height * .35,
-                      color: Colors.blue,
-                      child: Icon(
-                        Icons.add_a_photo,
-                        size: 50,
-                      ),
-                    ),
+                    onTap: () {
+                      print(0);
+                    },
+                    child: _image == null
+                        ? Container(
+                            alignment: Alignment.center,
+                            height: MediaQuery.of(context).size.height * .35,
+                            color: Colors.blue,
+                            child: Icon(
+                              Icons.add_a_photo,
+                              size: 50,
+                            ),
+                          )
+                        : Image.file(_image,height: MediaQuery.of(context).size.height/2,),
                   ),
                   new Container(
                     height: MediaQuery.of(context).size.height * .55,
