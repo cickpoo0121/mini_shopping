@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 class CartModel {
   int productID;
   String productImage;
@@ -5,6 +7,7 @@ class CartModel {
   String productDescription;
   int productPrice;
   int amount;
+  String productSize;
 
   // construtor
   CartModel(
@@ -13,7 +16,8 @@ class CartModel {
       this.productTitle,
       this.productDescription,
       this.productPrice,
-      this.amount});
+      this.amount,
+      this.productSize});
 
   factory CartModel.fromJson(Map<String, dynamic> json) {
     return CartModel(
@@ -23,6 +27,19 @@ class CartModel {
       productDescription: json['productDescription'],
       productPrice: json['productPrice'],
       amount: json['amount'],
+      productSize: json['productSize'],
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'productID': productID,
+      'productImage': productImage,
+      'productTitle': productTitle,
+      'productDescription': productDescription,
+      'productPrice': productPrice,
+      'amount': amount,
+      'productSize': productSize
+    };
   }
 }

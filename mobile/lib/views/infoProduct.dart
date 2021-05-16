@@ -5,11 +5,15 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:mobile/constants.dart';
 import 'package:http/http.dart' as http;
+import 'package:mobile/controllers/cartController.dart';
+import 'package:mobile/models/cartModel.dart';
 
 class InfoProduct extends StatefulWidget {
   @override
   _InfoProductState createState() => _InfoProductState();
 }
+
+// CartController _cartController = CartController();
 
 var image;
 var title;
@@ -18,13 +22,16 @@ var price = 1;
 var amount = 1;
 var size;
 var total = 1;
-var getsize = '';
+var getsize = 'S';
+var idpro;
 
 class _InfoProductState extends State<InfoProduct> {
+  final CartController _cartController = Get.put(CartController());
+
   void showinfo() async {
     final tokenall = GetStorage();
     var token = tokenall.read('token');
-    var idpro = tokenall.read('idproduct');
+    idpro = tokenall.read('idproduct');
     var _url = 'http://10.0.2.2:35000/product/detail';
     token =
         'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOjEsInVzZXJuYW1lIjoiYWRtaW4iLCJpYXQiOjE2MjExMjYzNDEsImV4cCI6MTYyMTIxMjc0MX0.mWGK4WZz5i9pom0AOAyRf3StmeHvATsgpNuITJkHecI';
@@ -33,15 +40,17 @@ class _InfoProductState extends State<InfoProduct> {
       Uri.parse(_url),
       headers: {'authorization': token},
       body: {
-        'ProductID': '4',
+        'ProductID': idpro.toString(),
       },
     );
+    print(idpro);
 
     var info = response.body;
     var decode = jsonDecode(info);
-    print(info);
+    // print(info);
+
     setState(() {
-      image = "http://10.0.2.2:35000/${decode[0]['ProductImage']}";
+      image = "http://10.0.2.2:35000/images/${decode[0]['ProductImage']}";
       title = decode[0]['ProductTitle'];
       descript = decode[0]['ProductDescription'];
       price = decode[0]['ProductPrice'];
@@ -52,7 +61,6 @@ class _InfoProductState extends State<InfoProduct> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     showinfo();
   }
@@ -64,15 +72,16 @@ class _InfoProductState extends State<InfoProduct> {
       appBar: AppBar(
         elevation: 0,
         backgroundColor: Colors.white,
-        title: IconButton(
-          icon: Icon(
-            Icons.arrow_back_ios,
-            color: kBtColor,
-          ),
-          onPressed: () {
-            // do something
-          },
-        ),
+        iconTheme: IconThemeData(color: kBtColor),
+        // title: IconButton(
+        //   icon: Icon(
+        //     Icons.arrow_back_ios,
+        //     color: kBtColor,
+        //   ),
+        //   onPressed: () {
+        //     // do something
+        //   },
+        // ),
         actions: <Widget>[
           IconButton(
             icon: Icon(
@@ -93,7 +102,7 @@ class _InfoProductState extends State<InfoProduct> {
             child: Center(
                 //Product Image
                 child: Image.network(
-              'http://10.0.2.2:35000/images/image_picker12544625.png',
+              image,
             )),
           ),
 
@@ -159,8 +168,12 @@ class _InfoProductState extends State<InfoProduct> {
                     ),
                     ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                        primary: Colors.white, // background
-                        onPrimary: Colors.black, // foreground
+                        primary: getsize == 'S'
+                            ? kBtColor
+                            : Colors.white, // background
+                        onPrimary: getsize == 'S'
+                            ? Colors.white
+                            : Colors.black, // foreground
                       ),
                       onPressed: () {
                         setState(() {
@@ -175,8 +188,12 @@ class _InfoProductState extends State<InfoProduct> {
                     ),
                     ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                        primary: Colors.white, // background
-                        onPrimary: Colors.black, // foreground
+                        primary: getsize == 'M'
+                            ? kBtColor
+                            : Colors.white, // background
+                        onPrimary: getsize == 'M'
+                            ? Colors.white
+                            : Colors.black, // foreground
                       ),
                       onPressed: () {
                         setState(() {
@@ -191,8 +208,12 @@ class _InfoProductState extends State<InfoProduct> {
                     ),
                     ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                        primary: kBtColor, // background
-                        onPrimary: Colors.white, // foreground
+                        primary: getsize == 'L'
+                            ? kBtColor
+                            : Colors.white, // background
+                        onPrimary: getsize == 'L'
+                            ? Colors.white
+                            : Colors.black, // foreground
                       ),
                       onPressed: () {
                         setState(() {
@@ -207,8 +228,12 @@ class _InfoProductState extends State<InfoProduct> {
                     ),
                     ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                        primary: Colors.white, // background
-                        onPrimary: Colors.black, // foreground
+                        primary: getsize == 'XL'
+                            ? kBtColor
+                            : Colors.white, // background
+                        onPrimary: getsize == 'XL'
+                            ? Colors.white
+                            : Colors.black, // foreground
                       ),
                       onPressed: () {
                         setState(() {
@@ -237,7 +262,13 @@ class _InfoProductState extends State<InfoProduct> {
                         primary: kBtColor, // background
                         onPrimary: Colors.white, // foreground
                       ),
-                      onPressed: () {},
+                      onPressed: () {
+                        setState(() {
+                          if (total != 0) {
+                            total--;
+                          }
+                        });
+                      },
                       // do something
                       child: Text('-'),
                     ),
@@ -299,7 +330,19 @@ class _InfoProductState extends State<InfoProduct> {
                           ),
                         ),
                         onPressed: () {
-                          Get.toNamed('/cart');
+                          // _cartController.testA('data');
+                          _cartController.cartList.add(CartModel(
+                            productID: idpro,
+                            productImage: image,
+                            productTitle: title,
+                            productDescription: descript,
+                            productPrice: price,
+                            amount: amount,
+                            productSize: getsize,
+                          ));
+                          // _cartController.addToCart(idpro, image, title,
+                          //     descript, price, amount, getsize);
+                          // Get.toNamed('/cart');
                         },
                         // do something
 
