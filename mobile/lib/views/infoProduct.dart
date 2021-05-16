@@ -1,13 +1,62 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:mobile/constants.dart';
+import 'package:http/http.dart' as http;
 
 class InfoProduct extends StatefulWidget {
   @override
   _InfoProductState createState() => _InfoProductState();
 }
 
+var image;
+var title;
+var descript;
+var price = 1;
+var amount = 1;
+var size;
+var total = 1;
+var getsize = '';
+
 class _InfoProductState extends State<InfoProduct> {
+  void showinfo() async {
+    final tokenall = GetStorage();
+    var token = tokenall.read('token');
+    var idpro = tokenall.read('idproduct');
+    var _url = 'http://10.0.2.2:35000/product/detail';
+    token =
+        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOjEsInVzZXJuYW1lIjoiYWRtaW4iLCJpYXQiOjE2MjExMjYzNDEsImV4cCI6MTYyMTIxMjc0MX0.mWGK4WZz5i9pom0AOAyRf3StmeHvATsgpNuITJkHecI';
+
+    http.Response response = await http.post(
+      Uri.parse(_url),
+      headers: {'authorization': token},
+      body: {
+        'ProductID': '4',
+      },
+    );
+
+    var info = response.body;
+    var decode = jsonDecode(info);
+    print(info);
+    setState(() {
+      image = "http://10.0.2.2:35000/${decode[0]['ProductImage']}";
+      title = decode[0]['ProductTitle'];
+      descript = decode[0]['ProductDescription'];
+      price = decode[0]['ProductPrice'];
+      amount = decode[0]['Amount'];
+      size = decode[0]['CategoryID'];
+    });
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    showinfo();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -39,14 +88,14 @@ class _InfoProductState extends State<InfoProduct> {
 
       body: Column(
         children: [
-          Center(
-
-              //Product Image
-              child: Image.network(
-            'https://img.ltwebstatic.com/images3_pi/2020/12/24/1608774940060cd4e59644760c0af6fa0d2a9c03a7_thumbnail_900x.webp',
-            width: 370,
-            height: 370,
-          )),
+          Container(
+            height: 350,
+            child: Center(
+                //Product Image
+                child: Image.network(
+              'http://10.0.2.2:35000/images/image_picker12544625.png',
+            )),
+          ),
 
           //Information Product
           Container(
@@ -64,14 +113,14 @@ class _InfoProductState extends State<InfoProduct> {
 
                 //Name Product
                 Text(
-                  "WOMEN เสื้อฮู้ด down",
+                  title,
                   style: TextStyle(
                       fontWeight: FontWeight.bold,
                       color: kBtColor,
                       fontSize: 22),
                 ),
                 Text(
-                  "ไร้ตะเข็บ",
+                  descript,
                   style: TextStyle(
                       fontWeight: FontWeight.bold,
                       color: kBtColor,
@@ -83,7 +132,7 @@ class _InfoProductState extends State<InfoProduct> {
 
                 //Price
                 Text(
-                  "1499 Baht",
+                  '$price',
                   style: TextStyle(
                       fontWeight: FontWeight.bold,
                       color: kTextColor,
@@ -95,7 +144,7 @@ class _InfoProductState extends State<InfoProduct> {
 
                 //Amount Product
                 Text(
-                  "4 Pieces left!",
+                  "$amount Pieces left!",
                   style: TextStyle(color: kTextColor, fontSize: 22),
                 ),
                 SizedBox(
@@ -113,7 +162,11 @@ class _InfoProductState extends State<InfoProduct> {
                         primary: Colors.white, // background
                         onPrimary: Colors.black, // foreground
                       ),
-                      onPressed: () {},
+                      onPressed: () {
+                        setState(() {
+                          getsize = 'S';
+                        });
+                      },
                       // do something
                       child: Text('S'),
                     ),
@@ -125,7 +178,11 @@ class _InfoProductState extends State<InfoProduct> {
                         primary: Colors.white, // background
                         onPrimary: Colors.black, // foreground
                       ),
-                      onPressed: () {},
+                      onPressed: () {
+                        setState(() {
+                          getsize = 'M';
+                        });
+                      },
                       // do something
                       child: Text('M'),
                     ),
@@ -137,7 +194,11 @@ class _InfoProductState extends State<InfoProduct> {
                         primary: kBtColor, // background
                         onPrimary: Colors.white, // foreground
                       ),
-                      onPressed: () {},
+                      onPressed: () {
+                        setState(() {
+                          getsize = 'L';
+                        });
+                      },
                       // do something
                       child: Text('L'),
                     ),
@@ -149,7 +210,11 @@ class _InfoProductState extends State<InfoProduct> {
                         primary: Colors.white, // background
                         onPrimary: Colors.black, // foreground
                       ),
-                      onPressed: () {},
+                      onPressed: () {
+                        setState(() {
+                          getsize = 'XL';
+                        });
+                      },
                       // do something
                       child: Text('XL'),
                     ),
@@ -181,7 +246,7 @@ class _InfoProductState extends State<InfoProduct> {
                     ),
 
                     // Show output of select amount product
-                    Text('1'),
+                    Text("$total"),
 
                     SizedBox(
                       width: 40,
@@ -193,7 +258,13 @@ class _InfoProductState extends State<InfoProduct> {
                         primary: kBtColor, // background
                         onPrimary: Colors.white, // foreground
                       ),
-                      onPressed: () {},
+                      onPressed: () {
+                        setState(() {
+                          if (total < amount) {
+                            total++;
+                          }
+                        });
+                      },
                       child: Text('+'),
                     ),
                   ],

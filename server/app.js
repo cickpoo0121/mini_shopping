@@ -12,8 +12,9 @@ const otherRoute = require('./routes/otherRoute');
 const mobileRoute = require('./routes/mobileRoute');
 
 
-const app = express();
 
+const app = express();
+app.use('/images', express.static('./uploads'));
 
 // ************* Middleware *************
 app.set('view engine', 'ejs');
