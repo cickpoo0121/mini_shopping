@@ -77,282 +77,301 @@ class _AddproductState extends State<Addproduct> {
         centerTitle: true,
         elevation: defaultTargetPlatform == TargetPlatform.android ? 5.0 : 0.0,
       ),
-      body: Column(
-        children: [
-          Stack(
-            children: [
-              Column(
-                children: [
-                  GestureDetector(
-                    onTap: () {
-                      print(0);
-                    },
-                    child: _image == null
-                        ? Container(
-                            alignment: Alignment.center,
-                            height: MediaQuery.of(context).size.height * .35,
-                            color: Colors.blue,
-                            child: Icon(
-                              Icons.add_a_photo,
-                              size: 50,
+      body: SafeArea(
+        child: Column(
+          children: [
+            Stack(
+              children: [
+                Column(
+                  children: [
+                    GestureDetector(
+                      onTap: () {
+                        print(0);
+                      },
+                      child: _image == null
+                          ? Container(
+                              alignment: Alignment.center,
+                              height: MediaQuery.of(context).size.height * .35,
+                              color: Colors.blue,
+                              child: Icon(
+                                Icons.add_a_photo,
+                                size: 50,
+                              ),
+                            )
+                          : Image.file(
+                              _image,
+                              height: MediaQuery.of(context).size.height / 2,
                             ),
-                          )
-                        : Image.file(_image,height: MediaQuery.of(context).size.height/2,),
-                  ),
-                  new Container(
-                    height: MediaQuery.of(context).size.height * .55,
-                    color: kPrimaryColor,
-                  )
-                ],
-              ),
-              new Container(
-                alignment: Alignment.center,
-                width: MediaQuery.of(context).size.width,
-                padding: new EdgeInsets.only(
-                  top: MediaQuery.of(context).size.height * .30,
+                    ),
+                    new Container(
+                      height: MediaQuery.of(context).size.height * .55,
+                      color: kPrimaryColor,
+                    )
+                  ],
                 ),
-                height: MediaQuery.of(context).size.height * .90,
-                child: new Container(
-                  height: MediaQuery.of(context).size.height,
+                new Container(
+                  alignment: Alignment.center,
                   width: MediaQuery.of(context).size.width,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.only(
-                        topRight: Radius.circular(40),
-                        topLeft: Radius.circular(40)),
-                    color: Colors.white,
+                  padding: new EdgeInsets.only(
+                    top: MediaQuery.of(context).size.height * .30,
                   ),
-                  child: Container(
+                  height: MediaQuery.of(context).size.height * .90,
+                  child: new Container(
+                    height: MediaQuery.of(context).size.height,
+                    width: MediaQuery.of(context).size.width,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.only(
                           topRight: Radius.circular(40),
                           topLeft: Radius.circular(40)),
-                      color: Colors.black26,
+                      color: Colors.white,
                     ),
-                    child: Column(
-                      children: [
-                        Container(
-                          width: 400,
-                          padding: new EdgeInsets.only(
-                            top: 20,
-                          ),
-                          child: TextField(
-                            controller: title,
-                            decoration: InputDecoration(
-                                prefixIcon: Icon(Icons.text_fields),
-                                filled: true,
-                                fillColor: Colors.white,
-                                focusedBorder: OutlineInputBorder(
-                                  borderSide:
-                                      new BorderSide(color: Colors.white),
-                                  borderRadius: new BorderRadius.circular(25.7),
-                                ),
-                                enabledBorder: UnderlineInputBorder(
-                                  borderSide:
-                                      new BorderSide(color: Colors.white),
-                                  borderRadius: new BorderRadius.circular(25.7),
-                                ),
-                                border: new OutlineInputBorder(
-                                  borderRadius: const BorderRadius.all(
-                                    const Radius.circular(40),
-                                  ),
-                                ),
-                                hintText: 'Title'),
-                          ),
-                        ),
-                        Container(
-                          width: 400,
-                          padding: new EdgeInsets.only(
-                            top: 20,
-                          ),
-                          child: TextField(
-                            controller: descripttion,
-                            decoration: InputDecoration(
-                                prefixIcon: Icon(Icons.description),
-                                filled: true,
-                                fillColor: Colors.white,
-                                focusedBorder: OutlineInputBorder(
-                                  borderSide:
-                                      new BorderSide(color: Colors.white),
-                                  borderRadius: new BorderRadius.circular(25.7),
-                                ),
-                                enabledBorder: UnderlineInputBorder(
-                                  borderSide:
-                                      new BorderSide(color: Colors.white),
-                                  borderRadius: new BorderRadius.circular(25.7),
-                                ),
-                                border: new OutlineInputBorder(
-                                  borderRadius: const BorderRadius.all(
-                                    const Radius.circular(40),
-                                  ),
-                                ),
-                                hintText: 'Discription'),
-                          ),
-                        ),
-                        Container(
-                          width: 400,
-                          padding: new EdgeInsets.only(
-                            top: 20,
-                          ),
-                          child: TextField(
-                            controller: price,
-                            decoration: InputDecoration(
-                                prefixIcon: Icon(Icons.attach_money),
-                                filled: true,
-                                fillColor: Colors.white,
-                                focusedBorder: OutlineInputBorder(
-                                  borderSide:
-                                      new BorderSide(color: Colors.white),
-                                  borderRadius: new BorderRadius.circular(25.7),
-                                ),
-                                enabledBorder: UnderlineInputBorder(
-                                  borderSide:
-                                      new BorderSide(color: Colors.white),
-                                  borderRadius: new BorderRadius.circular(25.7),
-                                ),
-                                border: new OutlineInputBorder(
-                                  borderRadius: const BorderRadius.all(
-                                    const Radius.circular(40),
-                                  ),
-                                ),
-                                hintText: 'Price'),
-                          ),
-                        ),
-                        Container(
-                          width: 400,
-                          padding: new EdgeInsets.only(
-                            top: 20,
-                          ),
-                          child: TextField(
-                            controller: amount,
-                            decoration: InputDecoration(
-                                prefixIcon: Icon(Icons.equalizer_rounded),
-                                filled: true,
-                                fillColor: Colors.white,
-                                focusedBorder: OutlineInputBorder(
-                                  borderSide:
-                                      new BorderSide(color: Colors.white),
-                                  borderRadius: new BorderRadius.circular(25.7),
-                                ),
-                                enabledBorder: UnderlineInputBorder(
-                                  borderSide:
-                                      new BorderSide(color: Colors.white),
-                                  borderRadius: new BorderRadius.circular(25.7),
-                                ),
-                                border: new OutlineInputBorder(
-                                  borderRadius: const BorderRadius.all(
-                                    const Radius.circular(40),
-                                  ),
-                                ),
-                                hintText: 'Amount'),
-                          ),
-                        ),
-                        Container(
+                    child: Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.only(
+                            topRight: Radius.circular(40),
+                            topLeft: Radius.circular(40)),
+                        color: Colors.black26,
+                      ),
+                      child: Column(
+                        children: [
+                          Container(
                             width: 400,
-                            height: 50,
-                            padding: new EdgeInsets.only(right: 50, left: 50),
-                            decoration: BoxDecoration(
-                              border: Border.all(),
-                              borderRadius: BorderRadius.circular(30),
-                              color: Colors.white,
+                            padding: new EdgeInsets.only(
+                              top: 20,
                             ),
-                            child: DropdownButtonHideUnderline(
-                              child: DropdownButton(
-                                value: dropdownValue,
-                                icon: const Icon(Icons.arrow_drop_down_rounded),
-                                iconSize: 24,
-                                elevation: 10,
-                                style:
-                                    const TextStyle(color: Colors.deepPurple),
-                                onChanged: (String newValue) {
-                                  setState(() {
-                                    dropdownValue = newValue;
-                                  });
-                                },
-                                items: <String>[
-                                  'Snicker',
-                                  'Shirt',
-                                ].map<DropdownMenuItem<String>>((String value) {
-                                  return DropdownMenuItem<String>(
-                                    value: value,
-                                    child: Row(
-                                      children: [Text(value)],
-                                    ),
-                                  );
-                                }).toList(),
-                              ),
-                            )
-                            //
-                            // TextField(
-                            //   decoration: InputDecoration(
-                            //       prefixIcon: Icon(Icons.format_list_bulleted),
-                            //       filled: true,
-                            //       fillColor: Colors.white,
-                            //       focusedBorder: OutlineInputBorder(
-                            //         borderSide:
-                            //             new BorderSide(color: Colors.white),
-                            //         borderRadius: new BorderRadius.circular(25.7),
-                            //       ),
-                            //       enabledBorder: UnderlineInputBorder(
-                            //         borderSide:
-                            //             new BorderSide(color: Colors.white),
-                            //         borderRadius: new BorderRadius.circular(25.7),
-                            //       ),
-                            //       border: new OutlineInputBorder(
-                            //         borderRadius: const BorderRadius.all(
-                            //           const Radius.circular(40),
-                            //         ),
-                            //       ),
-                            //       hintText: 'Catagories'),
-                            // ),
-                            ),
-                        Container(
-                          padding: new EdgeInsets.only(
-                              top: MediaQuery.of(context).size.height / 23),
-                          child: Container(
-                            width: MediaQuery.of(context).size.width,
-                            height: MediaQuery.of(context).size.height / 13,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.only(
-                                  topRight: Radius.circular(40),
-                                  topLeft: Radius.circular(40)),
-                              color: Colors.white,
-                            ),
-                            child: Container(
-                              padding: new EdgeInsets.only(
-                                  top: MediaQuery.of(context).size.height / 70,
-                                  right: MediaQuery.of(context).size.width / 10,
-                                  left: MediaQuery.of(context).size.width / 10,
-                                  bottom:
-                                      MediaQuery.of(context).size.height / 70),
-                              child: TextButton(
-                                child: Text(
-                                  "Add",
-                                  style: TextStyle(color: Colors.purple[600]),
-                                ),
-                                onPressed: addproduct,
-                                style: ButtonStyle(
-                                  shape: MaterialStateProperty.all<
-                                      RoundedRectangleBorder>(
-                                    RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(18.0),
+                            child: TextField(
+                              controller: title,
+                              decoration: InputDecoration(
+                                  prefixIcon: Icon(Icons.text_fields),
+                                  filled: true,
+                                  fillColor: Colors.white,
+                                  focusedBorder: OutlineInputBorder(
+                                    borderSide:
+                                        new BorderSide(color: Colors.white),
+                                    borderRadius:
+                                        new BorderRadius.circular(25.7),
+                                  ),
+                                  enabledBorder: UnderlineInputBorder(
+                                    borderSide:
+                                        new BorderSide(color: Colors.white),
+                                    borderRadius:
+                                        new BorderRadius.circular(25.7),
+                                  ),
+                                  border: new OutlineInputBorder(
+                                    borderRadius: const BorderRadius.all(
+                                      const Radius.circular(40),
                                     ),
                                   ),
-                                  backgroundColor:
-                                      MaterialStateProperty.all<Color>(
-                                          Colors.blueAccent),
+                                  hintText: 'Title'),
+                            ),
+                          ),
+                          Container(
+                            width: 400,
+                            padding: new EdgeInsets.only(
+                              top: 20,
+                            ),
+                            child: TextField(
+                              controller: descripttion,
+                              decoration: InputDecoration(
+                                  prefixIcon: Icon(Icons.description),
+                                  filled: true,
+                                  fillColor: Colors.white,
+                                  focusedBorder: OutlineInputBorder(
+                                    borderSide:
+                                        new BorderSide(color: Colors.white),
+                                    borderRadius:
+                                        new BorderRadius.circular(25.7),
+                                  ),
+                                  enabledBorder: UnderlineInputBorder(
+                                    borderSide:
+                                        new BorderSide(color: Colors.white),
+                                    borderRadius:
+                                        new BorderRadius.circular(25.7),
+                                  ),
+                                  border: new OutlineInputBorder(
+                                    borderRadius: const BorderRadius.all(
+                                      const Radius.circular(40),
+                                    ),
+                                  ),
+                                  hintText: 'Discription'),
+                            ),
+                          ),
+                          Container(
+                            width: 400,
+                            padding: new EdgeInsets.only(
+                              top: 20,
+                            ),
+                            child: TextField(
+                              controller: price,
+                              decoration: InputDecoration(
+                                  prefixIcon: Icon(Icons.attach_money),
+                                  filled: true,
+                                  fillColor: Colors.white,
+                                  focusedBorder: OutlineInputBorder(
+                                    borderSide:
+                                        new BorderSide(color: Colors.white),
+                                    borderRadius:
+                                        new BorderRadius.circular(25.7),
+                                  ),
+                                  enabledBorder: UnderlineInputBorder(
+                                    borderSide:
+                                        new BorderSide(color: Colors.white),
+                                    borderRadius:
+                                        new BorderRadius.circular(25.7),
+                                  ),
+                                  border: new OutlineInputBorder(
+                                    borderRadius: const BorderRadius.all(
+                                      const Radius.circular(40),
+                                    ),
+                                  ),
+                                  hintText: 'Price'),
+                            ),
+                          ),
+                          Container(
+                            width: 400,
+                            padding: new EdgeInsets.only(
+                              top: 20,
+                            ),
+                            child: TextField(
+                              controller: amount,
+                              decoration: InputDecoration(
+                                  prefixIcon: Icon(Icons.equalizer_rounded),
+                                  filled: true,
+                                  fillColor: Colors.white,
+                                  focusedBorder: OutlineInputBorder(
+                                    borderSide:
+                                        new BorderSide(color: Colors.white),
+                                    borderRadius:
+                                        new BorderRadius.circular(25.7),
+                                  ),
+                                  enabledBorder: UnderlineInputBorder(
+                                    borderSide:
+                                        new BorderSide(color: Colors.white),
+                                    borderRadius:
+                                        new BorderRadius.circular(25.7),
+                                  ),
+                                  border: new OutlineInputBorder(
+                                    borderRadius: const BorderRadius.all(
+                                      const Radius.circular(40),
+                                    ),
+                                  ),
+                                  hintText: 'Amount'),
+                            ),
+                          ),
+                          Container(
+                              width: 400,
+                              height: 50,
+                              padding: new EdgeInsets.only(right: 50, left: 50),
+                              decoration: BoxDecoration(
+                                border: Border.all(),
+                                borderRadius: BorderRadius.circular(30),
+                                color: Colors.white,
+                              ),
+                              child: DropdownButtonHideUnderline(
+                                child: DropdownButton(
+                                  value: dropdownValue,
+                                  icon:
+                                      const Icon(Icons.arrow_drop_down_rounded),
+                                  iconSize: 24,
+                                  elevation: 10,
+                                  style:
+                                      const TextStyle(color: Colors.deepPurple),
+                                  onChanged: (String newValue) {
+                                    setState(() {
+                                      dropdownValue = newValue;
+                                    });
+                                  },
+                                  items: <String>[
+                                    'Snicker',
+                                    'Shirt',
+                                  ].map<DropdownMenuItem<String>>(
+                                      (String value) {
+                                    return DropdownMenuItem<String>(
+                                      value: value,
+                                      child: Row(
+                                        children: [Text(value)],
+                                      ),
+                                    );
+                                  }).toList(),
+                                ),
+                              )
+                              //
+                              // TextField(
+                              //   decoration: InputDecoration(
+                              //       prefixIcon: Icon(Icons.format_list_bulleted),
+                              //       filled: true,
+                              //       fillColor: Colors.white,
+                              //       focusedBorder: OutlineInputBorder(
+                              //         borderSide:
+                              //             new BorderSide(color: Colors.white),
+                              //         borderRadius: new BorderRadius.circular(25.7),
+                              //       ),
+                              //       enabledBorder: UnderlineInputBorder(
+                              //         borderSide:
+                              //             new BorderSide(color: Colors.white),
+                              //         borderRadius: new BorderRadius.circular(25.7),
+                              //       ),
+                              //       border: new OutlineInputBorder(
+                              //         borderRadius: const BorderRadius.all(
+                              //           const Radius.circular(40),
+                              //         ),
+                              //       ),
+                              //       hintText: 'Catagories'),
+                              // ),
+                              ),
+                          Container(
+                            padding: new EdgeInsets.only(
+                                top: MediaQuery.of(context).size.height / 23),
+                            child: Container(
+                              width: MediaQuery.of(context).size.width,
+                              height: MediaQuery.of(context).size.height / 13,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.only(
+                                    topRight: Radius.circular(40),
+                                    topLeft: Radius.circular(40)),
+                                color: Colors.white,
+                              ),
+                              child: Container(
+                                padding: new EdgeInsets.only(
+                                    top:
+                                        MediaQuery.of(context).size.height / 70,
+                                    right:
+                                        MediaQuery.of(context).size.width / 10,
+                                    left:
+                                        MediaQuery.of(context).size.width / 10,
+                                    bottom: MediaQuery.of(context).size.height /
+                                        70),
+                                child: TextButton(
+                                  child: Text(
+                                    "Add",
+                                    style: TextStyle(color: Colors.purple[600]),
+                                  ),
+                                  onPressed: addproduct,
+                                  style: ButtonStyle(
+                                    shape: MaterialStateProperty.all<
+                                        RoundedRectangleBorder>(
+                                      RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(18.0),
+                                      ),
+                                    ),
+                                    backgroundColor:
+                                        MaterialStateProperty.all<Color>(
+                                            Colors.blueAccent),
+                                  ),
                                 ),
                               ),
                             ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
                 ),
-              ),
-            ],
-          ),
-        ],
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }
