@@ -28,7 +28,7 @@ dependencies:
   path: ^1.8.0
   http: ^0.13.3
   get: ^3.26.0
-  
+  pin_code_fields: ^7.1.0
 
 
   # The following adds the Cupertino Icons font to your application.
@@ -40,7 +40,7 @@ dependencies:
   file_picker: ^1.4.3+2
   video_player: ^2.1.1
   # flutter_secure_storage: ^3.3.1
-
+  
 dev_dependencies:
   flutter_test:
     sdk: flutter

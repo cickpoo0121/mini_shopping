@@ -62,7 +62,7 @@ router.post("/mobile/register", function (req, res) {
     const name = req.body.name;
     const email = req.body.email;
     const phone = req.body.phone;
- 
+
     //checked existing username
     let sql = "SELECT UserID FROM user WHERE UserName=?";
     con.query(sql, [username], function (err, result, fields) {
@@ -71,7 +71,7 @@ router.post("/mobile/register", function (req, res) {
             res.status(500).send("Database server error");
             return;
         }
- 
+
         const numrows = result.length;
         //if repeated username
         if (numrows > 0) {
@@ -89,7 +89,7 @@ router.post("/mobile/register", function (req, res) {
                         res.status(500).send("Database server error");
                         return;
                     }
- 
+
                     const numrows = result.affectedRows;
                     if (numrows != 1) {
                         res.status(500).send("Insert failed");
@@ -167,26 +167,33 @@ router.get('/product/:category', checkUserMobile, (req, res) => {
 
 // get product by product id
 router.post('/product/detail', checkUserMobile, (req, res) => {
-    const ProductID = req.body.ProductID;
-    let sql = 'SELECT * FROM `product` WHERE ProductID=? '
-    con.query(sql, [ProductID], (err, result) => {
+    var ProductID = req.body.ProductID;
+    var arr = ProductID.split(',');
+    console.log(ProductID)
+    console.log(arr)
+    let sql = 'SELECT * FROM `product` WHERE ProductID IN (?) '
+    var mysqll = con.query(sql, [arr], (err, result) => {
         if (err) {
             console.log(err)
             return res.status(500).send('Database error')
         }
         res.json(result)
+
     })
+    console.log(mysqll.sql)
 })
 
 // decrease product amount
 router.put('/product/sell', checkUserMobile, (req, res) => {
     const ProductID = req.body.ProductID;
+    var arr = ProductID.split(',');
     let sql = 'UPDATE product SET Amount= Amount-1 WHERE ProductID IN (?)'
-    con.query(sql, [ProductID], (err, result) => {
+    con.query(sql, [arr], (err, result) => {
         if (err) {
             console.log(err)
             return res.status(500).send('Database error')
         }
+        console.log('selled')
         res.json(result)
     })
 })
@@ -237,8 +244,6 @@ router.get('/order/:status', checkUserMobile, (req, res) => {
 router.put('/order/:status', checkUserMobile, (req, res) => {
     const status = req.params.status;
     const OrderID = req.body.OrderID;
-    console.log('status=========='+status)
-    console.log('orderID=========='+OrderID)
     let sql = 'UPDATE `productorder` SET `Status` = ? WHERE `OrderID` = ?;'
     con.query(sql, [status, OrderID], (err, result) => {
         if (err) {
