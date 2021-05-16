@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:mobile/constants.dart';
 import 'package:mobile/views/components/drawer.dart';
 import 'package:http/http.dart' as http;
@@ -17,8 +18,7 @@ class _DeliveryState extends State<Delivery> {
   var data;
   String catergory = 'onRoad';
   String _url = 'http://10.0.2.2:35000/order';
-  String _token =
-      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOjEsInVzZXJuYW1lIjoiYWRtaW4iLCJpYXQiOjE2MjExMDAxNzksImV4cCI6MTYyMTE4NjU3OX0.gDHoJeKezwqleAGyV3ilqLeypoice7gqjWOruN-oW7w';
+  String _token;
 
   Future roadData() async {
     String onRoadURL;
@@ -165,6 +165,12 @@ class _DeliveryState extends State<Delivery> {
   }
 
   @override
+  void initState() {
+    super.initState();
+    _token = GetStorage().read('token');
+  }
+
+  @override
   Widget build(BuildContext context) {
     size = MediaQuery.of(context).size;
     return Scaffold(
@@ -262,7 +268,11 @@ class _DeliveryState extends State<Delivery> {
                     if (snapshot.hasData) {
                       data = snapshot.data;
                       print(snapshot.data);
-                      return createListview(data);
+                      return data.length == 0
+                          ? Container(
+                              padding: EdgeInsets.only(top: size.height / 10),
+                              child: Text('No item'))
+                          : createListview(data);
                     } else {
                       print(snapshot.error);
                       return Text('Connection error, try again');
