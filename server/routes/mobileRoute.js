@@ -112,20 +112,6 @@ router.get('/myProduct/:category', checkUserMobile, (req, res) => {
 })
 
 
-//test
-// router.post('/upload', upload.single("picture"), function (req,res) {
-//     console.log("Received file" + req.file.originalname);
-//     var src = fs.createReadStream(req.file.path);
-//     var dest = fs.createWriteStream('uploads/' + req.file.originalname);
-//     src.pipe(dest);
-//     src.on('end', function() {
-//     	fs.unlinkSync(req.file.path);
-//     	res.json('OK: received ' + req.file.originalname);
-//     });
-//     src.on('error', function(err) { res.json('Something went wrong!'); });
-
-//   })
-
 // add new product
 router.post('/product/new', upload.single("picture"), (req, res) => {
     const { ProductTitle, ProductDescription, ProductPrice, Amount, CategoryID } = req.body;
@@ -133,7 +119,7 @@ router.post('/product/new', upload.single("picture"), (req, res) => {
     var src = fs.createReadStream(req.file.path);
     var dest = fs.createWriteStream('uploads/' + req.file.originalname);
     src.pipe(dest)
-    ;res.writeContinue()
+        ; res.writeContinue()
     src.on('end', function () {
         fs.unlinkSync(req.file.path);
         res.json('OK: received ' + req.file.originalname);
@@ -141,7 +127,7 @@ router.post('/product/new', upload.single("picture"), (req, res) => {
     src.on('error', function (err) { res.json('Something went wrong!'); });
 
 
-    
+
     const sql = "INSERT INTO `product` ( `ProductImage`, `ProductTitle`, `ProductDescription`, `ProductPrice`, `Amount`, `ProductOwner`, `CategoryID`) VALUES ( ?, ?, ?, ?, ?, ?, ?);"
 
     con.query(sql, [req.file.originalname, ProductTitle, ProductDescription, ProductPrice, Amount, 1, CategoryID], (err, result) => {
@@ -152,7 +138,7 @@ router.post('/product/new', upload.single("picture"), (req, res) => {
         if (result.affectedRows != 1) {
             return res.status(500).send('Delete failed')
         }
-        
+
     })
 
 
@@ -286,7 +272,7 @@ router.put('/profile/edit', checkUserMobile, (req, res) => {
 router.get('/profile/show', checkUserMobile, (req, res) => {
 
     let sql = 'SELECT * FROM `user` WHERE UserID = ?;'
-    con.query(sql, [1], (err, result) => {
+    con.query(sql, [req.afterDecoded.userID], (err, result) => {
         if (err) {
             console.log(err)
             return res.status(500).send('Database error')
@@ -310,5 +296,59 @@ router.post('/voucher', checkUserMobile, (req, res) => {
         res.json(result)
     })
 })
+
+
+// ********* Favorite ***********
+// get favorite
+router.get('/getfavoriteOfUser', checkUserMobile, (req, res) => {
+
+    let sql = 'SELECT * FROM `favorite`, product WHERE favorite.User_id = ? AND product.ProductID = favorite.Product_ID'
+    con.query(sql, [2], (err, result) => {
+        if (err) {
+            console.log(err)
+            return res.status(500).send('Database error')
+        }
+        res.json(result)
+    })
+})
+
+//add remove favorite
+router.post('/updatefavoriteOfUser', checkUserMobile, (req, res) => {
+    const productid = req.body.productid
+    
+    let sql = 'SELECT * FROM `favorite` WHERE Product_ID = ? AND User_id = ?'
+    con.query(sql, [productid, 2], (err, result) => {
+        if (err) {
+            console.log(err)
+            return res.status(500).send('Database error')
+        } else {
+            numrows = result.length
+            if (numrows == 0) {
+                sqlins = "INSERT INTO favorite(Product_ID, User_id) VALUES (?,?)";
+                con.query(sqlins, [productid, 2], (err, result) => {
+                    if (err) {
+                        console.log(err)
+                        return res.status(500).send('Database error')
+                    } else {
+
+                    }
+                })
+            } else {
+                let sqlde = 'DELETE FROM `favorite` WHERE Product_ID = ? AND User_id = ?'
+                con.query(sqlde, [productid, 2], (err, result) => {
+                    if (err) {
+                        console.log(err)
+                        return res.status(500).send('Database error')
+                    } else {
+
+                    }
+                })
+            }
+        }
+
+    })
+    console.log("okokok")
+})
+
 
 module.exports = router;

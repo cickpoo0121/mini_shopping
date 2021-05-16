@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:mobile/favorite.dart';
+import 'package:mobile/views/favorite.dart';
 import 'package:mobile/views/Cart2.dart';
 import 'package:mobile/views/Delivery.dart';
 import 'package:mobile/views/addproduct.dart';

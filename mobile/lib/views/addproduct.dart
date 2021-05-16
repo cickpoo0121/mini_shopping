@@ -44,12 +44,7 @@ class _AddproductState extends State<Addproduct> {
       'POST',
       Uri.parse(url),
     );
-    // request.headers['authorization'] = token;
-    // request.headers['Content-Type'] = 'application/json; charset=UTF-8';
-    // request.headers.addAll({
-    //   // 'authorization': token,
-    // //  'Content-Type': 'application/json; charset=UTF-8'
-    // });
+
     request.files.add(await http.MultipartFile.fromPath('picture', filename));
 
     request.fields.addAll({
@@ -62,24 +57,6 @@ class _AddproductState extends State<Addproduct> {
     });
     var res = await request.send();
 
-    // http.Response response = await http.post(
-    //   Uri.parse(url),
-    //   headers: {
-    //     'authorization': token,
-    //     // 'Content-Type': 'application/json; charset=UTF-8'
-    //   },
-    //   body: {
-    //     // 'file': _image,
-    //     'ProductTitle': title.text,
-    //     'ProductDescription': descripttion.text,
-    //     'ProductPrice': price.text,
-    //     'Amount': amount.text,
-    //     'ProductSize': size.text,
-    //     'CategoryID': catagory,
-    //   },
-    // );
-
-    // print(response.body)
   }
 
   File _image;
