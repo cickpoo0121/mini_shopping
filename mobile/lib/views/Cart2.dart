@@ -9,625 +9,169 @@ class Cart2 extends StatefulWidget {
 }
 
 class _Cart2State extends State<Cart2> {
+  var size;
+  List<Map<String, dynamic>> data = [
+    {
+      'ProductImage': 'hoodie.jpg',
+      'ProductTitle': 'Women Shirt',
+      'ProductDescription': 'Hoodie',
+      'ProductPrice': 3500,
+      'Amount': 1,
+      'ProductID': 2
+    },
+    {
+      'ProductImage': 'hoodie.jpg',
+      'ProductTitle': 'Women Shirt',
+      'ProductDescription': 'Hoodie',
+      'ProductPrice': 3500,
+      'Amount': 1,
+      'ProductID': 3
+    },
+  ];
+
   @override
   Widget build(BuildContext context) {
+    size = MediaQuery.of(context).size;
     return Scaffold(
-        backgroundColor: Colors.white,
-        drawer: HamManu(),
-        appBar: AppBar(
-          toolbarHeight: 120,
-          leading: Builder(
-            builder: (context) => IconButton(
-              icon: Icon(
-                Icons.view_comfortable_sharp,
-                color: Colors.black,
-              ),
-              onPressed: () => Scaffold.of(context).openDrawer(),
+      backgroundColor: kBackgroundColor,
+      drawer: HamManu(),
+      appBar: AppBar(
+        // toolbarHeight: 120,
+        elevation: 0,
+        iconTheme: IconThemeData(color: Colors.black),
+        backgroundColor: kBackgroundColor,
+        title: Center(
+            child: Text(
+          "Cart",
+          style: TextStyle(color: kBtColor, fontSize: 30),
+        )),
+        actions: <Widget>[
+          IconButton(
+            icon: const Icon(
+              Icons.search,
+              color: Colors.black,
             ),
-          ),
-          elevation: 0,
-          backgroundColor: kBackgroundColor,
-          title: Center(
-              child: Text(
-            "Cart",
-            style: TextStyle(color: Colors.blue, fontSize: 30),
-          )),
-          actions: <Widget>[
-            IconButton(
-              icon: const Icon(
-                Icons.search,
-                color: Colors.black,
-              ),
-              onPressed: () {},
-            )
-          ],
-        ),
-        body: Column(
-          children: [
-            Container(
-              width: 600,
-              height: 785,
-              child: ListView(
-                children: [
-                  Row(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(top: 40, left: 20),
-                        child: Container(
-                          padding: EdgeInsets.fromLTRB(15, 10, 5, 0),
-                          height: 190,
-                          width: 550,
-                          child: Card(
-                            elevation: 5,
-                            child: Stack(
-                              children: [
-                                Row(
-                                  children: [
-                                    Spacer(),
-                                    Padding(
-                                      padding: const EdgeInsets.only(
-                                          left: 5, top: 20),
-                                      child: Column(
-                                        children: [
-                                          Image.network(
-                                            'https://picsum.photos/250?image=9',
-                                            scale: 2.0,
-                                          )
-                                        ], //รูปภาพ
-                                      ),
-                                    ),
-                                    Spacer(
-                                      flex: 20,
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(
-                                          left: 3, top: 20),
-                                      child: Column(
-                                        children: [
-                                          Text(
-                                            'Women เสือฮู้ด',
-                                            style: TextStyle(
-                                              fontSize: 20,
-                                            ),
-                                          ),
-                                          Text(
-                                            '1499 Baht',
-                                            style: TextStyle(
-                                              fontSize: 25,
-                                            ),
-                                          )
-                                        ],
-                                      ),
-                                    ),
-                                    Spacer(
-                                      flex: 20,
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(
-                                          top: 15, bottom: 10),
-                                      child: Column(
-                                        children: [
-                                          MaterialButton(
-                                            onPressed: () {},
-                                            color: Colors.grey[200],
-                                            textColor: Colors.black,
-                                            child: Icon(
-                                              Icons.remove,
-                                              size: 24,
-                                            ),
-                                            padding: EdgeInsets.all(16),
-                                            shape: CircleBorder(),
-                                          ),
-                                          Spacer(),
-                                          Text(
-                                            '1',
-                                            style: TextStyle(fontSize: 20),
-                                          ),
-                                          Spacer(),
-                                          MaterialButton(
-                                            onPressed: () {},
-                                            color: Colors.blue,
-                                            textColor: Colors.white,
-                                            child: Icon(
-                                              Icons.add,
-                                              size: 24,
-                                            ),
-                                            padding: EdgeInsets.all(16),
-                                            shape: CircleBorder(),
-                                          )
-                                        ],
-                                      ),
-                                    ),
-                                    Spacer(
-                                      flex: 2,
-                                    ),
-                                  ],
-                                )
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(top: 40, left: 20),
-                        child: Container(
-                          padding: EdgeInsets.fromLTRB(15, 10, 5, 0),
-                          height: 190,
-                          width: 550,
-                          child: Card(
-                            elevation: 5,
-                            child: Stack(
-                              children: [
-                                Row(
-                                  children: [
-                                    Spacer(),
-                                    Padding(
-                                      padding: const EdgeInsets.only(
-                                          left: 5, top: 20),
-                                      child: Column(
-                                        children: [
-                                          Image.network(
-                                            'https://picsum.photos/250?image=9',
-                                            scale: 2.0,
-                                          )
-                                        ], //รูปภาพ
-                                      ),
-                                    ),
-                                    Spacer(
-                                      flex: 20,
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(
-                                          left: 3, top: 20),
-                                      child: Column(
-                                        children: [
-                                          Text(
-                                            'Women เสือฮู้ด',
-                                            style: TextStyle(
-                                              fontSize: 20,
-                                            ),
-                                          ),
-                                          Text(
-                                            '1499 Baht',
-                                            style: TextStyle(
-                                              fontSize: 25,
-                                            ),
-                                          )
-                                        ],
-                                      ),
-                                    ),
-                                    Spacer(
-                                      flex: 20,
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(
-                                          top: 15, bottom: 10),
-                                      child: Column(
-                                        children: [
-                                          MaterialButton(
-                                            onPressed: () {},
-                                            color: Colors.grey[200],
-                                            textColor: Colors.black,
-                                            child: Icon(
-                                              Icons.remove,
-                                              size: 24,
-                                            ),
-                                            padding: EdgeInsets.all(16),
-                                            shape: CircleBorder(),
-                                          ),
-                                          Spacer(),
-                                          Text(
-                                            '1',
-                                            style: TextStyle(fontSize: 20),
-                                          ),
-                                          Spacer(),
-                                          MaterialButton(
-                                            onPressed: () {},
-                                            color: Colors.blue,
-                                            textColor: Colors.white,
-                                            child: Icon(
-                                              Icons.add,
-                                              size: 24,
-                                            ),
-                                            padding: EdgeInsets.all(16),
-                                            shape: CircleBorder(),
-                                          )
-                                        ],
-                                      ),
-                                    ),
-                                    Spacer(
-                                      flex: 2,
-                                    ),
-                                  ],
-                                )
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(top: 40, left: 20),
-                        child: Container(
-                          padding: EdgeInsets.fromLTRB(15, 10, 5, 0),
-                          height: 190,
-                          width: 550,
-                          child: Card(
-                            elevation: 5,
-                            child: Stack(
-                              children: [
-                                Row(
-                                  children: [
-                                    Spacer(),
-                                    Padding(
-                                      padding: const EdgeInsets.only(
-                                          left: 5, top: 20),
-                                      child: Column(
-                                        children: [
-                                          Image.network(
-                                            'https://picsum.photos/250?image=9',
-                                            scale: 2.0,
-                                          )
-                                        ], //รูปภาพ
-                                      ),
-                                    ),
-                                    Spacer(
-                                      flex: 20,
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(
-                                          left: 3, top: 20),
-                                      child: Column(
-                                        children: [
-                                          Text(
-                                            'Women เสือฮู้ด',
-                                            style: TextStyle(
-                                              fontSize: 20,
-                                            ),
-                                          ),
-                                          Text(
-                                            '1499 Baht',
-                                            style: TextStyle(
-                                              fontSize: 25,
-                                            ),
-                                          )
-                                        ],
-                                      ),
-                                    ),
-                                    Spacer(
-                                      flex: 20,
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(
-                                          top: 15, bottom: 10),
-                                      child: Column(
-                                        children: [
-                                          MaterialButton(
-                                            onPressed: () {},
-                                            color: Colors.grey[200],
-                                            textColor: Colors.black,
-                                            child: Icon(
-                                              Icons.remove,
-                                              size: 24,
-                                            ),
-                                            padding: EdgeInsets.all(16),
-                                            shape: CircleBorder(),
-                                          ),
-                                          Spacer(),
-                                          Text(
-                                            '1',
-                                            style: TextStyle(fontSize: 20),
-                                          ),
-                                          Spacer(),
-                                          MaterialButton(
-                                            onPressed: () {},
-                                            color: Colors.blue,
-                                            textColor: Colors.white,
-                                            child: Icon(
-                                              Icons.add,
-                                              size: 24,
-                                            ),
-                                            padding: EdgeInsets.all(16),
-                                            shape: CircleBorder(),
-                                          )
-                                        ],
-                                      ),
-                                    ),
-                                    Spacer(
-                                      flex: 2,
-                                    ),
-                                  ],
-                                )
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(top: 40, left: 20),
-                        child: Container(
-                          padding: EdgeInsets.fromLTRB(15, 10, 5, 0),
-                          height: 190,
-                          width: 550,
-                          child: Card(
-                            elevation: 5,
-                            child: Stack(
-                              children: [
-                                Row(
-                                  children: [
-                                    Spacer(),
-                                    Padding(
-                                      padding: const EdgeInsets.only(
-                                          left: 5, top: 20),
-                                      child: Column(
-                                        children: [
-                                          Image.network(
-                                            'https://picsum.photos/250?image=9',
-                                            scale: 2.0,
-                                          )
-                                        ], //รูปภาพ
-                                      ),
-                                    ),
-                                    Spacer(
-                                      flex: 20,
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(
-                                          left: 3, top: 20),
-                                      child: Column(
-                                        children: [
-                                          Text(
-                                            'Women เสือฮู้ด',
-                                            style: TextStyle(
-                                              fontSize: 20,
-                                            ),
-                                          ),
-                                          Text(
-                                            '1499 Baht',
-                                            style: TextStyle(
-                                              fontSize: 25,
-                                            ),
-                                          )
-                                        ],
-                                      ),
-                                    ),
-                                    Spacer(
-                                      flex: 20,
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(
-                                          top: 15, bottom: 10),
-                                      child: Column(
-                                        children: [
-                                          MaterialButton(
-                                            onPressed: () {},
-                                            color: Colors.grey[200],
-                                            textColor: Colors.black,
-                                            child: Icon(
-                                              Icons.remove,
-                                              size: 24,
-                                            ),
-                                            padding: EdgeInsets.all(16),
-                                            shape: CircleBorder(),
-                                          ),
-                                          Spacer(),
-                                          Text(
-                                            '1',
-                                            style: TextStyle(fontSize: 20),
-                                          ),
-                                          Spacer(),
-                                          MaterialButton(
-                                            onPressed: () {},
-                                            color: Colors.blue,
-                                            textColor: Colors.white,
-                                            child: Icon(
-                                              Icons.add,
-                                              size: 24,
-                                            ),
-                                            padding: EdgeInsets.all(16),
-                                            shape: CircleBorder(),
-                                          )
-                                        ],
-                                      ),
-                                    ),
-                                    Spacer(
-                                      flex: 2,
-                                    ),
-                                  ],
-                                )
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(top: 40, left: 20),
-                        child: Container(
-                          padding: EdgeInsets.fromLTRB(15, 10, 5, 0),
-                          height: 190,
-                          width: 550,
-                          child: Card(
-                            elevation: 5,
-                            child: Stack(
-                              children: [
-                                Row(
-                                  children: [
-                                    Spacer(),
-                                    Padding(
-                                      padding: const EdgeInsets.only(
-                                          left: 5, top: 20),
-                                      child: Column(
-                                        children: [
-                                          Image.network(
-                                            'https://picsum.photos/250?image=9',
-                                            scale: 2.0,
-                                          )
-                                        ], //รูปภาพ
-                                      ),
-                                    ),
-                                    Spacer(
-                                      flex: 20,
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(
-                                          left: 3, top: 20),
-                                      child: Column(
-                                        children: [
-                                          Text(
-                                            'Women เสือฮู้ด',
-                                            style: TextStyle(
-                                              fontSize: 20,
-                                            ),
-                                          ),
-                                          Text(
-                                            '1499 Baht',
-                                            style: TextStyle(
-                                              fontSize: 25,
-                                            ),
-                                          )
-                                        ],
-                                      ),
-                                    ),
-                                    Spacer(
-                                      flex: 20,
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(
-                                          top: 15, bottom: 10),
-                                      child: Column(
-                                        children: [
-                                          MaterialButton(
-                                            onPressed: () {},
-                                            color: Colors.grey[200],
-                                            textColor: Colors.black,
-                                            child: Icon(
-                                              Icons.remove,
-                                              size: 24,
-                                            ),
-                                            padding: EdgeInsets.all(16),
-                                            shape: CircleBorder(),
-                                          ),
-                                          Spacer(),
-                                          Text(
-                                            '1',
-                                            style: TextStyle(fontSize: 20),
-                                          ),
-                                          Spacer(),
-                                          MaterialButton(
-                                            onPressed: () {},
-                                            color: Colors.blue,
-                                            textColor: Colors.white,
-                                            child: Icon(
-                                              Icons.add,
-                                              size: 24,
-                                            ),
-                                            padding: EdgeInsets.all(16),
-                                            shape: CircleBorder(),
-                                          )
-                                        ],
-                                      ),
-                                    ),
-                                    Spacer(
-                                      flex: 2,
-                                    ),
-                                  ],
-                                )
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-            Container(
-              height: 135,
-              width: 700,
-              decoration: BoxDecoration(
-                border: Border.all(
-                  color: Colors.white,
-                  style: BorderStyle.solid,
-                  width: 1.0,
-                ),
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(30.0),
-              ),
+            onPressed: () {},
+          )
+        ],
+      ),
+      body: ListView.builder(
+          itemCount: data == null ? 0 : data.length,
+          itemBuilder: (context, index) {
+            return GestureDetector(
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.only(left: 70, top: 25),
-                    child: Column(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(left: 50),
-                          child: Text(
-                            'Total',
-                            style: TextStyle(fontSize: 30),
-                          ),
-                        ),
-                        Text(
-                          '4327 Baht',
-                          style: TextStyle(color: Colors.blue, fontSize: 25),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Spacer(),
-                  Padding(
-                    padding: const EdgeInsets.only(right: 20),
-                    child: Container(
-                      height: 50.0,
-                      width: 200,
-                      child: GestureDetector(
-                        onTap: () {},
-                        child: ButtonTheme(
-                          minWidth: 500.0,
-                          height: 200,
-                          
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(30.0),
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.fromLTRB(44, 20, 44, 5),
-                            child: RaisedButton(
-                              elevation: 2.0,
-                              hoverColor: Colors.green,
-                              color: Colors.purple,
-                              child: Text(
-                                "CHECK OUT",
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.bold),
-                              ),
-                              onPressed: () {},
+                  Stack(
+                    children: [
+                      Container(
+                        decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(18)),
+                        height: size.height / 7,
+                        width: size.width / 1.2,
+                        child: Row(
+                          children: [
+                            Image.asset(
+                              'assets/images/${data[index]['ProductImage']}',
+                              height: size.height / 8,
+                              width: size.width / 4,
                             ),
-                          ),
+                            SizedBox(
+                              width: size.height / 15,
+                            ),
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  data[index]['ProductTitle'],
+                                  style: TextStyle(
+                                      color: kBtColor,
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold),
+                                ), //Title
+                                SizedBox(height: size.height / 200),
+                                Text(
+                                  data[index]['ProductDescription'],
+                                  style: TextStyle(color: kBtColor),
+                                ), //Description
+                                SizedBox(height: size.height / 100),
+
+                                Text(
+                                  '${data[index]['ProductPrice']} Baht',
+                                  style: TextStyle(fontSize: 18),
+                                ), //Prince
+                              ],
+                            ),
+                          ],
                         ),
                       ),
-                    ),
+                      Positioned(
+                        right: 10,
+                        top: 10,
+                        child: Column(
+                          children: [
+                            GestureDetector(
+                              child: Container(
+                                padding: EdgeInsets.all(5),
+                                // height: size.height / 15,
+                                // width: size.width / 10,
+                                decoration: BoxDecoration(
+                                  color: Color.fromRGBO(251, 233, 222, 1),
+                                  shape: BoxShape.circle,
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.grey.withOpacity(0.2),
+                                      spreadRadius: 2,
+                                      blurRadius: 4,
+                                      offset: Offset(0, 1),
+                                    )
+                                  ],
+                                ),
+                                child: Icon(Icons.remove),
+                              ),
+                              onTap: () {},
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 5),
+                              child: Text(
+                                '${data[index]['Amount']}',
+                              ),
+                            ),
+                            GestureDetector(
+                              child: Container(
+                                padding: EdgeInsets.all(5),
+                                // height: size.height / 15,
+                                // width: size.width / 10,
+                                decoration: BoxDecoration(
+                                  color: Color.fromRGBO(201, 228, 243, 1),
+                                  shape: BoxShape.circle,
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.grey.withOpacity(0.2),
+                                      spreadRadius: 2,
+                                      blurRadius: 4,
+                                      offset: Offset(0, 1),
+                                    )
+                                  ],
+                                ),
+                                child: Icon(Icons.add),
+                              ),
+                              onTap: () {},
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
                   ),
+                  SizedBox(
+                    height: size.height / 5.5,
+                  )
                 ],
               ),
-            )
-          ],
-        ));
+              onTap: () {},
+            );
+          }),
+    );
   }
 }
