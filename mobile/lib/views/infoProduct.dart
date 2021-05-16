@@ -24,6 +24,7 @@ var size;
 var total = 1;
 var getsize = 'S';
 var idpro;
+var likeornot = 0;
 
 class _InfoProductState extends State<InfoProduct> {
   final CartController _cartController = Get.put(CartController());
@@ -43,11 +44,9 @@ class _InfoProductState extends State<InfoProduct> {
         'ProductID': idpro.toString(),
       },
     );
-    print(idpro);
 
     var info = response.body;
     var decode = jsonDecode(info);
-    // print(info);
 
     setState(() {
       image = "http://10.0.2.2:35000/images/${decode[0]['ProductImage']}";
@@ -63,6 +62,48 @@ class _InfoProductState extends State<InfoProduct> {
   void initState() {
     super.initState();
     showinfo();
+    refresh();
+  }
+
+  Future<void> refresh() async {
+    var token = tokenall.read('token');
+    token =
+        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOjEsInVzZXJuYW1lIjoiYWRtaW4iLCJpYXQiOjE2MjExNTc5OTMsImV4cCI6MTYyMTI0NDM5M30.67BTXXPKZWxWcMr65EiCZ3qyY_cIePVS4t_ScOFsZ5I';
+    var url = 'http://10.255.60.102:35000/getfavoriteOfUser';
+    await Future.delayed(Duration(seconds: 2));
+    http.Response response = await http.get(
+      Uri.parse(url),
+      headers: {'authorization': token},
+    );
+    var info = response.body;
+    var decode = jsonDecode(info);
+
+    setState(() {
+      if (decode[0]['ProductID'] == idpro) {
+        likeornot++;
+        print(likeornot);
+      }
+    });
+  }
+
+  final tokenall = GetStorage();
+  void like() async {
+    var token = tokenall.read('token');
+    token =
+        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOjEsInVzZXJuYW1lIjoiYWRtaW4iLCJpYXQiOjE2MjExODkwMjEsImV4cCI6MTYyMTI3NTQyMX0.zpKTZoitrcB8KNSLruU6y7n46A6ulIKT9H0X5oTYvCg';
+
+    var url = 'http://10.0.2.2:35000/updatefavoriteOfUser';
+    http.Response response = await http.post(Uri.parse(url),
+        headers: {
+          'authorization': token,
+          'Content-Type': 'application/json; charset=UTF-8'
+        },
+        body: jsonEncode(
+          {
+            'productid': idpro,
+          },
+        ));
+    setState(() {});
   }
 
   @override
@@ -73,24 +114,16 @@ class _InfoProductState extends State<InfoProduct> {
         elevation: 0,
         backgroundColor: Colors.white,
         iconTheme: IconThemeData(color: kBtColor),
-        // title: IconButton(
-        //   icon: Icon(
-        //     Icons.arrow_back_ios,
-        //     color: kBtColor,
-        //   ),
-        //   onPressed: () {
-        //     // do something
-        //   },
-        // ),
         actions: <Widget>[
           IconButton(
-            icon: Icon(
+            icon:likeornot == 0? Icon(
               Icons.favorite_outline_sharp,
-              color: kBtColor,
+              color:   kBtColor ,
+            ):Icon(
+              Icons.favorite_outlined,
+              color:   Colors.red ,
             ),
-            onPressed: () {
-              // do something
-            },
+            onPressed: like,
           )
         ],
       ),

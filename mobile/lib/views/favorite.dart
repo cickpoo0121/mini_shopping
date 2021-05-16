@@ -13,7 +13,6 @@ class Favorite extends StatefulWidget {
 }
 
 class _FavoriteState extends State<Favorite> {
-  
   final tokenall = GetStorage();
   final List item = [];
 
@@ -30,6 +29,7 @@ class _FavoriteState extends State<Favorite> {
     var info = response.body;
     var decode = jsonDecode(info);
     setState(() {
+      print(decode);
       for (var prop in decode) {
         item.add(
           {
@@ -62,7 +62,7 @@ class _FavoriteState extends State<Favorite> {
     setState(() {
       refresh();
     });
-    
+
     var d = response;
   }
 
