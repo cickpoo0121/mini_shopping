@@ -1,3 +1,4 @@
+### login
 POST http://localhost:35000/mobile/login
 content-type: application/json
 
@@ -72,4 +73,16 @@ x-access-token:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOjEsInVzZXJuYW1l
     "NameUser":"2,3",
     "UserEmail":"61313131",
     "UserTel":"08888888"
+}
+
+### register
+POST http://localhost:35000/mobile/register
+content-type: application/json
+
+{
+    "username" : "admin",
+    "password" : "1234",
+    "name" : "nutza",
+    "email" : "nut_1234@hotmail.com",
+    "phone" : "0834566544"
 }

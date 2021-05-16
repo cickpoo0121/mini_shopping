@@ -1,7 +1,11 @@
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:flutter/material.dart';
-import 'package:flutter/foundation.dart';
+import 'package:get/get.dart';
 import 'package:mobile/constants.dart';
 import 'package:mobile/views/components/drawer.dart';
+import 'package:http/http.dart' as http;
 
 class Delivery extends StatefulWidget {
   @override
@@ -9,28 +13,173 @@ class Delivery extends StatefulWidget {
 }
 
 class _DeliveryState extends State<Delivery> {
+  var size;
+  var data;
+  String catergory = 'onRoad';
+  String _url = 'http://10.0.2.2:35000/order';
+  String _token =
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOjEsInVzZXJuYW1lIjoiYWRtaW4iLCJpYXQiOjE2MjExMDAxNzksImV4cCI6MTYyMTE4NjU3OX0.gDHoJeKezwqleAGyV3ilqLeypoice7gqjWOruN-oW7w';
+
+  Future roadData() async {
+    String onRoadURL;
+    if (catergory == 'onRoad') {
+      onRoadURL = '$_url/0';
+    } else {
+      onRoadURL = '$_url/1';
+    }
+    if (_token != null) {
+      http.Response response = await http.get(Uri.parse(onRoadURL),
+          headers: {HttpHeaders.authorizationHeader: _token});
+      if (response.statusCode == 200) {
+        return json.decode(response.body);
+      } else {
+        print('Server Error');
+      }
+    }
+    print('No token');
+  }
+
+  Future accept(orderID) async {
+    print('orderID ======== $orderID');
+    String accpetURL = '$_url/1';
+    Get.defaultDialog(
+        title: 'Accept the product',
+        middleText: 'Do you want to accept ?',
+        confirmTextColor: Colors.white,
+        onConfirm: () async {
+          if (_token != null) {
+            http.Response response = await http.put(Uri.parse(accpetURL),
+                headers: {
+                  HttpHeaders.authorizationHeader: _token,
+                  'Content-Type': 'application/json; charset=UTF-8'
+                },
+                body: jsonEncode(
+                  {
+                    'OrderID': orderID,
+                  },
+                ));
+
+            if (response.statusCode == 200) {
+              Get.back();
+              Get.snackbar('Accept', 'one product',
+                  duration: Duration(seconds: 1));
+              setState(() {});
+            } else {
+              print('Server error');
+            }
+          } else {
+            print('no token');
+          }
+        },
+        onCancel: () => Get.back());
+  }
+
+  Widget createListview(data) {
+    return Expanded(
+      child: ListView.builder(
+          itemCount: data == null ? 0 : data.length,
+          itemBuilder: (context, index) {
+            return GestureDetector(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                // mainAxisSize: MainAxisSize.min,
+                children: [
+                  Stack(
+                    children: [
+                      Container(
+                        decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(18)),
+                        height: size.height / 7,
+                        width: size.width / 1.2,
+                        child: Row(
+                          children: [
+                            Image.asset(
+                              'assets/images/hoodie.jpg',
+                              height: size.height / 8,
+                              width: size.width / 4,
+                            ),
+                            SizedBox(
+                              width: size.height / 15,
+                            ),
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  data[index]['ProductTitle'],
+                                  style: TextStyle(
+                                      color: kBtColor,
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold),
+                                ), //Title
+                                SizedBox(height: size.height / 200),
+                                Text(
+                                  'Feel Good',
+                                  style: TextStyle(color: kBtColor),
+                                ), //Description
+                                SizedBox(height: size.height / 100),
+
+                                Text(
+                                  '1499 Baht',
+                                  style: TextStyle(fontSize: 18),
+                                ), //Prince
+                              ],
+                            )
+                          ],
+                        ),
+                      ),
+                      catergory != 'onRoad'
+                          ? SizedBox()
+                          : Positioned(
+                              bottom: 5,
+                              right: 10,
+                              child: ElevatedButton(
+                                style: ElevatedButton.styleFrom(
+                                    primary: Colors.green),
+                                child: Text('Accept'),
+                                onPressed: () {
+                                  accept(data[index]['OrderID']);
+                                  print(data[index]['OrderID']);
+                                },
+                              )),
+                      Positioned(
+                        top: 5,
+                        right: 10,
+                        child: Text(
+                          'x${data[index]['Order_amount']}',
+                          style: TextStyle(
+                              fontSize: 20, fontWeight: FontWeight.bold),
+                        ),
+                      )
+                    ],
+                  ),
+                  SizedBox(
+                    height: size.height / 5.5,
+                  )
+                ],
+              ),
+              onTap: () {},
+            );
+          }),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
+    size = MediaQuery.of(context).size;
     return Scaffold(
-        backgroundColor: Colors.white,
+        backgroundColor: kBackgroundColor,
         drawer: HamManu(),
         appBar: AppBar(
-          toolbarHeight: 120,
-          leading: Builder(
-            builder: (context) => IconButton(
-              icon: Icon(
-                Icons.view_comfortable_sharp,
-                color: Colors.black,
-              ),
-              onPressed: () => Scaffold.of(context).openDrawer(),
-            ),
-          ),
+          // toolbarHeight: 120,
+          iconTheme: IconThemeData(color: Colors.black),
           elevation: 0,
           backgroundColor: kBackgroundColor,
           title: Center(
               child: Text(
             "Delivery",
-            style: TextStyle(color: Colors.blue, fontSize: 30),
+            style: TextStyle(
+                color: kBtColor, fontSize: 30, fontWeight: FontWeight.bold),
           )),
           actions: <Widget>[
             IconButton(
@@ -47,477 +196,80 @@ class _DeliveryState extends State<Delivery> {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Spacer(),
-                Container(
-                  height: 50.0,
-                  width: 200,
-                  child: GestureDetector(
-                    onTap: () {},
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: Colors.grey[100],
-                        borderRadius: BorderRadius.circular(30.0),
+                ButtonBar(
+                  alignment: MainAxisAlignment.center,
+                  children: [
+                    ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        primary:
+                            catergory == 'onRoad' ? kBtColor : Colors.white,
+                        onPrimary:
+                            catergory == 'onRoad' ? Colors.white : Colors.black,
+                        padding:
+                            EdgeInsets.symmetric(horizontal: 40, vertical: 10),
+                        shape: new RoundedRectangleBorder(
+                          borderRadius: new BorderRadius.circular(20.0),
+                        ),
                       ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          Center(
-                            child: Text(
-                              "On Road",
-                              style: TextStyle(
-                                color: Colors.black,
-                                fontFamily: 'Montserrat',
-                                fontSize: 16,
-                                fontWeight: FontWeight.w600,
-                                letterSpacing: 1,
-                              ),
-                            ),
-                          )
-                        ],
+                      child: Text(
+                        'On Road',
+                        // style: TextStyle(color: Colors.black),
                       ),
-                    ),
-                  ),
+                      onPressed: () {
+                        setState(() {
+                          catergory = 'onRoad';
+                        });
+                      },
+                    )
+                  ],
                 ),
-                Spacer(),
-                Container(
-                  height: 50.0,
-                  width: 200,
-                  child: GestureDetector(
-                    onTap: () {},
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: Colors.purple,
-                        borderRadius: BorderRadius.circular(30.0),
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          Center(
-                            child: Text(
-                              "Successed",
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontFamily: 'Montserrat',
-                                fontSize: 16,
-                                fontWeight: FontWeight.w600,
-                                letterSpacing: 1,
-                              ),
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
-                  ),
+                SizedBox(
+                  width: size.width / 7,
                 ),
-                Spacer(),
+                ButtonBar(
+                  alignment: MainAxisAlignment.center,
+                  children: [
+                    ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        primary:
+                            catergory != 'onRoad' ? kBtColor : Colors.white,
+                        onPrimary:
+                            catergory != 'onRoad' ? Colors.white : Colors.black,
+                        padding:
+                            EdgeInsets.symmetric(horizontal: 25, vertical: 10),
+                        shape: new RoundedRectangleBorder(
+                          borderRadius: new BorderRadius.circular(20.0),
+                        ),
+                      ),
+                      child: Text(
+                        'Successed',
+                        // style: TextStyle(color: Colors.black),
+                      ),
+                      onPressed: () {
+                        setState(() {
+                          catergory = 'success';
+                        });
+                      },
+                    )
+                  ],
+                )
               ],
             ),
-            Container(
-              //Listview
-              width: 600,
-              height: 850,
-              child: ListView(
-                children: [
-                  //Card1
-                  Row(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(top: 40, left: 20),
-                        child: Container(
-                          padding: EdgeInsets.fromLTRB(15, 10, 5, 0),
-                          height: 190,
-                          width: 550,
-                          child: Card(
-                            elevation: 5,
-                            child: Stack(
-                              children: [
-                                Row(
-                                  children: [
-                                    Spacer(),
-                                    Padding(
-                                      padding: const EdgeInsets.only(
-                                          left: 5, top: 20),
-                                      child: Column(
-                                        children: [
-                                          Image.network(
-                                            'https://picsum.photos/250?image=9',
-                                            scale: 2.0,
-                                          )
-                                        ], //รูปภาพ
-                                      ),
-                                    ),
-                                    Spacer(
-                                      flex: 20,
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(
-                                          left: 3, top: 20),
-                                      child: Column(
-                                        children: [
-                                          Text(
-                                            'Women เสือฮู้ด',
-                                            style: TextStyle(
-                                              fontSize: 20,
-                                            ),
-                                          ),
-                                          Text(
-                                            '1499 Baht',
-                                            style: TextStyle(
-                                              fontSize: 25,
-                                            ),
-                                          )
-                                        ],
-                                      ),
-                                    ),
-                                    Spacer(
-                                      flex: 20,
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(
-                                          top: 110, right: 30),
-                                      child: Column(
-                                        children: [
-                                          Text(
-                                            'x1',
-                                            style: TextStyle(
-                                                fontSize: 30,
-                                                fontWeight: FontWeight.bold),
-                                          )
-                                        ],
-                                      ),
-                                    ),
-                                    Spacer(
-                                      flex: 2,
-                                    ),
-                                  ],
-                                )
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  //Card2
-                  Row(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(top: 40, left: 20),
-                        child: Container(
-                          padding: EdgeInsets.fromLTRB(15, 10, 5, 0),
-                          height: 190,
-                          width: 550,
-                          child: Card(
-                            elevation: 5,
-                            child: Stack(
-                              children: [
-                                Row(
-                                  children: [
-                                    Spacer(),
-                                    Padding(
-                                      padding: const EdgeInsets.only(
-                                          left: 5, top: 20),
-                                      child: Column(
-                                        children: [
-                                          Image.network(
-                                            'https://picsum.photos/250?image=9',
-                                            scale: 2.0,
-                                          )
-                                        ], //รูปภาพ
-                                      ),
-                                    ),
-                                    Spacer(
-                                      flex: 20,
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(
-                                          left: 3, top: 20),
-                                      child: Column(
-                                        children: [
-                                          Text(
-                                            'Women เสือฮู้ด',
-                                            style: TextStyle(
-                                              fontSize: 20,
-                                            ),
-                                          ),
-                                          Text(
-                                            '1499 Baht',
-                                            style: TextStyle(
-                                              fontSize: 25,
-                                            ),
-                                          )
-                                        ],
-                                      ),
-                                    ),
-                                    Spacer(
-                                      flex: 20,
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(
-                                          top: 110, right: 30),
-                                      child: Column(
-                                        children: [
-                                          Text(
-                                            'x1',
-                                            style: TextStyle(
-                                                fontSize: 30,
-                                                fontWeight: FontWeight.bold),
-                                          )
-                                        ],
-                                      ),
-                                    ),
-                                    Spacer(
-                                      flex: 2,
-                                    ),
-                                  ],
-                                )
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ), //Card3
-                  Row(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(top: 40, left: 20),
-                        child: Container(
-                          padding: EdgeInsets.fromLTRB(15, 10, 5, 0),
-                          height: 190,
-                          width: 550,
-                          child: Card(
-                            elevation: 5,
-                            child: Stack(
-                              children: [
-                                Row(
-                                  children: [
-                                    Spacer(),
-                                    Padding(
-                                      padding: const EdgeInsets.only(
-                                          left: 5, top: 20),
-                                      child: Column(
-                                        children: [
-                                          Image.network(
-                                            'https://picsum.photos/250?image=9',
-                                            scale: 2.0,
-                                          )
-                                        ], //รูปภาพ
-                                      ),
-                                    ),
-                                    Spacer(
-                                      flex: 20,
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(
-                                          left: 3, top: 20),
-                                      child: Column(
-                                        children: [
-                                          Text(
-                                            'Women เสือฮู้ด',
-                                            style: TextStyle(
-                                              fontSize: 20,
-                                            ),
-                                          ),
-                                          Text(
-                                            '1499 Baht',
-                                            style: TextStyle(
-                                              fontSize: 25,
-                                            ),
-                                          )
-                                        ],
-                                      ),
-                                    ),
-                                    Spacer(
-                                      flex: 20,
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(
-                                          top: 110, right: 30),
-                                      child: Column(
-                                        children: [
-                                          Text(
-                                            'x1',
-                                            style: TextStyle(
-                                                fontSize: 30,
-                                                fontWeight: FontWeight.bold),
-                                          )
-                                        ],
-                                      ),
-                                    ),
-                                    Spacer(
-                                      flex: 2,
-                                    ),
-                                  ],
-                                )
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ), //Card4
-                  Row(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(top: 40, left: 20),
-                        child: Container(
-                          padding: EdgeInsets.fromLTRB(15, 10, 5, 0),
-                          height: 190,
-                          width: 550,
-                          child: Card(
-                            elevation: 5,
-                            child: Stack(
-                              children: [
-                                Row(
-                                  children: [
-                                    Spacer(),
-                                    Padding(
-                                      padding: const EdgeInsets.only(
-                                          left: 5, top: 20),
-                                      child: Column(
-                                        children: [
-                                          Image.network(
-                                            'https://picsum.photos/250?image=9',
-                                            scale: 2.0,
-                                          )
-                                        ], //รูปภาพ
-                                      ),
-                                    ),
-                                    Spacer(
-                                      flex: 20,
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(
-                                          left: 3, top: 20),
-                                      child: Column(
-                                        children: [
-                                          Text(
-                                            'Women เสือฮู้ด',
-                                            style: TextStyle(
-                                              fontSize: 20,
-                                            ),
-                                          ),
-                                          Text(
-                                            '1499 Baht',
-                                            style: TextStyle(
-                                              fontSize: 25,
-                                            ),
-                                          )
-                                        ],
-                                      ),
-                                    ),
-                                    Spacer(
-                                      flex: 20,
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(
-                                          top: 110, right: 30),
-                                      child: Column(
-                                        children: [
-                                          Text(
-                                            'x1',
-                                            style: TextStyle(
-                                                fontSize: 30,
-                                                fontWeight: FontWeight.bold),
-                                          )
-                                        ],
-                                      ),
-                                    ),
-                                    Spacer(
-                                      flex: 2,
-                                    ),
-                                  ],
-                                )
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ), //Card5
-                  Row(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(top: 40, left: 20),
-                        child: Container(
-                          padding: EdgeInsets.fromLTRB(15, 10, 5, 0),
-                          height: 190,
-                          width: 550,
-                          child: Card(
-                            elevation: 5,
-                            child: Stack(
-                              children: [
-                                Row(
-                                  children: [
-                                    Spacer(),
-                                    Padding(
-                                      padding: const EdgeInsets.only(
-                                          left: 5, top: 20),
-                                      child: Column(
-                                        children: [
-                                          Image.network(
-                                            'https://picsum.photos/250?image=9',
-                                            scale: 2.0,
-                                          )
-                                        ], //รูปภาพ
-                                      ),
-                                    ),
-                                    Spacer(
-                                      flex: 20,
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(
-                                          left: 3, top: 20),
-                                      child: Column(
-                                        children: [
-                                          Text(
-                                            'Women เสือฮู้ด',
-                                            style: TextStyle(
-                                              fontSize: 20,
-                                            ),
-                                          ),
-                                          Text(
-                                            '1499 Baht',
-                                            style: TextStyle(
-                                              fontSize: 25,
-                                            ),
-                                          )
-                                        ],
-                                      ),
-                                    ),
-                                    Spacer(
-                                      flex: 20,
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(
-                                          top: 110, right: 30),
-                                      child: Column(
-                                        children: [
-                                          Text(
-                                            'x1',
-                                            style: TextStyle(
-                                                fontSize: 30,
-                                                fontWeight: FontWeight.bold),
-                                          )
-                                        ],
-                                      ),
-                                    ),
-                                    Spacer(
-                                      flex: 2,
-                                    ),
-                                  ],
-                                )
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
+            FutureBuilder(
+                future: roadData(),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.done) {
+                    if (snapshot.hasData) {
+                      data = snapshot.data;
+                      print(snapshot.data);
+                      return createListview(data);
+                    } else {
+                      print(snapshot.error);
+                      return Text('Connection error, try again');
+                    }
+                  }
+                  return CircularProgressIndicator();
+                })
           ],
         ));
   }

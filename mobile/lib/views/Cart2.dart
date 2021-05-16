@@ -14,31 +14,34 @@ class _Cart2State extends State<Cart2> {
     return Scaffold(
         backgroundColor: Colors.white,
         drawer: HamManu(),
-      appBar: AppBar(
-        toolbarHeight: 120,
-        leading: Builder(
-          builder: (context) => IconButton(
-            icon: Icon(Icons.view_comfortable_sharp,color: Colors.black,),
-            onPressed: () => Scaffold.of(context).openDrawer(),
-          ),
-        ),
-        elevation: 0,
-        backgroundColor: kBackgroundColor,
-        title: Center(
-            child: Text(
-          "Cart",
-          style: TextStyle(color: Colors.blue, fontSize: 30),
-        )),
-        actions: <Widget>[
-          IconButton(
-            icon: const Icon(
-              Icons.search,
-              color: Colors.black,
+        appBar: AppBar(
+          toolbarHeight: 120,
+          leading: Builder(
+            builder: (context) => IconButton(
+              icon: Icon(
+                Icons.view_comfortable_sharp,
+                color: Colors.black,
+              ),
+              onPressed: () => Scaffold.of(context).openDrawer(),
             ),
-            onPressed: () {},
-          )
-        ],
-      ),
+          ),
+          elevation: 0,
+          backgroundColor: kBackgroundColor,
+          title: Center(
+              child: Text(
+            "Cart",
+            style: TextStyle(color: Colors.blue, fontSize: 30),
+          )),
+          actions: <Widget>[
+            IconButton(
+              icon: const Icon(
+                Icons.search,
+                color: Colors.black,
+              ),
+              onPressed: () {},
+            )
+          ],
+        ),
         body: Column(
           children: [
             Container(
@@ -595,28 +598,27 @@ class _Cart2State extends State<Cart2> {
                       width: 200,
                       child: GestureDetector(
                         onTap: () {},
-                        child: Container(
-                          decoration: BoxDecoration(
-                            
-                            color: Colors.purple,
+                        child: ButtonTheme(
+                          minWidth: 500.0,
+                          height: 200,
+                          
+                          shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(30.0),
                           ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: <Widget>[
-                              Center(
-                                child: Text(
-                                  "CHECK OUT",
-                                  style: TextStyle(
+                          child: Padding(
+                            padding: const EdgeInsets.fromLTRB(44, 20, 44, 5),
+                            child: RaisedButton(
+                              elevation: 2.0,
+                              hoverColor: Colors.green,
+                              color: Colors.purple,
+                              child: Text(
+                                "CHECK OUT",
+                                style: TextStyle(
                                     color: Colors.white,
-                                    fontFamily: 'Montserrat',
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w600,
-                                    letterSpacing: 1,
-                                  ),
-                                ),
-                              )
-                            ],
+                                    fontWeight: FontWeight.bold),
+                              ),
+                              onPressed: () {},
+                            ),
                           ),
                         ),
                       ),

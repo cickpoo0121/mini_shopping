@@ -1,8 +1,10 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mobile/constants.dart';
-import 'package:mobile/views/addproduct.dart';
-import 'package:mobile/views/cusregister.dart';
+import 'package:http/http.dart' as http;
+import 'package:get_storage/get_storage.dart';
 
 class Login extends StatefulWidget {
   @override
@@ -10,6 +12,45 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
+  final _url = 'http://10.0.2.2:35000/mobile/login';
+
+  TextEditingController _username = TextEditingController();
+  TextEditingController _password = TextEditingController();
+
+  void login() async {
+    String username = _username.text;
+    String password = _password.text;
+
+    http.Response response = await http.post(Uri.parse(_url),
+        body: {'username': username, 'password': password});
+    if (_username.text == '' || _password.text == '') {
+      showAlert1('');
+    }
+    else {
+      if (response.statusCode == 200) {
+        String token = response.body.toString();
+        final box = GetStorage();
+        box.write('token', token);
+        Get.toNamed('/home');
+      } else {
+        Get.defaultDialog(title: 'Error', middleText: response.body.toString());
+        print(response.body.toString());
+      }
+    }
+  }
+
+  void showAlert1(String message) async {
+    await showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Username or password not entered.'),
+          content: Text(message),
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,7 +68,7 @@ class _LoginState extends State<Login> {
               ),
               SizedBox(height: 20),
               RoundedTextField(
-                // controller: _username,
+                controller: _username,
                 hintText: "Username",
                 icon: Icons.perm_identity_outlined,
                 // color: kTextColor,
@@ -39,10 +80,9 @@ class _LoginState extends State<Login> {
               ),
               SizedBox(height: 8),
               RoundedTextField(
-                // controller: _password,
+                controller: _password,
                 hintText: "Password",
                 icon: Icons.lock_open,
-
                 backgroundColor: Colors.white,
                 onChanged: (value) {
                   print(value);
@@ -78,9 +118,7 @@ class _LoginState extends State<Login> {
                       style: TextStyle(
                           color: Colors.white, fontWeight: FontWeight.bold),
                     ),
-                    onPressed: () {
-                      Get.offAllNamed('/home');
-                    },
+                    onPressed: () => login(),
                   ),
                 ),
               ),
@@ -103,7 +141,6 @@ class _LoginState extends State<Login> {
                     ),
                     onPressed: () {
                       Get.toNamed('/register');
-  
                     },
                   ),
                 ),
