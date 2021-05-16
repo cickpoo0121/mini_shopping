@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:mobile/constants.dart';
 import 'package:mobile/models/product.dart';
 import 'package:mobile/views/components/drawer.dart';
@@ -25,7 +26,7 @@ class _HomeState extends State<Home> {
 
   Future<dynamic> getShirt() async {
     _token =
-        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOjEsInVzZXJuYW1lIjoiYWRtaW4iLCJpYXQiOjE2MjEwOTI1ODgsImV4cCI6MTYyMTE3ODk4OH0.IhaYTXsiRKNOIBTagovajMOxwdrQc9-td-ADHQJMMA8';
+        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOjEsInVzZXJuYW1lIjoiYWRtaW4iLCJpYXQiOjE2MjExNzkwNjUsImV4cCI6MTYyMTI2NTQ2NX0.ryd-6JOflfC5BT6FwP-rV9_CjERVLlaL7t24i7faeb8';
 
     if (_token != null) {
       http.Response response = await http.get(Uri.parse(_urlShirt),
@@ -42,7 +43,7 @@ class _HomeState extends State<Home> {
 
   Future<dynamic> getShoes() async {
     _token =
-        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOjEsInVzZXJuYW1lIjoiYWRtaW4iLCJpYXQiOjE2MjEwOTI1ODgsImV4cCI6MTYyMTE3ODk4OH0.IhaYTXsiRKNOIBTagovajMOxwdrQc9-td-ADHQJMMA8';
+        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOjEsInVzZXJuYW1lIjoiYWRtaW4iLCJpYXQiOjE2MjExNzkwNjUsImV4cCI6MTYyMTI2NTQ2NX0.ryd-6JOflfC5BT6FwP-rV9_CjERVLlaL7t24i7faeb8';
 
     if (_token != null) {
       http.Response response = await http.get(Uri.parse(_urlShose),
@@ -75,6 +76,7 @@ class _HomeState extends State<Home> {
               ),
             ),
             onTap: () {
+              GetStorage().write('idproduct', data[index]["ProductID"]);
               Get.toNamed('/productInfo');
             },
           );
