@@ -15,7 +15,7 @@ import 'package:mobile/views/profile.dart';
 void main() {
   runApp(
     GetMaterialApp(
-      initialRoute: '/delivery',
+      initialRoute: '/addproduct',
       getPages: [
         GetPage(name: '/home', page: () => Home()),
         GetPage(name: '/login', page: () => Login()),

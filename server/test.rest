@@ -26,9 +26,9 @@ content-type: application/json
 x-access-token:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOjEsInVzZXJuYW1lIjoiYWRtaW4iLCJpYXQiOjE2MjA5OTQ5MDgsImV4cCI6MTYyMTA4MTMwOH0.yKp93vKrvXyBRNoIDCldbritPRgxoaKQ1WiZiMnu44A
 
 ### get product with product id
-POST http://localhost:35000/productDetail
+POST http://localhost:35000/product/detail
 content-type: application/json
-x-access-token:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOjEsInVzZXJuYW1lIjoiYWRtaW4iLCJpYXQiOjE2MjA5OTQ5MDgsImV4cCI6MTYyMTA4MTMwOH0.yKp93vKrvXyBRNoIDCldbritPRgxoaKQ1WiZiMnu44A
+x-access-token:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOjEsInVzZXJuYW1lIjoiYWRtaW4iLCJpYXQiOjE2MjExMjYxNTUsImV4cCI6MTYyMTIxMjU1NX0.gPbITTqUSlBZcILTju7JZS0FeW648h684L3xSUve9gs
 
 {
     "ProductID":"2"
