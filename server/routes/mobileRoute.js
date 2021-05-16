@@ -82,10 +82,10 @@ router.post('/product/new', checkUserMobile, (req, res) => {
             return res.status(500).send('server error')
         }
 
-        const { ProductImage, ProductTitle, ProductDescription, ProductPrice, ProductSize, Amount, ProductOwner, CategoryID } = req.body;
-        const sql = "INSERT INTO `product` ( `ProductImage`, `ProductTitle`, `ProductDescription`, `ProductPrice`, `ProductSize`, `Amount`, `ProductOwner`, `CategoryID`) VALUES ( ?, ?, ?, ?, ?, ?, ?, ?);"
+        const { ProductImage, ProductTitle, ProductDescription, ProductPrice, ProductSize, Amount, CategoryID } = req.body;
+        const sql = "INSERT INTO `product` ( `ProductImage`, `ProductTitle`, `ProductDescription`, `ProductPrice`, `Amount`, `ProductOwner`, `CategoryID`) VALUES ( ?, ?, ?, ?, ?, ?, ?);"
 
-        con.query(sql, [req.file.originalname, ProductTitle, ProductDescription, ProductPrice, ProductSize, Amount, ProductOwner, CategoryID], (err, result) => {
+        con.query(sql, [ProductImage, ProductTitle, ProductDescription, ProductPrice, Amount,1, CategoryID], (err, result) => {
             if (err) {
                 console.log(err)
                 return res.status(500).send('Database error')
@@ -202,9 +202,9 @@ router.put('/order/:status', checkUserMobile, (req, res) => {
 // ********* Profile ***********
 // change status of delivery 
 router.put('/profile/edit', checkUserMobile, (req, res) => {
-    const { NameUser, UserEmail, UserTel, UserID } = req.body;
+    const { NameUser, UserEmail, UserTel } = req.body;
     let sql = 'UPDATE `user` SET `NameUser` = ?, `UserEmail` = ?, `UserTel` = ? WHERE `user`.`UserID` = ?;'
-    con.query(sql, [NameUser, UserEmail, UserTel, UserID], (err, result) => {
+    con.query(sql, [NameUser, UserEmail, UserTel, 1], (err, result) => {
         if (err) {
             console.log(err)
             return res.status(500).send('Database error')
@@ -212,6 +212,21 @@ router.put('/profile/edit', checkUserMobile, (req, res) => {
         res.json(result)
     })
 })
+
+
+// change status of delivery 
+router.get('/profile/show', checkUserMobile, (req, res) => {
+    
+    let sql = 'SELECT * FROM `user` WHERE UserID = ?;'
+    con.query(sql, [1], (err, result) => {
+        if (err) {
+            console.log(err)
+            return res.status(500).send('Database error')
+        }
+        res.json(result)
+    })
+})
+
 
 
 // ********* Profile ***********

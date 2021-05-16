@@ -15,7 +15,7 @@ import 'package:mobile/views/profile.dart';
 void main() {
   runApp(
     GetMaterialApp(
-      initialRoute: '/login',
+      initialRoute: '/Profile',
       getPages: [
         GetPage(name: '/home', page: () => Home()),
         GetPage(name: '/login', page: () => Login()),
