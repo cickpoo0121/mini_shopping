@@ -41,7 +41,7 @@ class _InfoProductState extends State<InfoProduct> {
     var decode = jsonDecode(info);
     print(info);
     setState(() {
-      image = decode[0]['ProductImage'];
+      image = "http://10.0.2.2:35000/${decode[0]['ProductImage']}";
       title = decode[0]['ProductTitle'];
       descript = decode[0]['ProductDescription'];
       price = decode[0]['ProductPrice'];
@@ -88,13 +88,14 @@ class _InfoProductState extends State<InfoProduct> {
 
       body: Column(
         children: [
-          Center(
-
-              //Product Image
-              child: Image.file(image,
-            width: 370,
-            height: 370,
-          )),
+          Container(
+            height: 350,
+            child: Center(
+                //Product Image
+                child: Image.network(
+              'http://10.0.2.2:35000/images/image_picker12544625.png',
+            )),
+          ),
 
           //Information Product
           Container(
@@ -158,7 +159,6 @@ class _InfoProductState extends State<InfoProduct> {
                     ),
                     ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                        
                         primary: Colors.white, // background
                         onPrimary: Colors.black, // foreground
                       ),
@@ -178,9 +178,11 @@ class _InfoProductState extends State<InfoProduct> {
                         primary: Colors.white, // background
                         onPrimary: Colors.black, // foreground
                       ),
-                      onPressed: () { setState(() {
+                      onPressed: () {
+                        setState(() {
                           getsize = 'M';
-                        });},
+                        });
+                      },
                       // do something
                       child: Text('M'),
                     ),
@@ -192,9 +194,11 @@ class _InfoProductState extends State<InfoProduct> {
                         primary: kBtColor, // background
                         onPrimary: Colors.white, // foreground
                       ),
-                      onPressed: () { setState(() {
+                      onPressed: () {
+                        setState(() {
                           getsize = 'L';
-                        });},
+                        });
+                      },
                       // do something
                       child: Text('L'),
                     ),
@@ -206,9 +210,11 @@ class _InfoProductState extends State<InfoProduct> {
                         primary: Colors.white, // background
                         onPrimary: Colors.black, // foreground
                       ),
-                      onPressed: () { setState(() {
+                      onPressed: () {
+                        setState(() {
                           getsize = 'XL';
-                        });},
+                        });
+                      },
                       // do something
                       child: Text('XL'),
                     ),
