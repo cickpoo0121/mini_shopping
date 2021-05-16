@@ -5,19 +5,9 @@ const con = require('../config/db')
 const jwt = require('jsonwebtoken');
 const checkUserMobile = require('./checkUserMobile')
 const multer = require('multer')
+var fs = require('fs');
+var upload = multer({ dest: 'uploads/' })
 
-const storageOption = multer.diskStorage({
-    destination: function (req, file, cb) {
-        cb(null, './public/uploads')
-    },
-
-    filename: function (req, file, cb) {
-        cb(null, new Date().toISOString() + file.originalname
-        )
-    }
-})
-
-const upload = multer({ storage: storageOption }).single('photo');
 
 
 // Login
@@ -62,7 +52,7 @@ router.post("/mobile/register", function (req, res) {
     const name = req.body.name;
     const email = req.body.email;
     const phone = req.body.phone;
- 
+
     //checked existing username
     let sql = "SELECT UserID FROM user WHERE UserName=?";
     con.query(sql, [username], function (err, result, fields) {
@@ -71,7 +61,7 @@ router.post("/mobile/register", function (req, res) {
             res.status(500).send("Database server error");
             return;
         }
- 
+
         const numrows = result.length;
         //if repeated username
         if (numrows > 0) {
@@ -89,7 +79,7 @@ router.post("/mobile/register", function (req, res) {
                         res.status(500).send("Database server error");
                         return;
                     }
- 
+
                     const numrows = result.affectedRows;
                     if (numrows != 1) {
                         res.status(500).send("Insert failed");
@@ -120,31 +110,50 @@ router.get('/myProduct/:category', checkUserMobile, (req, res) => {
     })
 })
 
+
+//test
+// router.post('/upload', upload.single("picture"), function (req,res) {
+//     console.log("Received file" + req.file.originalname);
+//     var src = fs.createReadStream(req.file.path);
+//     var dest = fs.createWriteStream('uploads/' + req.file.originalname);
+//     src.pipe(dest);
+//     src.on('end', function() {
+//     	fs.unlinkSync(req.file.path);
+//     	res.json('OK: received ' + req.file.originalname);
+//     });
+//     src.on('error', function(err) { res.json('Something went wrong!'); });
+
+//   })
+
 // add new product
-router.post('/product/new', checkUserMobile, (req, res) => {
+router.post('/product/new', upload.single("picture"), (req, res) => {
+    const { ProductTitle, ProductDescription, ProductPrice, Amount, CategoryID } = req.body;
+    console.log("Received file" + req.file.originalname);
+    var src = fs.createReadStream(req.file.path);
+    var dest = fs.createWriteStream('uploads/' + req.file.originalname);
+    src.pipe(dest)
+    ;res.writeContinue()
+    src.on('end', function () {
+        fs.unlinkSync(req.file.path);
+        res.json('OK: received ' + req.file.originalname);
+    });
+    src.on('error', function (err) { res.json('Something went wrong!'); });
 
-    upload(req, res, err => {
-        console.log(req.file)
 
+    
+    const sql = "INSERT INTO `product` ( `ProductImage`, `ProductTitle`, `ProductDescription`, `ProductPrice`, `Amount`, `ProductOwner`, `CategoryID`) VALUES ( ?, ?, ?, ?, ?, ?, ?);"
+
+    con.query(sql, [req.file.originalname, ProductTitle, ProductDescription, ProductPrice, Amount, 1, CategoryID], (err, result) => {
         if (err) {
             console.log(err)
-            return res.status(500).send('server error')
+            return res.status(500).send('Database error')
         }
-
-        const { ProductImage, ProductTitle, ProductDescription, ProductPrice, ProductSize, Amount, CategoryID } = req.body;
-        const sql = "INSERT INTO `product` ( `ProductImage`, `ProductTitle`, `ProductDescription`, `ProductPrice`, `Amount`, `ProductOwner`, `CategoryID`) VALUES ( ?, ?, ?, ?, ?, ?, ?);"
-
-        con.query(sql, [ProductImage, ProductTitle, ProductDescription, ProductPrice, Amount,1, CategoryID], (err, result) => {
-            if (err) {
-                console.log(err)
-                return res.status(500).send('Database error')
-            }
-            if (result.affectedRows != 1) {
-                return res.status(500).send('Delete failed')
-            }
-            res.send('Add Success')
-        })
+        if (result.affectedRows != 1) {
+            return res.status(500).send('Delete failed')
+        }
+        
     })
+
 
 })
 
@@ -237,8 +246,8 @@ router.get('/order/:status', checkUserMobile, (req, res) => {
 router.put('/order/:status', checkUserMobile, (req, res) => {
     const status = req.params.status;
     const OrderID = req.body.OrderID;
-    console.log('status=========='+status)
-    console.log('orderID=========='+OrderID)
+    console.log('status==========' + status)
+    console.log('orderID==========' + OrderID)
     let sql = 'UPDATE `productorder` SET `Status` = ? WHERE `OrderID` = ?;'
     con.query(sql, [status, OrderID], (err, result) => {
         if (err) {
@@ -267,7 +276,7 @@ router.put('/profile/edit', checkUserMobile, (req, res) => {
 
 // change status of delivery 
 router.get('/profile/show', checkUserMobile, (req, res) => {
-    
+
     let sql = 'SELECT * FROM `user` WHERE UserID = ?;'
     con.query(sql, [1], (err, result) => {
         if (err) {

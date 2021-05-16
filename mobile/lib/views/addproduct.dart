@@ -23,6 +23,7 @@ String dropdownValue = 'Snicker';
 TextEditingController size = TextEditingController();
 var catagory = '1';
 final tokenall = GetStorage();
+
 class _AddproductState extends State<Addproduct> {
   void addproduct() async {
     var token = tokenall.read('token');
@@ -37,35 +38,59 @@ class _AddproductState extends State<Addproduct> {
 
     // String token = await storage.read(key: 'token');
     var url = 'http://10.255.60.102:35000/product/new';
-    
 
-    http.Response response = await http.post(
+    var filename = _image.path;
+    http.MultipartRequest request = http.MultipartRequest(
+      'POST',
       Uri.parse(url),
-      headers: {'authorization': token,'Content-Type': 'application/json; charset=UTF-8'},
-      body: jsonEncode({
-        'ProductImage': 'gg.jpg',
-        'ProductTitle': title.text,
-        'ProductDescription': descripttion.text,
-        'ProductPrice': price.text,
-        'Amount': amount.text,
-        'ProductSize': size.text,
-        'CategoryID': catagory,
-      }),
     );
-    print(response.body);
-    
+    // request.headers['authorization'] = token;
+    // request.headers['Content-Type'] = 'application/json; charset=UTF-8';
+    // request.headers.addAll({
+    //   // 'authorization': token,
+    // //  'Content-Type': 'application/json; charset=UTF-8'
+    // });
+    request.files.add(await http.MultipartFile.fromPath('picture', filename));
+
+    request.fields.addAll({
+      'ProductTitle': title.text,
+      'ProductDescription': descripttion.text,
+      'ProductPrice': price.text,
+      'Amount': amount.text,
+      'ProductSize': size.text,
+      'CategoryID': catagory,
+    });
+    var res = await request.send();
+
+    // http.Response response = await http.post(
+    //   Uri.parse(url),
+    //   headers: {
+    //     'authorization': token,
+    //     // 'Content-Type': 'application/json; charset=UTF-8'
+    //   },
+    //   body: {
+    //     // 'file': _image,
+    //     'ProductTitle': title.text,
+    //     'ProductDescription': descripttion.text,
+    //     'ProductPrice': price.text,
+    //     'Amount': amount.text,
+    //     'ProductSize': size.text,
+    //     'CategoryID': catagory,
+    //   },
+    // );
+
+    // print(response.body)
   }
 
   File _image;
   final picker = ImagePicker();
-  
+
   Future getImage() async {
     final pickedFile = await picker.getImage(source: ImageSource.gallery);
 
     setState(() {
       if (pickedFile != null) {
         _image = File(pickedFile.path);
-        print(_image);
       } else {
         print('No image selected.');
       }
