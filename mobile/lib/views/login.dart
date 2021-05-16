@@ -25,12 +25,10 @@ class _LoginState extends State<Login> {
         body: {'username': username, 'password': password});
     if (_username.text == '' || _password.text == '') {
       showAlert1('');
-    }
-    else {
+    } else {
       if (response.statusCode == 200) {
         String token = response.body.toString();
-        final box = GetStorage();
-        box.write('token', token);
+        GetStorage().write('token', token);
         Get.toNamed('/home');
       } else {
         Get.defaultDialog(title: 'Error', middleText: response.body.toString());

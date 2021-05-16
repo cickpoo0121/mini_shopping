@@ -45,6 +45,7 @@ router.post('/mobile/login', (req, res) => {
                 const token = jwt.sign(playload, process.env.JWT_KEY, { expiresIn: '1d' })
 
                 res.send(token);
+                console.log('Sended token')
             }
             else {
                 res.status(400).send('Wrong username or password')

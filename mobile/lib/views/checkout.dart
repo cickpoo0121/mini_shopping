@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:mobile/constants.dart';
 import 'package:mobile/views/components/drawer.dart';
 import 'package:http/http.dart' as http;
@@ -20,11 +21,9 @@ class _CheckoutState extends State<Checkout> {
   int payment = 1;
   var size;
   RxString txtpass = ''.obs;
+  String _token;
 
-  String _token =
-      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOjEsInVzZXJuYW1lIjoiYWRtaW4iLCJpYXQiOjE2MjExMDAxNzksImV4cCI6MTYyMTE4NjU3OX0.gDHoJeKezwqleAGyV3ilqLeypoice7gqjWOruN-oW7w';
-
-  Future loadProduct(productID) async {
+  Future sellProduct(productID) async {
     String _url = 'http://10.0.2.2:35000/product/sell';
 
     if (_token != null) {
@@ -48,6 +47,12 @@ class _CheckoutState extends State<Checkout> {
     } else {
       print('no token');
     }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _token = GetStorage().read('token');
   }
 
   @override
@@ -133,17 +138,17 @@ class _CheckoutState extends State<Checkout> {
                       isDense: true,
                       isExpanded: true,
                       items: [
+                        // DropdownMenuItem(
+                        //   child: Text('SHIPMENT'),
+                        //   value: 1,
+                        // ),
                         DropdownMenuItem(
-                          child: Text('SHIPMENT'),
+                          child: Text('FASH'),
                           value: 1,
                         ),
                         DropdownMenuItem(
-                          child: Text('FASH'),
-                          value: 2,
-                        ),
-                        DropdownMenuItem(
                           child: Text('KURRY'),
-                          value: 3,
+                          value: 2,
                         ),
                       ],
                       onChanged: (value) {
@@ -180,17 +185,17 @@ class _CheckoutState extends State<Checkout> {
                       isDense: true,
                       isExpanded: true,
                       items: [
+                        // DropdownMenuItem(
+                        //   child: Text('METHOD'),
+                        //   value: 1,
+                        // ),
                         DropdownMenuItem(
-                          child: Text('METHOD'),
+                          child: Text('credit cards'.toUpperCase()),
                           value: 1,
                         ),
                         DropdownMenuItem(
-                          child: Text('credit cards'.toUpperCase()),
-                          value: 2,
-                        ),
-                        DropdownMenuItem(
                           child: Text('cash'.toUpperCase()),
-                          value: 3,
+                          value: 2,
                         ),
                       ],
                       onChanged: (value) {
@@ -356,7 +361,6 @@ class _CheckoutState extends State<Checkout> {
                             confirmTextColor: Colors.white,
                             onConfirm: () {
                               Get.back();
-                              // loadProduct(1);
                               Get.defaultDialog(
                                 radius: 10,
                                 title: 'PAYMENT PIN',
@@ -379,7 +383,7 @@ class _CheckoutState extends State<Checkout> {
                                               print('complete');
                                               if (value == password) {
                                                 print('password correct');
-                                                loadProduct(1);
+                                                sellProduct(1);
                                               } else {
                                                 print('password not correct');
                                                 txtpass.value =
