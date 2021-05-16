@@ -26,19 +26,19 @@ content-type: application/json
 x-access-token:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOjEsInVzZXJuYW1lIjoiYWRtaW4iLCJpYXQiOjE2MjA5OTQ5MDgsImV4cCI6MTYyMTA4MTMwOH0.yKp93vKrvXyBRNoIDCldbritPRgxoaKQ1WiZiMnu44A
 
 ### get product with product id
-POST http://localhost:35000/productDetail
+POST http://localhost:35000/product/Detail
 content-type: application/json
-x-access-token:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOjEsInVzZXJuYW1lIjoiYWRtaW4iLCJpYXQiOjE2MjA5OTQ5MDgsImV4cCI6MTYyMTA4MTMwOH0.yKp93vKrvXyBRNoIDCldbritPRgxoaKQ1WiZiMnu44A
+x-access-token:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOjEsInVzZXJuYW1lIjoiYWRtaW4iLCJpYXQiOjE2MjExMDAxNzksImV4cCI6MTYyMTE4NjU3OX0.gDHoJeKezwqleAGyV3ilqLeypoice7gqjWOruN-oW7w
 
 {
-    "ProductID":"2"
+    "ProductID":"2,3"
 }
 
 
 ### sell product
-PUT http://localhost:35000/sellproduct
+PUT http://localhost:35000/product/sell
 content-type: application/json
-x-access-token:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOjEsInVzZXJuYW1lIjoiYWRtaW4iLCJpYXQiOjE2MjA5OTQ5MDgsImV4cCI6MTYyMTA4MTMwOH0.yKp93vKrvXyBRNoIDCldbritPRgxoaKQ1WiZiMnu44A
+x-access-token:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOjEsInVzZXJuYW1lIjoiYWRtaW4iLCJpYXQiOjE2MjExMDAxNzksImV4cCI6MTYyMTE4NjU3OX0.gDHoJeKezwqleAGyV3ilqLeypoice7gqjWOruN-oW7w
 
 {
     "ProductID":"2,3"

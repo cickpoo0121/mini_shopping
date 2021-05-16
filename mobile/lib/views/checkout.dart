@@ -1,29 +1,64 @@
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:flutter/material.dart';
-import 'package:flutter/foundation.dart';
+import 'package:get/get.dart';
 import 'package:mobile/constants.dart';
 import 'package:mobile/views/components/drawer.dart';
-import 'package:path/path.dart';
+import 'package:http/http.dart' as http;
+import 'package:pin_code_fields/pin_code_fields.dart';
 
 class Checkout extends StatefulWidget {
   @override
   _CheckoutState createState() => _CheckoutState();
 }
 
+const password = '111111';
+
 class _CheckoutState extends State<Checkout> {
-  String _chosenValue1;
-  String _chosenValue2;
+  int shipment = 1;
+  int payment = 1;
+  var size;
+  RxString txtpass = ''.obs;
+
+  String _token =
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOjEsInVzZXJuYW1lIjoiYWRtaW4iLCJpYXQiOjE2MjExMDAxNzksImV4cCI6MTYyMTE4NjU3OX0.gDHoJeKezwqleAGyV3ilqLeypoice7gqjWOruN-oW7w';
+
+  Future loadProduct(productID) async {
+    String _url = 'http://10.0.2.2:35000/product/sell';
+
+    if (_token != null) {
+      http.Response response = await http.put(Uri.parse(_url),
+          headers: {
+            HttpHeaders.authorizationHeader: _token,
+            'Content-Type': 'application/json; charset=UTF-8'
+          },
+          body: jsonEncode(
+            {
+              'ProductID': '2,3',
+            },
+          ));
+
+      if (response.statusCode == 200) {
+        print('check out success');
+        Get.offAllNamed('/cart');
+      } else {
+        print('Server error');
+      }
+    } else {
+      print('no token');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    size = MediaQuery.of(context).size;
+
     return Scaffold(
       backgroundColor: kBackgroundColor,
       drawer: HamManu(),
       appBar: AppBar(
-        leading: Builder(
-          builder: (context) => IconButton(
-            icon: Icon(Icons.view_comfortable_sharp,color: Colors.black,),
-            onPressed: () => Scaffold.of(context).openDrawer(),
-          ),
-        ),
+        iconTheme: IconThemeData(color: Colors.black),
         elevation: 0,
         backgroundColor: kBackgroundColor,
         title: Center(
@@ -87,29 +122,35 @@ class _CheckoutState extends State<Checkout> {
                 ),
                 Spacer(),
                 Container(
-                  width: 140,
-                  height: 50,
-                  child: InputDecorator(
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(5.0)),
-                      contentPadding: EdgeInsets.all(10),
-                    ),
-                    child: DropdownButtonHideUnderline(
-                      child: DropdownButton<String>(
-                        value: _chosenValue2,
-                        isDense: true,
-                        isExpanded: true,
-                        items: [
-                          DropdownMenuItem(
-                              child: Text("เลือกขนส่ง"), value: ""),
-                          DropdownMenuItem(child: Text("KERRY"), value: "1"),
-                          DropdownMenuItem(child: Text("FLASE"), value: "2"),
-                        ],
-                        onChanged: (newValue) {
-                          setState(() {});
-                        },
-                      ),
+                  width: size.width / 3.4,
+                  padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(10)),
+                  child: DropdownButtonHideUnderline(
+                    child: DropdownButton<int>(
+                      value: shipment,
+                      isDense: true,
+                      isExpanded: true,
+                      items: [
+                        DropdownMenuItem(
+                          child: Text('SHIPMENT'),
+                          value: 1,
+                        ),
+                        DropdownMenuItem(
+                          child: Text('FASH'),
+                          value: 2,
+                        ),
+                        DropdownMenuItem(
+                          child: Text('KURRY'),
+                          value: 3,
+                        ),
+                      ],
+                      onChanged: (value) {
+                        setState(() {
+                          shipment = value;
+                        });
+                      },
                     ),
                   ),
                 ),
@@ -128,30 +169,35 @@ class _CheckoutState extends State<Checkout> {
                 ),
                 Spacer(),
                 Container(
-                  width: 140,
-                  height: 50,
-                  child: InputDecorator(
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(5.0)),
-                      contentPadding: EdgeInsets.all(10),
-                    ),
-                    child: DropdownButtonHideUnderline(
-                      child: DropdownButton<String>(
-                        value: _chosenValue2,
-                        isDense: true,
-                        isExpanded: true,
-                        items: [
-                          DropdownMenuItem(child: Text("เลือกชำระ"), value: ""),
-                          DropdownMenuItem(
-                              child: Text("ปลายทาง"), value: "Male"),
-                          DropdownMenuItem(
-                              child: Text("เครดิค"), value: "Female"),
-                        ],
-                        onChanged: (newValue) {
-                          setState(() {});
-                        },
-                      ),
+                  width: size.width / 3.4,
+                  padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(10)),
+                  child: DropdownButtonHideUnderline(
+                    child: DropdownButton<int>(
+                      value: shipment,
+                      isDense: true,
+                      isExpanded: true,
+                      items: [
+                        DropdownMenuItem(
+                          child: Text('METHOD'),
+                          value: 1,
+                        ),
+                        DropdownMenuItem(
+                          child: Text('credit cards'.toUpperCase()),
+                          value: 2,
+                        ),
+                        DropdownMenuItem(
+                          child: Text('cash'.toUpperCase()),
+                          value: 3,
+                        ),
+                      ],
+                      onChanged: (value) {
+                        setState(() {
+                          payment = value;
+                        });
+                      },
                     ),
                   ),
                 ),
@@ -237,14 +283,13 @@ class _CheckoutState extends State<Checkout> {
                   child: TextField(
                     decoration: InputDecoration(
                       border: OutlineInputBorder(),
-                      labelText: 'กรอกคูปอง',
+                      labelText: 'Code',
                     ),
                   ),
                 ),
               ],
             ),
           ),
-
           //DropDown 7
           Padding(
             padding: const EdgeInsets.only(left: 100, right: 50, top: 20),
@@ -304,7 +349,77 @@ class _CheckoutState extends State<Checkout> {
                     height: 50.0,
                     width: 200,
                     child: GestureDetector(
-                      onTap: () {},
+                      onTap: () {
+                        Get.defaultDialog(
+                            title: 'Warning ',
+                            middleText: 'Please check information',
+                            confirmTextColor: Colors.white,
+                            onConfirm: () {
+                              Get.back();
+                              // loadProduct(1);
+                              Get.defaultDialog(
+                                radius: 10,
+                                title: 'PAYMENT PIN',
+                                content: Container(
+                                  padding: EdgeInsets.only(left: 20, right: 20),
+                                  width: 500,
+                                  height: 150,
+                                  child: Center(
+                                    child: Column(
+                                      children: [
+                                        SizedBox(
+                                          height: 30,
+                                        ),
+                                        PinCodeTextField(
+                                          obscureText: true,
+                                          appContext: context,
+                                          length: 6,
+                                          onChanged: (value) {
+                                            if (value.length == 6) {
+                                              print('complete');
+                                              if (value == password) {
+                                                print('password correct');
+                                                loadProduct(1);
+                                              } else {
+                                                print('password not correct');
+                                                txtpass.value =
+                                                    'Wrong password';
+                                              }
+                                            }
+                                          },
+                                          pinTheme: PinTheme(
+                                            shape: PinCodeFieldShape.box,
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          height: 10,
+                                        ),
+                                        Obx(
+                                          () => Text(
+                                            txtpass.toString(),
+                                            style: TextStyle(color: Colors.red),
+                                          ),
+                                        ),
+                                        // passwordCorret != false
+                                        //     ? Text('')
+                                        //     : Text(
+                                        //         'Wrong password',
+                                        //         style: TextStyle(
+                                        //             color: Colors.red),
+                                        //       ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                                //   confirmTextColor: Colors.white,
+                                //   onConfirm: () {},
+                                //   onCancel: () => Get.back(),
+                              );
+                            },
+                            onCancel: () => Get.back());
+                      },
                       child: Container(
                         decoration: BoxDecoration(
                           border: Border.all(
@@ -329,7 +444,7 @@ class _CheckoutState extends State<Checkout> {
                                   letterSpacing: 1,
                                 ),
                               ),
-                            )
+                            ),
                           ],
                         ),
                       ),
