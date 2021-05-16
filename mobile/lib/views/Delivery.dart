@@ -95,7 +95,7 @@ class _DeliveryState extends State<Delivery> {
                         child: Row(
                           children: [
                             Image.asset(
-                              'assets/images/hoodie.jpg',
+                              'assets/images/${data[index]['ProductImage']}',
                               height: size.height / 8,
                               width: size.width / 4,
                             ),
@@ -114,13 +114,13 @@ class _DeliveryState extends State<Delivery> {
                                 ), //Title
                                 SizedBox(height: size.height / 200),
                                 Text(
-                                  'Feel Good',
+                                  data[index]['ProductDescription'],
                                   style: TextStyle(color: kBtColor),
                                 ), //Description
                                 SizedBox(height: size.height / 100),
 
                                 Text(
-                                  '1499 Baht',
+                                  '${data[index]['ProductPrice']} Baht',
                                   style: TextStyle(fontSize: 18),
                                 ), //Prince
                               ],

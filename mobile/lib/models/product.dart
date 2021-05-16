@@ -6,3 +6,4 @@ class Product {
   // constructor
   Product({this.name, this.price, this.amount = 0});
 }
+

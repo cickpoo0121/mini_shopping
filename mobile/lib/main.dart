@@ -17,7 +17,7 @@ void main() async {
   await GetStorage.init();
   runApp(
     GetMaterialApp(
-      initialRoute: '/login',
+      initialRoute: '/cart',
       getPages: [
         GetPage(name: '/login', page: () => Login()),
         GetPage(name: '/home', page: () => Home()),
