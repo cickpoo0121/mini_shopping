@@ -28,9 +28,9 @@ String token;
 class _AddproductState extends State<Addproduct> {
   void addproduct() async {
     if (dropdownValue == 'Snicker') {
-      catagory = '1';
-    } else {
       catagory = '2';
+    } else {
+      catagory = '1';
     }
     // token =
     //     'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOjEsInVzZXJuYW1lIjoiYWRtaW4iLCJpYXQiOjE2MjExNTc5OTMsImV4cCI6MTYyMTI0NDM5M30.67BTXXPKZWxWcMr65EiCZ3qyY_cIePVS4t_ScOFsZ5I';
