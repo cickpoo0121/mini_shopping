@@ -29,7 +29,7 @@ class _LoginState extends State<Login> {
       if (response.statusCode == 200) {
         String token = response.body.toString();
         GetStorage().write('token', token);
-        Get.toNamed('/home');
+        Get.offAllNamed('/home');
       } else {
         Get.defaultDialog(title: 'Error', middleText: response.body.toString());
         print(response.body.toString());

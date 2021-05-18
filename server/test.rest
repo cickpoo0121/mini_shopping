@@ -13,8 +13,7 @@ GET http://localhost:35000/JWT
 ### test token
 GET http://localhost:35000/mobile/verify
 content-type: application/json
-x-access-token:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOjEsInVzZXJuYW1lIjoiYWRtaW4iLCJpYXQiOjE2MjA5OTQ5MDgsImV4cCI6MTYyMTA4MTMwOH0.yKp93vKrvXyBRNoIDCldbritPRgxoaKQ1WiZiMnu44A
-
+x-access-token:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOjEsInVzZXJuYW1lIjoiYWRtaW4iLCJpYXQiOjE2MjEzNDEwNjIsImV4cCI6MTYyMTQyNzQ2Mn0.cQWDX1fSAYKCfXeYVSEwOF_J7sqYkQcg92mtMP8eIpk
 ### get own product with category
 GET http://localhost:35000/myproduct/1
 content-type: application/json

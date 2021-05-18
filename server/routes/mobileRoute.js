@@ -13,7 +13,7 @@ var upload = multer({ dest: 'uploads/' })
 // Login
 router.post('/mobile/login', (req, res) => {
     const { username, password } = req.body;
-    const sql = 'SELECT userID,password FROM user WHERE username=?'
+    const sql = 'SELECT userID,password,UserEmail FROM user WHERE username=?'
     con.query(sql, [username], (err, result) => {
         if (err) {
             console.log(err)
@@ -31,7 +31,7 @@ router.post('/mobile/login', (req, res) => {
             }
 
             if (same) {
-                const playload = { userID: result[0].userID, username: username };
+                const playload = { userID: result[0].userID, username: username, userEmail: result[0].UserEmail };
                 const token = jwt.sign(playload, process.env.JWT_KEY, { expiresIn: '1d' })
 
                 res.send(token);
@@ -403,4 +403,78 @@ router.post('/updatefavoriteOfUser', checkUserMobile, (req, res) => {
 })
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//check JWT
+router.get('/mobile/verify', (req, res) => {
+    const token = req.headers['authorization'] || req.headers['x-access-token'];
+    jwt.verify(token, process.env.JWT_KEY, (err, decoded) => {
+        if (err) {
+            console.log(err)
+            res.status(400).send('Invalid token')
+        }
+        else {
+            res.send(decoded)
+        }
+    })
+
+})
 module.exports = router;

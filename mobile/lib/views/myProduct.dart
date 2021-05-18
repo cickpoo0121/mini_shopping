@@ -19,6 +19,7 @@ class _MyProductState extends State<MyProduct> {
   String _token;
   var data;
   String toggle = 'shirt';
+  String catergory = 'category';
 
   Icon cusIcon = Icon(Icons.search);
   Widget cusSearchBar = Text("My Product",
@@ -52,6 +53,34 @@ class _MyProductState extends State<MyProduct> {
     }
   }
 
+  Future deleteProduct(
+    int index,
+  ) async {
+    String _urlStatus = 'http://10.0.2.2:35000/prodect/0';
+    if (_token != null) {
+      http.Response response = await http.put(
+        Uri.parse(_urlStatus),
+        headers: {
+          HttpHeaders.authorizationHeader: _token,
+          'Content-Type': 'application/json; charset=UTF-8'
+        },
+        body: json.encode(
+          {
+            'ProductID': index,
+          },
+        ),
+      );
+      if (response.statusCode == 200) {
+        //  json.decode(response.body);
+        print("Delete");
+      } else {
+        print('Server Error');
+      }
+    } else {
+      print("No token");
+    }
+  }
+
   Widget createListview(data) {
     return Expanded(
       child: ListView.builder(
@@ -77,12 +106,17 @@ class _MyProductState extends State<MyProduct> {
                   child: RaisedButton(
                     elevation: 1.0,
                     hoverColor: Colors.green,
-                    color: kBlueColor,
+                    color: Colors.orange,
                     child: Text(
-                      "Edit Product",
-                      style: TextStyle(color: kPurpleColor),
+                      "Delete",
+                      style: TextStyle(color: Colors.white),
                     ),
-                    onPressed: () {},
+                    onPressed: () {
+                      deleteProduct(data[index]["ProductID"]);
+                      setState(() {
+                        print('Deleted product');
+                      });
+                    },
                   ),
                 ),
               ),
@@ -125,31 +159,52 @@ class _MyProductState extends State<MyProduct> {
               ButtonBar(
                 alignment: MainAxisAlignment.center,
                 children: [
-                  FlatButton(
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      primary:
+                          catergory == 'category' ? kPurpleColor : Colors.white,
+                      onPrimary:
+                          catergory == 'category' ? Colors.white : Colors.black,
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 40, vertical: 10),
+                      shape: new RoundedRectangleBorder(
+                        borderRadius: new BorderRadius.circular(20.0),
+                      ),
+                    ),
+                    child: Text(
+                      'Shirt',
+                      // style: TextStyle(color: Colors.black),
+                    ),
                     onPressed: () {
                       setState(() {
                         toggle = 'shirt';
+                        catergory = 'category';
                       });
                     },
-                    child: Text("Shirt"),
-                    color: kPurpleColor,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(15.0)),
                   ),
                   SizedBox(width: 125),
-                  FlatButton(
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      primary:
+                          catergory != 'category' ? kPurpleColor : Colors.white,
+                      onPrimary:
+                          catergory != 'category' ? Colors.white : Colors.black,
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 40, vertical: 10),
+                      shape: new RoundedRectangleBorder(
+                        borderRadius: new BorderRadius.circular(20.0),
+                      ),
+                    ),
+                    child: Text(
+                      'Shose',
+                      // style: TextStyle(color: Colors.black),
+                    ),
                     onPressed: () {
                       setState(() {
                         toggle = 'shose';
+                        catergory = 'shose';
                       });
                     },
-                    child: Text(
-                      "shoes",
-                      style: TextStyle(color: Colors.black),
-                    ),
-                    color: Colors.white,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(15.0)),
                   ),
                 ],
               )
@@ -160,7 +215,7 @@ class _MyProductState extends State<MyProduct> {
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.done) {
                   if (snapshot.hasData) {
-                    print(snapshot.data);
+                    // print(snapshot.data);
                     data = snapshot.data;
                     return createListview(data);
                     // return Text('hello');
