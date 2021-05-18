@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:mobile/constants.dart';
-import 'package:mobile/models/product.dart';
 import 'package:mobile/views/components/drawer.dart';
 import 'package:http/http.dart' as http;
 
@@ -18,21 +17,10 @@ class _HomeState extends State<Home> {
   String _urlShose = 'http://10.0.2.2:35000/product/2';
   String _urlSearch = 'http://10.0.2.2:35000/product/search/';
 
-  String _token =
-      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOjEsInVzZXJuYW1lIjoiYWRtaW4iLCJpYXQiOjE2MjEyNzA1ODMsImV4cCI6MTYyMTM1Njk4M30.hK6N4AvnqJZSA3hkXZzb_ofwuKJquwTXWodQ8vvX7Q4';
+  String _token;
   var data;
   String toggle = 'shirt';
   TextEditingController searchWord = TextEditingController();
-
-  String word = '';
-
-  searchDB() async {
-    word = await searchWord.text;
-    data = await data.searchDB(word);
-    // print(data);
-    // await HomeBody(data: data);
-    // return data;
-  }
 
   Icon cusIcon = Icon(Icons.search);
   Widget cusSearchBar = Text("Home",
@@ -66,34 +54,6 @@ class _HomeState extends State<Home> {
     }
   }
 
-  Future<dynamic> search(value) async {
-    _urlSearch = 'http://10.0.2.2:35000/product/search/$value';
-
-    if (_token != null) {
-      http.Response response = await http.get(Uri.parse(_urlSearch),
-          headers: {HttpHeaders.authorizationHeader: _token});
-      if (response.statusCode == 200) {
-        setState(() {
-          List test = json.decode(response.body);
-          print(test);
-
-          if (word == test) {
-
-            return test[0]["ProductTitle"];
-
-          } else {
-            print("Not found");
-          }
-        });
-
-      } else {
-        print('Server Error');
-      }
-    } else {
-      print("No token");
-    }
-  }
-
   Widget createListview(data) {
     return Expanded(
       child: ListView.builder(
@@ -112,7 +72,7 @@ class _HomeState extends State<Home> {
               ),
             ),
             onTap: () {
-              GetStorage().write('idproduct', data[index]["ProductID"]);
+              // GetStorage().write('idproduct', data[index]["ProductID"]);
               Get.toNamed('/productInfo');
             },
           );
@@ -121,10 +81,10 @@ class _HomeState extends State<Home> {
     );
   }
 
-
   @override
   void initState() {
     super.initState();
+    _token = GetStorage().read('token');
     getShirt();
   }
 
@@ -138,30 +98,6 @@ class _HomeState extends State<Home> {
         iconTheme: IconThemeData(color: Colors.black),
         backgroundColor: kBackgroundColor,
         title: cusSearchBar,
-        actions: <Widget>[
-          IconButton(
-            icon: cusIcon,
-            onPressed: () {
-              setState(() {
-                if (this.cusIcon.icon == Icons.search) {
-                  this.cusIcon = Icon(Icons.cancel) ;
-                  this.cusSearchBar = TextField(
-                    onChanged: (value) => search(value),
-                    controller: searchWord,
-                    textInputAction: TextInputAction.go,
-                    decoration: InputDecoration(
-                        border: InputBorder.none, hintText: "Search Product"),
-                  );
-                } else {
-                  this.cusIcon = Icon(Icons.search);
-                  this.cusSearchBar = Text("Home",
-                      style: TextStyle(
-                          color: kTextColor, fontWeight: FontWeight.bold));
-                }
-              });
-            },
-          )
-        ],
         centerTitle: true,
       ),
       body: Column(
@@ -202,7 +138,7 @@ class _HomeState extends State<Home> {
               )
             ],
           ),
-          Text(word),
+          // Text(word),
           FutureBuilder(
               future: toggle == 'shirt' ? getShirt() : getShoes(),
               builder: (context, snapshot) {
@@ -229,11 +165,6 @@ class _HomeState extends State<Home> {
           backgroundColor: kBlueColor,
           onPressed: () {
             Get.toNamed('/cart');
-            // setState(() {
-            //   item.add(
-            //     {'name': 'Kiwi', 'price': 14, 'image': 'kiwi.png'},
-            //   );
-            // });
           }),
     );
   }
