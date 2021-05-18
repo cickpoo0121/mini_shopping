@@ -1,9 +1,12 @@
 import 'dart:convert';
 import 'dart:io';
+import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:mobile/constants.dart';
+import 'package:mobile/controllers/cartController.dart';
+import 'package:mobile/models/cartModel.dart';
 import 'package:mobile/views/components/drawer.dart';
 import 'package:http/http.dart' as http;
 
@@ -15,13 +18,19 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   String _urlShirt = 'http://10.0.2.2:35000/product/1';
   String _urlShose = 'http://10.0.2.2:35000/product/2';
-  String _urlSearch = 'http://10.0.2.2:35000/product/search/';
+  var size;
 
+  final CartController _cartController = Get.put(CartController());
   String _token;
   var data;
   String toggle = 'shirt';
   String catergory = 'category';
-  TextEditingController searchWord = TextEditingController();
+  // var colorList = [
+  //   // Color(0xFFFBE9DE),
+  //   // Color(0xFFB7CDB8),
+  //   // Color(0xFFC9E4F3),
+  //   // Color(0xFFF5EFBC)
+  // ];
 
   Icon cusIcon = Icon(Icons.search);
   Widget cusSearchBar = Text("Home",
@@ -61,22 +70,90 @@ class _HomeState extends State<Home> {
         itemCount: data == null ? 0 : data.length,
         itemBuilder: (context, index) {
           return GestureDetector(
-            child: Card(
-              child: ListTile(
-                leading: Image.asset(
-                  "assets/images/${data[index]["ProductImage"]}",
-                  height: 80,
-                  width: 80,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              // mainAxisSize: MainAxisSize.min,
+              children: [
+                Stack(
+                  children: [
+                    Container(
+                      decoration: BoxDecoration(
+                        color: kBlueColor,
+                        borderRadius: BorderRadius.circular(18),
+                        // boxShadow: [
+                        //   BoxShadow(
+                        //       color: Colors.black.withOpacity(0.3),
+                        //       offset: Offset(0, 1),
+                        //       blurRadius: 6)
+                        // ],
+                      ),
+                      height: size.height / 7,
+                      width: size.width / 1.2,
+                      child: Row(
+                        children: [
+                          Image.asset(
+                            'assets/images/${data[index]['ProductImage']}',
+                            height: size.height / 8,
+                            width: size.width / 4,
+                          ),
+                          SizedBox(
+                            width: size.height / 15,
+                          ),
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                data[index]['ProductTitle'],
+                                style: TextStyle(
+                                    color: kPurpleColor,
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold),
+                              ), //Title
+                              SizedBox(height: size.height / 200),
+                              Text(
+                                data[index]['ProductDescription'],
+                                style: TextStyle(color: kPurpleColor),
+                              ), //Description
+                              SizedBox(height: size.height / 100),
+
+                              Text(
+                                '${data[index]['ProductPrice']} Baht',
+                                style: TextStyle(fontSize: 18),
+                              ), //Prince
+                            ],
+                          )
+                        ],
+                      ),
+                    ),
+                  ],
                 ),
-                title: Text(data[index]["ProductTitle"]),
-                subtitle: Text("${data[index]["ProductPrice"]}"),
-              ),
+                SizedBox(
+                  height: size.height / 5.5,
+                )
+              ],
             ),
             onTap: () {
-              // GetStorage().write('idproduct', data[index]["ProductID"]);
+              GetStorage().write('idproduct', data[index]["ProductID"]);
               Get.toNamed('/productInfo');
             },
           );
+          // GestureDetector(
+          //   child: Card(
+          //     child: ListTile(
+          //       leading: Image.asset(
+          //         "assets/images/${data[index]["ProductImage"]}",
+          //         height: 80,
+          //         width: 80,
+          //       ),
+          //       title: Text(data[index]["ProductTitle"]),
+          //       subtitle: Text("${data[index]["ProductPrice"]}"),
+          //     ),
+          //   ),
+          //   onTap: () {
+          //     // GetStorage().write('idproduct', data[index]["ProductID"]);
+          //     Get.toNamed('/productInfo');
+          //   },
+          // );
         },
       ),
     );
@@ -91,6 +168,7 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
+    size = MediaQuery.of(context).size;
     return Scaffold(
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       backgroundColor: kBackgroundColor,
@@ -129,7 +207,6 @@ class _HomeState extends State<Home> {
                       setState(() {
                         toggle = 'shirt';
                         catergory = 'category';
-                        
                       });
                     },
                   ),

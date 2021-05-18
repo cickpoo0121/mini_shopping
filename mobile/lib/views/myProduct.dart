@@ -53,6 +53,34 @@ class _MyProductState extends State<MyProduct> {
     }
   }
 
+  Future deleteProduct(
+    int index,
+  ) async {
+    String _urlStatus = 'http://10.0.2.2:35000/prodect/0';
+    if (_token != null) {
+      http.Response response = await http.put(
+        Uri.parse(_urlStatus),
+        headers: {
+          HttpHeaders.authorizationHeader: _token,
+          'Content-Type': 'application/json; charset=UTF-8'
+        },
+        body: json.encode(
+          {
+            'ProductID': index,
+          },
+        ),
+      );
+      if (response.statusCode == 200) {
+        //  json.decode(response.body);
+        print("Delete");
+      } else {
+        print('Server Error');
+      }
+    } else {
+      print("No token");
+    }
+  }
+
   Widget createListview(data) {
     return Expanded(
       child: ListView.builder(
@@ -78,12 +106,17 @@ class _MyProductState extends State<MyProduct> {
                   child: RaisedButton(
                     elevation: 1.0,
                     hoverColor: Colors.green,
-                    color: kBlueColor,
+                    color: Colors.orange,
                     child: Text(
-                      "Edit Product",
-                      style: TextStyle(color: kPurpleColor),
+                      "Delete",
+                      style: TextStyle(color: Colors.white),
                     ),
-                    onPressed: () {},
+                    onPressed: () {
+                      deleteProduct(data[index]["ProductID"]);
+                      setState(() {
+                        print('Deleted product');
+                      });
+                    },
                   ),
                 ),
               ),
@@ -126,7 +159,7 @@ class _MyProductState extends State<MyProduct> {
               ButtonBar(
                 alignment: MainAxisAlignment.center,
                 children: [
-                 ElevatedButton(
+                  ElevatedButton(
                     style: ElevatedButton.styleFrom(
                       primary:
                           catergory == 'category' ? kPurpleColor : Colors.white,
@@ -148,10 +181,9 @@ class _MyProductState extends State<MyProduct> {
                         catergory = 'category';
                       });
                     },
-        
                   ),
                   SizedBox(width: 125),
-                 ElevatedButton(
+                  ElevatedButton(
                     style: ElevatedButton.styleFrom(
                       primary:
                           catergory != 'category' ? kPurpleColor : Colors.white,
@@ -170,10 +202,9 @@ class _MyProductState extends State<MyProduct> {
                     onPressed: () {
                       setState(() {
                         toggle = 'shose';
-                         catergory = 'shose';
+                        catergory = 'shose';
                       });
                     },
-                   
                   ),
                 ],
               )
@@ -184,7 +215,7 @@ class _MyProductState extends State<MyProduct> {
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.done) {
                   if (snapshot.hasData) {
-                    print(snapshot.data);
+                    // print(snapshot.data);
                     data = snapshot.data;
                     return createListview(data);
                     // return Text('hello');
