@@ -16,18 +16,29 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   String _urlShirt = 'http://10.0.2.2:35000/product/1';
   String _urlShose = 'http://10.0.2.2:35000/product/2';
-  String _token;
+  String _urlSearch = 'http://10.0.2.2:35000/product/search/';
+
+  String _token =
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOjEsInVzZXJuYW1lIjoiYWRtaW4iLCJpYXQiOjE2MjEyNzA1ODMsImV4cCI6MTYyMTM1Njk4M30.hK6N4AvnqJZSA3hkXZzb_ofwuKJquwTXWodQ8vvX7Q4';
   var data;
   String toggle = 'shirt';
+  TextEditingController searchWord = TextEditingController();
+
+  String word = '';
+
+  searchDB() async {
+    word = await searchWord.text;
+    data = await data.searchDB(word);
+    // print(data);
+    // await HomeBody(data: data);
+    // return data;
+  }
 
   Icon cusIcon = Icon(Icons.search);
   Widget cusSearchBar = Text("Home",
       style: TextStyle(color: kTextColor, fontWeight: FontWeight.bold));
 
   Future<dynamic> getShirt() async {
-    _token =
-        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOjEsInVzZXJuYW1lIjoiYWRtaW4iLCJpYXQiOjE2MjExNzkwNjUsImV4cCI6MTYyMTI2NTQ2NX0.ryd-6JOflfC5BT6FwP-rV9_CjERVLlaL7t24i7faeb8';
-
     if (_token != null) {
       http.Response response = await http.get(Uri.parse(_urlShirt),
           headers: {HttpHeaders.authorizationHeader: _token});
@@ -42,14 +53,39 @@ class _HomeState extends State<Home> {
   }
 
   Future<dynamic> getShoes() async {
-    _token =
-        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOjEsInVzZXJuYW1lIjoiYWRtaW4iLCJpYXQiOjE2MjExNzkwNjUsImV4cCI6MTYyMTI2NTQ2NX0.ryd-6JOflfC5BT6FwP-rV9_CjERVLlaL7t24i7faeb8';
-
     if (_token != null) {
       http.Response response = await http.get(Uri.parse(_urlShose),
           headers: {HttpHeaders.authorizationHeader: _token});
       if (response.statusCode == 200) {
         return json.decode(response.body);
+      } else {
+        print('Server Error');
+      }
+    } else {
+      print("No token");
+    }
+  }
+
+  Future<dynamic> search(value) async {
+    _urlSearch = 'http://10.0.2.2:35000/product/search/$value';
+
+    if (_token != null) {
+      http.Response response = await http.get(Uri.parse(_urlSearch),
+          headers: {HttpHeaders.authorizationHeader: _token});
+      if (response.statusCode == 200) {
+        setState(() {
+          List test = json.decode(response.body);
+          print(test);
+
+          if (word == test) {
+
+            return test[0]["ProductTitle"];
+
+          } else {
+            print("Not found");
+          }
+        });
+
       } else {
         print('Server Error');
       }
@@ -85,6 +121,7 @@ class _HomeState extends State<Home> {
     );
   }
 
+
   @override
   void initState() {
     super.initState();
@@ -107,8 +144,10 @@ class _HomeState extends State<Home> {
             onPressed: () {
               setState(() {
                 if (this.cusIcon.icon == Icons.search) {
-                  this.cusIcon = Icon(Icons.cancel);
+                  this.cusIcon = Icon(Icons.cancel) ;
                   this.cusSearchBar = TextField(
+                    onChanged: (value) => search(value),
+                    controller: searchWord,
                     textInputAction: TextInputAction.go,
                     decoration: InputDecoration(
                         border: InputBorder.none, hintText: "Search Product"),
@@ -163,6 +202,7 @@ class _HomeState extends State<Home> {
               )
             ],
           ),
+          Text(word),
           FutureBuilder(
               future: toggle == 'shirt' ? getShirt() : getShoes(),
               builder: (context, snapshot) {
