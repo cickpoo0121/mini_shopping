@@ -43,11 +43,10 @@ class _AddproductState extends State<Addproduct> {
       'POST',
       Uri.parse(url),
     );
-    title.text = '';
-    descripttion.text = '';
-    price.text = '';
-    amount.text = '';
     request.files.add(await http.MultipartFile.fromPath('picture', filename));
+    request.headers.addAll({
+      HttpHeaders.authorizationHeader: token,
+    });
 
     request.fields.addAll({
       'ProductTitle': title.text,
@@ -58,6 +57,11 @@ class _AddproductState extends State<Addproduct> {
       'CategoryID': catagory,
     });
     var res = await request.send();
+
+    title.text = '';
+    descripttion.text = '';
+    price.text = '';
+    amount.text = '';
   }
 
   File _image;

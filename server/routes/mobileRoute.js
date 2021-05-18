@@ -113,10 +113,12 @@ router.get('/myProduct/:category', checkUserMobile, (req, res) => {
 
 
 // add new product
-router.post('/product/new', upload.single("picture"), (req, res) => {
+router.post('/product/new', [checkUserMobile, upload.single("picture")], (req, res) => {
     const { ProductTitle, ProductDescription, ProductPrice, Amount, CategoryID } = req.body;
     console.log("Received file" + req.file.originalname);
-    
+
+    console.log(req.afterDecoded.userID)
+
     var src = fs.createReadStream(req.file.path);
     var dest = fs.createWriteStream('uploads/' + req.file.originalname);
     src.pipe(dest)
@@ -126,8 +128,6 @@ router.post('/product/new', upload.single("picture"), (req, res) => {
         res.json('OK: received ' + req.file.originalname);
     });
     src.on('error', function (err) { res.json('Something went wrong!'); });
-
-
 
     const sql = "INSERT INTO `product` ( `ProductImage`, `ProductTitle`, `ProductDescription`, `ProductPrice`, `Amount`, `ProductOwner`, `CategoryID`) VALUES ( ?, ?, ?, ?, ?, ?, ?);"
 
@@ -139,6 +139,7 @@ router.post('/product/new', upload.single("picture"), (req, res) => {
         if (result.affectedRows != 1) {
             return res.status(500).send('Delete failed')
         }
+        console.log('add success')
 
     })
 
@@ -347,18 +348,18 @@ router.post('/getfavoritebyid', checkUserMobile, (req, res) => {
     const productid = req.body.productid
     const user = req.afterDecoded.userID
     let sql = 'SELECT * FROM `favorite`, product WHERE favorite.User_id = ? AND favorite.Product_ID = ?'
-    con.query(sql, [user,productid], (err, result) => {
+    con.query(sql, [user, productid], (err, result) => {
         if (err) {
             console.log(err)
             return res.status(500).send('Database error')
-        }console.log(result.length)
-        if(result.length>0){
+        } console.log(result.length)
+        if (result.length > 0) {
             res.send('1')
-        }else(
+        } else (
             res.send('0')
         )
 
-        
+
     })
 })
 
@@ -401,7 +402,7 @@ router.post('/updatefavoriteOfUser', checkUserMobile, (req, res) => {
         }
 
     })
-    
+
 })
 
 

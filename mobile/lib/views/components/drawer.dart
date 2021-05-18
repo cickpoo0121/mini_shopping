@@ -54,8 +54,12 @@ class _HamManuState extends State<HamManu> {
             UserAccountsDrawerHeader(
               decoration: BoxDecoration(color: kPurpleColor),
               arrowColor: kPurpleColor,
-              accountName: Text(userInfo['username']),
-              accountEmail: Text(userInfo['userEmail']),
+              accountName: Text('data')
+              // Text(userInfo['username'])
+              ,
+              accountEmail: Text('data')
+              // Text(userInfo['userEmail'])
+              ,
               currentAccountPicture: CircleAvatar(
                 child: Text(
                   userInfo['username'][0].toString().toUpperCase(),
