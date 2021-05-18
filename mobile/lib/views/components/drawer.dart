@@ -16,6 +16,7 @@ class _HamManuState extends State<HamManu> {
   String _token;
   String _url = 'http://10.0.2.2:35000/mobile/verify';
   var userInfo;
+  var info = [];
 
   Future getUserInfo() async {
     if (_token != null) {
@@ -24,8 +25,9 @@ class _HamManuState extends State<HamManu> {
       if (response.statusCode == 200) {
         setState(() {
           userInfo = json.decode(response.body);
+          info.add(userInfo);
         });
-        print(userInfo['userID']);
+        print(info[0]);
       } else {
         print('Server Error');
       }
@@ -54,15 +56,11 @@ class _HamManuState extends State<HamManu> {
             UserAccountsDrawerHeader(
               decoration: BoxDecoration(color: kPurpleColor),
               arrowColor: kPurpleColor,
-              accountName: Text('data')
-              // Text(userInfo['username'])
-              ,
-              accountEmail: Text('data')
-              // Text(userInfo['userEmail'])
-              ,
+              accountName: Text(info[0]['username']),
+              accountEmail: Text(info[0]['userEmail']),
               currentAccountPicture: CircleAvatar(
                 child: Text(
-                  userInfo['username'][0].toString().toUpperCase(),
+                  info[0]['username'][0].toUpperCase(),
                   style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
                 ),
                 backgroundColor: kBlueColor,
