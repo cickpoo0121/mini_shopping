@@ -24,14 +24,15 @@ var size;
 var total = 1;
 var getsize = 'S';
 var idpro;
-var likeornot = 0;
+var likeornot = 0.obs;
 
 class _InfoProductState extends State<InfoProduct> {
   final CartController _cartController = Get.find();
+  final tokenall = GetStorage();
 
   void showinfo() async {
-    final tokenall = GetStorage();
     var token = tokenall.read('token');
+
     idpro = tokenall.read('idproduct');
     var _url = 'http://10.0.2.2:35000/product/detail';
 
@@ -58,27 +59,31 @@ class _InfoProductState extends State<InfoProduct> {
 
   Future<void> refresh() async {
     var token = tokenall.read('token');
-    var url = 'http://10.255.60.102:35000/getfavoriteOfUser';
-    await Future.delayed(Duration(seconds: 2));
-    http.Response response = await http.get(
-      Uri.parse(url),
-      headers: {'authorization': token},
-    );
+    print(idpro);
+    var url = 'http://10.255.60.102:35000/getfavoritebyid';
+    
+    http.Response response = await http.post(Uri.parse(url),
+        headers: {'authorization': token,'Content-Type': 'application/json; charset=UTF-8'},
+        body: jsonEncode(
+          {
+            'productid': idpro,
+          },
+        ));
     var info = response.body;
     var decode = jsonDecode(info);
+    likeornot.value = decode;
+    print(likeornot);
 
-    setState(() {
-      if (decode[0]['ProductID'] == idpro) {
-        likeornot++;
-        print(likeornot);
-      }
-    });
+    // if (decode[0]['ProductID'] == idpro) {
+    //   likeornot++;
+    //   print(decode[0]['ProductID']);
+    //   print(idpro);
+    // }
   }
 
-  final tokenall = GetStorage();
   void like() async {
     var token = tokenall.read('token');
-    
+
     var url = 'http://10.0.2.2:35000/updatefavoriteOfUser';
     http.Response response = await http.post(Uri.parse(url),
         headers: {
@@ -90,14 +95,13 @@ class _InfoProductState extends State<InfoProduct> {
             'productid': idpro,
           },
         ));
-    setState(() {});
   }
 
   @override
   void initState() {
     super.initState();
     showinfo();
-    // refresh();
+    refresh();
   }
 
   @override
@@ -109,18 +113,24 @@ class _InfoProductState extends State<InfoProduct> {
         backgroundColor: Colors.white,
         iconTheme: IconThemeData(color: kPurpleColor),
         actions: <Widget>[
-          IconButton(
-            icon: likeornot == 0
-                ? Icon(
-                    Icons.favorite_outline_sharp,
-                    color: kPurpleColor,
-                  )
-                : Icon(
-                    Icons.favorite_outlined,
-                    color: Colors.red,
-                  ),
-            onPressed: like,
-          )
+          Obx(
+            () => IconButton(
+              icon: likeornot == 0
+                  ? Icon(
+                      Icons.favorite_outline_sharp,
+                      color: kPurpleColor,
+                    )
+                  : Icon(
+                      Icons.favorite_outlined,
+                      color: Colors.red,
+                    ),
+              onPressed: () {
+                like();
+                refresh();
+                // Get.toNamed('/productInfo');
+              },
+            ),
+          ),
         ],
       ),
 

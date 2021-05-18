@@ -329,9 +329,9 @@ router.post('/voucher', checkUserMobile, (req, res) => {
 // ********* Favorite ***********
 // get favorite
 router.get('/getfavoriteOfUser', checkUserMobile, (req, res) => {
-
+    const user = req.afterDecoded.userID
     let sql = 'SELECT * FROM `favorite`, product WHERE favorite.User_id = ? AND product.ProductID = favorite.Product_ID'
-    con.query(sql, [2], (err, result) => {
+    con.query(sql, [user], (err, result) => {
         if (err) {
             console.log(err)
             return res.status(500).send('Database error')
@@ -340,12 +340,34 @@ router.get('/getfavoriteOfUser', checkUserMobile, (req, res) => {
     })
 })
 
+// get info by product
+router.post('/getfavoritebyid', checkUserMobile, (req, res) => {
+    const productid = req.body.productid
+    const user = req.afterDecoded.userID
+    let sql = 'SELECT * FROM `favorite`, product WHERE favorite.User_id = ? AND favorite.Product_ID = ?'
+    con.query(sql, [user,productid], (err, result) => {
+        if (err) {
+            console.log(err)
+            return res.status(500).send('Database error')
+        }console.log(result.length)
+        if(result.length>0){
+            res.send('1')
+        }else(
+            res.send('0')
+        )
+
+        
+    })
+})
+
+
 //add remove favorite
 router.post('/updatefavoriteOfUser', checkUserMobile, (req, res) => {
     const productid = req.body.productid
+    const user = req.afterDecoded.userID
 
     let sql = 'SELECT * FROM `favorite` WHERE Product_ID = ? AND User_id = ?'
-    con.query(sql, [productid, 2], (err, result) => {
+    con.query(sql, [productid, user], (err, result) => {
         if (err) {
             console.log(err)
             return res.status(500).send('Database error')
@@ -353,29 +375,31 @@ router.post('/updatefavoriteOfUser', checkUserMobile, (req, res) => {
             numrows = result.length
             if (numrows == 0) {
                 sqlins = "INSERT INTO favorite(Product_ID, User_id) VALUES (?,?)";
-                con.query(sqlins, [productid, 2], (err, result) => {
+                con.query(sqlins, [productid, user], (err, result) => {
                     if (err) {
                         console.log(err)
                         return res.status(500).send('Database error')
                     } else {
 
                     }
+                    console.log("insert+")
                 })
             } else {
                 let sqlde = 'DELETE FROM `favorite` WHERE Product_ID = ? AND User_id = ?'
-                con.query(sqlde, [productid, 2], (err, result) => {
+                con.query(sqlde, [productid, user], (err, result) => {
                     if (err) {
                         console.log(err)
                         return res.status(500).send('Database error')
                     } else {
 
                     }
+                    console.log("delete")
                 })
             }
         }
 
     })
-    console.log("okokok")
+    
 })
 
 
