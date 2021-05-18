@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:mobile/constants.dart';
 import 'package:mobile/views/components/drawer.dart';
 import 'package:http/http.dart' as http;
@@ -24,8 +25,6 @@ class _MyProductState extends State<MyProduct> {
       style: TextStyle(color: kTextColor, fontWeight: FontWeight.bold));
 
   Future<dynamic> getShirt() async {
-    _token =
-        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOjEsInVzZXJuYW1lIjoiYWRtaW4iLCJpYXQiOjE2MjEwOTI1ODgsImV4cCI6MTYyMTE3ODk4OH0.IhaYTXsiRKNOIBTagovajMOxwdrQc9-td-ADHQJMMA8';
 
     if (_token != null) {
       http.Response response = await http.get(Uri.parse(_urlShirt),
@@ -41,8 +40,6 @@ class _MyProductState extends State<MyProduct> {
   }
 
   Future<dynamic> getShoes() async {
-    _token =
-        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOjEsInVzZXJuYW1lIjoiYWRtaW4iLCJpYXQiOjE2MjEwOTI1ODgsImV4cCI6MTYyMTE3ODk4OH0.IhaYTXsiRKNOIBTagovajMOxwdrQc9-td-ADHQJMMA8';
 
     if (_token != null) {
       http.Response response = await http.get(Uri.parse(_urlShose),
@@ -101,6 +98,8 @@ class _MyProductState extends State<MyProduct> {
   @override
   void initState() {
     super.initState();
+    _token = GetStorage().read('token');
+
     getShirt();
   }
 

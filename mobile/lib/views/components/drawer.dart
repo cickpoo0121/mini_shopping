@@ -38,11 +38,11 @@ class HamManu extends StatelessWidget {
               Get.toNamed('/myproduct');
             },
           ),
-          ListTile(
-            title: Text('My Order'),
-            leading: Icon(Icons.shopping_cart_rounded),
-            onTap: () {},
-          ),
+          // ListTile(
+          //   title: Text('My Order'),
+          //   leading: Icon(Icons.shopping_cart_rounded),
+          //   onTap: () {},
+          // ),
           ListTile(
             title: Text('My Favorite'),
             leading: Icon(Icons.favorite),

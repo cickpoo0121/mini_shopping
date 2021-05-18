@@ -180,18 +180,39 @@ router.post('/product/detail', checkUserMobile, (req, res) => {
 })
 
 // decrease product amount
-router.put('/product/sell', checkUserMobile, (req, res) => {
-    const ProductID = req.body.ProductID;
-    var arr = ProductID.split(',');
-    let sql = 'UPDATE product SET Amount= Amount-1 WHERE ProductID IN (?)'
-    con.query(sql, [arr], (err, result) => {
-        if (err) {
-            console.log(err)
-            return res.status(500).send('Database error')
-        }
-        console.log('selled')
-        res.json(result)
-    })
+router.put('/product/sell', checkUserMobile, async (req, res) => {
+    const ProductInfo = req.body.ProductID;
+    // var arr = ProductID.split(',');
+    // console.log(ProductInfo);
+
+    for (var i = 0; i < ProductInfo.length; i++) {
+        // console.log('Product ID ' + ProductInfo[i].productID);
+        // console.log('Product Amount' + ProductInfo[i].amount);
+
+        // check stock 
+        // let sqlcheck = 'SELECT Amount FROM `product`WHERE ProductID=?'
+        // con.query(sqlcheck, [ProductInfo[i].productID], (err, result) => {
+        //     if (err) {
+        //         console.log(err)
+        //         return res.status(500).send('Database error')
+        //     }
+        //     // console.log(result[0].Amount)
+
+        //     if(result[0].Amount<productID[i].Amount){}
+
+        // })
+
+        let sql = 'UPDATE product SET Amount= Amount-? WHERE ProductID IN (?)'
+        await con.query(sql, [ProductInfo[i].amount, ProductInfo[i].productID], (err, result) => {
+            if (err) {
+                console.log(err)
+                return res.status(500).send('Database error')
+            }
+            console.log('selled')
+            // res.json(result)
+            // return;
+        })
+    }
 })
 
 // product status (1 is have product, 0 is out of product )
@@ -211,16 +232,23 @@ router.put('/prodect/:status', checkUserMobile, (req, res) => {
 
 // ********** Order (Delivery) ***********
 // new Order
-router.post('/order/new', checkUserMobile, (req, res) => {
-    const { ProductID, Amount, Size } = req.body;
-    let sql = 'INSERT INTO `productorder` ( `ProductID`, `BuyerID`, `Amount`, `Size`) VALUES ?'
-    con.query(sql, [ProductID, req.afterDecoded.userID, Amount, Size], (err, result) => {
-        if (err) {
-            console.log(err)
-            return res.status(500).send('Database error')
-        }
-        res.json(result)
-    })
+router.post('/order/new', checkUserMobile, async (req, res) => {
+    const ProductInfo = req.body.ProductID;
+    console.log('new order run')
+
+    for (var i = 0; i < ProductInfo.length; i++) {
+
+        let sql = 'INSERT INTO `productorder` ( `ProductID`, `BuyerID`, `Amount`, `Size`) VALUES (?, ? ,?, ?)'
+        await con.query(sql, [ProductInfo[i].productID, 1, ProductInfo[i].amount, ProductInfo[i].productSize], (err, result) => {
+            if (err) {
+                console.log(err)
+                return res.status(500).send('Database error')
+            }
+            res.json(result)
+            console.log('new order')
+        })
+    }
+
 })
 
 // show deliver or on road (Status 0 is on road, 1 is delivery successed)
@@ -315,7 +343,7 @@ router.get('/getfavoriteOfUser', checkUserMobile, (req, res) => {
 //add remove favorite
 router.post('/updatefavoriteOfUser', checkUserMobile, (req, res) => {
     const productid = req.body.productid
-    
+
     let sql = 'SELECT * FROM `favorite` WHERE Product_ID = ? AND User_id = ?'
     con.query(sql, [productid, 2], (err, result) => {
         if (err) {

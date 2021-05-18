@@ -23,19 +23,6 @@ class CartController extends GetxController {
 
     // List cartListSave = GetStorage().read('cart');
     List cartListSave = GetStorage().read('cart');
-    // List cartListSave = a.toList();
-    // // List gg = cartListSave.toList();
-    // print(a);
-    // print('================== save list $cartListSave');
-    // print(gg);
-
-    // print(gg[0]);
-    // print(a[0]["productImage"]);
-    // print(gg[0]['productTitle']);
-    // print(gg[0]['productDescription']);
-    // print(gg[0]['productPrice']);
-    // print(gg[0]['amount']);
-    // print(gg[0]['productSize']);
 
     if (cartListSave != null) {
       print('==============> Load data');
@@ -48,23 +35,34 @@ class CartController extends GetxController {
     }
 
     ever(cartList, (_) {
-      // 1. convert obs to simplw list
-      // List<CartModel> todosList = cartList.toList();
-
-      // // 2. convert an entrie list to json
-      // String todosSave = jsonEncode(todosList);
-      // print(todosSave);
-
-      // // 3. save json to stroage
-      // GetStorage().write('cart', todosSave);
-      // // */
-
+      print('=========== Save Data');
       GetStorage().write('cart', cartList.toList());
     });
   }
 
-  void testA(String data) {
-    print(data);
+  // decrease product amount
+  decreaseProduct(int index) {
+    // get the selected task
+    var product = cartList[index];
+    // update the task
+    if (product.amount == 1) {
+      return cartList.removeAt(index);
+    }
+    product.amount--;
+
+    // update mumber of obs list
+    cartList[index] = product;
+  }
+
+  // increase product amount
+  void increaseProduct(int index) {
+    // get the selected task
+    var product = cartList[index];
+    // update the task
+    product.amount++;
+    // update mumber of obs list
+    cartList[index] = product;
+    // todos[index].status = status;
   }
 
   void addToCart(
@@ -103,10 +101,18 @@ class CartController extends GetxController {
     for (i = 0; i < cartList.length; i++) {
       if (cartList[i].productID == productID) {
         print('==============> Next product');
+        print('================= last cart $amount');
 
         // prodect exits
-        cartList[i].amount += cartList[i].amount + amount;
-        totalPrice.value += cartList[i].productID;
+        // get the selected task
+        var product = cartList[i];
+        // update the task
+        product.amount += amount;
+        // update mumber of obs list
+        cartList[i] = product;
+
+        // cartList[i].amount += cartList[i].amount + amount;
+        // totalPrice.value += cartList[i].productID;
 
         break;
       }
@@ -135,15 +141,27 @@ class CartController extends GetxController {
     print('Cart leng ${cartList.length}');
   }
 
+  // total price
   totoal() {
-    var testTotal = 0.0.obs;
+    var testTotal = 0.0;
 
     for (int i = 0; i < cartList.length; i++) {
-      testTotal.value += cartList[i].amount * cartList[i].productID;
+      testTotal += cartList[i].amount * cartList[i].productPrice;
       print('================== ${testTotal}');
       print(cartList[i].productID);
     }
 
     return testTotal;
+  }
+
+  // product ID in Cart
+  productID() {
+    List productID = [];
+    for (int i = 0; i < cartList.length; i++) {
+      productID.add(cartList[i].productID);
+      // print('===== Product id in cart ${cartList[i].productID}}');
+    }
+    print('===== Product id in cart $productID');
+    return productID;
   }
 }
