@@ -89,8 +89,8 @@ class _MyProductState extends State<MyProduct> {
           return GestureDetector(
               child: Card(
             child: ListTile(
-              leading: Image.asset(
-                "assets/images/${data[index]["ProductImage"]}",
+              leading: Image.network(
+                "http://10.0.2.2:35000/${data[index]["ProductImage"]}",
                 height: 80,
                 width: 80,
               ),

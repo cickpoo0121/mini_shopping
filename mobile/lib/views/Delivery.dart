@@ -94,8 +94,8 @@ class _DeliveryState extends State<Delivery> {
                         width: size.width / 1.2,
                         child: Row(
                           children: [
-                            Image.asset(
-                              'assets/images/${data[index]['ProductImage']}',
+                            Image.network(
+                              'http://10.0.2.2:35000/${data[index]['ProductImage']}',
                               height: size.height / 8,
                               width: size.width / 4,
                             ),
