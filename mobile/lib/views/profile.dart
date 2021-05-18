@@ -12,13 +12,6 @@ class Profile extends StatefulWidget {
 }
 
 class _ProfileState extends State<Profile> {
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    showdata();
-  }
-
   TextEditingController _name = TextEditingController();
   TextEditingController _email = TextEditingController();
   TextEditingController _tell = TextEditingController();
@@ -33,8 +26,6 @@ class _ProfileState extends State<Profile> {
     final tokenall = GetStorage();
     var token = tokenall.read('token');
     var _url = 'http://10.0.2.2:35000/profile/show';
-    token =
-        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOjEsInVzZXJuYW1lIjoiYWRtaW4iLCJpYXQiOjE2MjEwOTk1NDQsImV4cCI6MTYyMTE4NTk0NH0.WupCdRfiGIXMUbyGA5yEeG8kNUXV_uQ7RgdqCS-Bwh8';
 
     http.Response response =
         await http.get(Uri.parse(_url), headers: {'authorization': token});
@@ -57,8 +48,6 @@ class _ProfileState extends State<Profile> {
     final tokenall = GetStorage();
     var token = tokenall.read('token');
     var _url = 'http://10.0.2.2:35000/profile/edit';
-    token =
-        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOjEsInVzZXJuYW1lIjoiYWRtaW4iLCJpYXQiOjE2MjEwOTk1NDQsImV4cCI6MTYyMTE4NTk0NH0.WupCdRfiGIXMUbyGA5yEeG8kNUXV_uQ7RgdqCS-Bwh8';
 
     http.Response response = await http.put(
       Uri.parse(_url),
@@ -76,6 +65,12 @@ class _ProfileState extends State<Profile> {
       email = _email.text;
       tell = _tell.text;
     });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    showdata();
   }
 
   @override

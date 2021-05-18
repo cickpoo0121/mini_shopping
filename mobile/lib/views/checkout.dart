@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:mobile/constants.dart';
+import 'package:mobile/controllers/cartController.dart';
 import 'package:mobile/views/components/drawer.dart';
 import 'package:http/http.dart' as http;
 import 'package:pin_code_fields/pin_code_fields.dart';
@@ -17,11 +18,18 @@ class Checkout extends StatefulWidget {
 const password = '111111';
 
 class _CheckoutState extends State<Checkout> {
+  final CartController _cartController = Get.find();
   int shipment = 1;
   int payment = 1;
-  var size;
-  RxString txtpass = ''.obs;
   String _token;
+  List productID;
+  RxString txtpass = ''.obs;
+  var shippingCost;
+  var cartTotalPrice; // total price in cart
+  var allPrice; // all should pay
+  int discount = 0;
+
+  var size;
 
   Future sellProduct(productID) async {
     String _url = 'http://10.0.2.2:35000/product/sell';
@@ -34,13 +42,13 @@ class _CheckoutState extends State<Checkout> {
           },
           body: jsonEncode(
             {
-              'ProductID': '2,3',
+              'ProductID': productID,
             },
           ));
 
       if (response.statusCode == 200) {
         print('check out success');
-        Get.offAllNamed('/cart');
+        // Get.offAllNamed('/cart');
       } else {
         print('Server error');
       }
@@ -49,10 +57,52 @@ class _CheckoutState extends State<Checkout> {
     }
   }
 
+  Future newOrder(productID) async {
+    String _url = 'http://10.0.2.2:35000/order/new';
+
+    if (_token != null) {
+      http.Response response = await http.post(Uri.parse(_url),
+          headers: {
+            HttpHeaders.authorizationHeader: _token,
+            'Content-Type': 'application/json; charset=UTF-8'
+          },
+          body: jsonEncode(
+            {
+              'ProductID': productID,
+            },
+          ));
+
+      if (response.statusCode == 200) {
+        print('check out success');
+        // Get.offAllNamed('/cart');
+      } else {
+        print('Server error');
+      }
+    } else {
+      print('no token');
+    }
+  }
+
+  shipCost() {
+    if (shipment == 1) {
+      shippingCost = 29;
+    } else {
+      shippingCost = 39;
+    }
+  }
+
   @override
   void initState() {
     super.initState();
     _token = GetStorage().read('token');
+    productID = Get.arguments[0];
+    cartTotalPrice = Get.arguments[1];
+
+    shipCost();
+
+    // print(productID[0].productID);
+    // print(cartTotalPrice);
+    // print(productID.join(','));
   }
 
   @override
@@ -153,6 +203,7 @@ class _CheckoutState extends State<Checkout> {
                       ],
                       onChanged: (value) {
                         setState(() {
+                          shipCost();
                           shipment = value;
                         });
                       },
@@ -181,7 +232,7 @@ class _CheckoutState extends State<Checkout> {
                       borderRadius: BorderRadius.circular(10)),
                   child: DropdownButtonHideUnderline(
                     child: DropdownButton<int>(
-                      value: shipment,
+                      value: payment,
                       isDense: true,
                       isExpanded: true,
                       items: [
@@ -221,7 +272,7 @@ class _CheckoutState extends State<Checkout> {
                 ),
                 Spacer(),
                 Text(
-                  '4497 Baht',
+                  '$cartTotalPrice Baht',
                   style: TextStyle(color: kTextColor, fontSize: 20),
                 ),
               ],
@@ -239,7 +290,7 @@ class _CheckoutState extends State<Checkout> {
                 ),
                 Spacer(),
                 Text(
-                  '29 Baht',
+                  '$shippingCost Baht',
                   style: TextStyle(color: kTextColor, fontSize: 20),
                 ),
               ],
@@ -257,7 +308,7 @@ class _CheckoutState extends State<Checkout> {
                 ),
                 Spacer(),
                 Text(
-                  '4526 Baht',
+                  '${cartTotalPrice + shippingCost} Baht',
                   style: TextStyle(color: kTextColor, fontSize: 20),
                 ),
               ],
@@ -286,6 +337,17 @@ class _CheckoutState extends State<Checkout> {
                     borderRadius: BorderRadius.circular(20.0),
                   ),
                   child: TextField(
+                    onChanged: (value) {
+                      if (value == 'freeshipment') {
+                        setState(() {
+                          discount = 39;
+                        });
+                      } else {
+                        setState(() {
+                          discount = 0;
+                        });
+                      }
+                    },
                     decoration: InputDecoration(
                       border: OutlineInputBorder(),
                       labelText: 'Code',
@@ -307,7 +369,7 @@ class _CheckoutState extends State<Checkout> {
                 ),
                 Spacer(),
                 Text(
-                  '199 Baht',
+                  '$discount Baht',
                   style: TextStyle(color: kTextColor, fontSize: 20),
                 ),
               ],
@@ -341,7 +403,7 @@ class _CheckoutState extends State<Checkout> {
                         ),
                       ),
                       Text(
-                        '4327 Baht',
+                        '${cartTotalPrice + shippingCost - discount} Baht',
                         style: TextStyle(color: kTextColor, fontSize: 25),
                       ),
                     ],
@@ -383,7 +445,12 @@ class _CheckoutState extends State<Checkout> {
                                               print('complete');
                                               if (value == password) {
                                                 print('password correct');
-                                                sellProduct(1);
+                                                sellProduct(productID);
+                                                newOrder(productID);
+                                                
+                                                _cartController.cartList
+                                                    .clear();
+                                                Get.offNamed('/cart');
                                               } else {
                                                 print('password not correct');
                                                 txtpass.value =

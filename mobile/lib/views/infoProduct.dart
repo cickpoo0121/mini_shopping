@@ -27,15 +27,13 @@ var idpro;
 var likeornot = 0;
 
 class _InfoProductState extends State<InfoProduct> {
-  final CartController _cartController = Get.put(CartController());
+  final CartController _cartController = Get.find();
 
   void showinfo() async {
     final tokenall = GetStorage();
     var token = tokenall.read('token');
     idpro = tokenall.read('idproduct');
     var _url = 'http://10.0.2.2:35000/product/detail';
-    token =
-        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOjEsInVzZXJuYW1lIjoiYWRtaW4iLCJpYXQiOjE2MjExMjYzNDEsImV4cCI6MTYyMTIxMjc0MX0.mWGK4WZz5i9pom0AOAyRf3StmeHvATsgpNuITJkHecI';
 
     http.Response response = await http.post(
       Uri.parse(_url),
@@ -58,17 +56,8 @@ class _InfoProductState extends State<InfoProduct> {
     });
   }
 
-  @override
-  void initState() {
-    super.initState();
-    showinfo();
-    refresh();
-  }
-
   Future<void> refresh() async {
     var token = tokenall.read('token');
-    token =
-        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOjEsInVzZXJuYW1lIjoiYWRtaW4iLCJpYXQiOjE2MjExNTc5OTMsImV4cCI6MTYyMTI0NDM5M30.67BTXXPKZWxWcMr65EiCZ3qyY_cIePVS4t_ScOFsZ5I';
     var url = 'http://10.255.60.102:35000/getfavoriteOfUser';
     await Future.delayed(Duration(seconds: 2));
     http.Response response = await http.get(
@@ -89,9 +78,7 @@ class _InfoProductState extends State<InfoProduct> {
   final tokenall = GetStorage();
   void like() async {
     var token = tokenall.read('token');
-    token =
-        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOjEsInVzZXJuYW1lIjoiYWRtaW4iLCJpYXQiOjE2MjExODkwMjEsImV4cCI6MTYyMTI3NTQyMX0.zpKTZoitrcB8KNSLruU6y7n46A6ulIKT9H0X5oTYvCg';
-
+    
     var url = 'http://10.0.2.2:35000/updatefavoriteOfUser';
     http.Response response = await http.post(Uri.parse(url),
         headers: {
@@ -107,6 +94,13 @@ class _InfoProductState extends State<InfoProduct> {
   }
 
   @override
+  void initState() {
+    super.initState();
+    showinfo();
+    // refresh();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       //AppBar
@@ -116,13 +110,15 @@ class _InfoProductState extends State<InfoProduct> {
         iconTheme: IconThemeData(color: kBtColor),
         actions: <Widget>[
           IconButton(
-            icon:likeornot == 0? Icon(
-              Icons.favorite_outline_sharp,
-              color:   kBtColor ,
-            ):Icon(
-              Icons.favorite_outlined,
-              color:   Colors.red ,
-            ),
+            icon: likeornot == 0
+                ? Icon(
+                    Icons.favorite_outline_sharp,
+                    color: kBtColor,
+                  )
+                : Icon(
+                    Icons.favorite_outlined,
+                    color: Colors.red,
+                  ),
             onPressed: like,
           )
         ],
@@ -348,7 +344,7 @@ class _InfoProductState extends State<InfoProduct> {
                   child: Column(
                     children: [
                       SizedBox(
-                        height: 15,
+                        height: 25,
                       ),
 
                       //Btn Add to cart
@@ -357,25 +353,26 @@ class _InfoProductState extends State<InfoProduct> {
                           primary: kBtColor,
                           onPrimary: Colors.white,
                           padding: EdgeInsets.symmetric(
-                              horizontal: 80, vertical: 10),
+                              horizontal: 80, vertical: 15),
                           shape: new RoundedRectangleBorder(
                             borderRadius: new BorderRadius.circular(20.0),
                           ),
                         ),
                         onPressed: () {
                           // _cartController.testA('data');
-                          _cartController.cartList.add(CartModel(
-                            productID: idpro,
-                            productImage: image,
-                            productTitle: title,
-                            productDescription: descript,
-                            productPrice: price,
-                            amount: amount,
-                            productSize: getsize,
-                          ));
-                          // _cartController.addToCart(idpro, image, title,
-                          //     descript, price, amount, getsize);
-                          // Get.toNamed('/cart');
+                          // _cartController.cartList.add(CartModel(
+                          //   productID: idpro,
+                          //   productImage: image,
+                          //   productTitle: title,
+                          //   productDescription: descript,
+                          //   productPrice: price,
+                          //   amount: amount,
+                          //   productSize: getsize,
+                          // ));
+                          print('========= product amount $total');
+                          _cartController.addToCart(idpro, image, title,
+                              descript, price, total, getsize);
+                          Get.toNamed('/cart');
                         },
                         // do something
 

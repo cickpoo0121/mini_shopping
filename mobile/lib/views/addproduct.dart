@@ -23,18 +23,17 @@ String dropdownValue = 'Snicker';
 TextEditingController size = TextEditingController();
 var catagory = '1';
 final tokenall = GetStorage();
+String token;
 
 class _AddproductState extends State<Addproduct> {
   void addproduct() async {
-    var token = tokenall.read('token');
-
     if (dropdownValue == 'Snicker') {
       catagory = '1';
     } else {
       catagory = '2';
     }
-    token =
-        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOjEsInVzZXJuYW1lIjoiYWRtaW4iLCJpYXQiOjE2MjExNTc5OTMsImV4cCI6MTYyMTI0NDM5M30.67BTXXPKZWxWcMr65EiCZ3qyY_cIePVS4t_ScOFsZ5I';
+    // token =
+    //     'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOjEsInVzZXJuYW1lIjoiYWRtaW4iLCJpYXQiOjE2MjExNTc5OTMsImV4cCI6MTYyMTI0NDM5M30.67BTXXPKZWxWcMr65EiCZ3qyY_cIePVS4t_ScOFsZ5I';
 
     // String token = await storage.read(key: 'token');
     var url = 'http://10.255.60.102:35000/product/new';
@@ -56,7 +55,6 @@ class _AddproductState extends State<Addproduct> {
       'CategoryID': catagory,
     });
     var res = await request.send();
-
   }
 
   File _image;
@@ -72,6 +70,13 @@ class _AddproductState extends State<Addproduct> {
         print('No image selected.');
       }
     });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+
+    token = GetStorage().read('token');
   }
 
   @override
