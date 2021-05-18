@@ -65,26 +65,55 @@ class _LoginState extends State<Login> {
                 size: 150.0,
               ),
               SizedBox(height: 20),
-              RoundedTextField(
-                controller: _username,
-                hintText: "Username",
-                icon: Icons.perm_identity_outlined,
-                // color: kTextColor,
-
-                backgroundColor: Colors.white,
-                onChanged: (value) {
+              TextField(
+                  onChanged: (value) {
                   print(value);
                 },
+                controller: _username,
+                 decoration: new InputDecoration(
+                  icon: new Icon(Icons.perm_identity_outlined),
+                  labelText: "Username",
+                  enabledBorder: const OutlineInputBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(20.0)),
+                    borderSide: const BorderSide(
+                      color: Colors.white,
+                      
+
+                      // hintText: "Password",
+                      // icon: Icons.lock_open,
+                      // backgroundColor: Colors.white,
+                    ),
+                  ),
+                ),
+              //   hintText: "Username",
+              //   icon: Icons.perm_identity_outlined,
+              //   // color: kTextColor,
+
+              //   backgroundColor: Colors.white,
+              // ,
               ),
               SizedBox(height: 8),
-              RoundedTextField(
-                controller: _password,
-                hintText: "Password",
-                icon: Icons.lock_open,
-                backgroundColor: Colors.white,
+              TextField(
+                obscureText: true,
                 onChanged: (value) {
                   print(value);
                 },
+                controller: _password,
+                decoration: new InputDecoration(
+                  icon: new Icon(Icons.lock_sharp),
+                  labelText: "Password",
+                  enabledBorder: const OutlineInputBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(20.0)),
+                    borderSide: const BorderSide(
+                      color: Colors.white,
+                      
+
+                      // hintText: "Password",
+                      // icon: Icons.lock_open,
+                      // backgroundColor: Colors.white,
+                    ),
+                  ),
+                ),
               ),
               Padding(
                 padding: const EdgeInsets.all(10),
