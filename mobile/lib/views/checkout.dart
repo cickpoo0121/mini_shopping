@@ -19,6 +19,7 @@ const password = '111111';
 
 class _CheckoutState extends State<Checkout> {
   final CartController _cartController = Get.find();
+  final TextEditingController _address = TextEditingController();
   int shipment = 1;
   int payment = 1;
   String _token;
@@ -97,7 +98,8 @@ class _CheckoutState extends State<Checkout> {
     _token = GetStorage().read('token');
     productID = Get.arguments[0];
     cartTotalPrice = Get.arguments[1];
-
+    // _address.text =
+    //     'ที่อยู่จัดส่ง : นายสมหมาย ชาเขียว (+66)845272463 714 ม.1 ต.ท่าสุด อ.อเมือง จ.เชียงราย 57100';
     shipCost();
 
     // print(productID[0].productID);
@@ -121,39 +123,24 @@ class _CheckoutState extends State<Checkout> {
           "Check Out",
           style: TextStyle(color: kPurpleColor, fontSize: 30),
         )),
-        
       ),
       body: Column(
         children: [
           Padding(
-            padding: const EdgeInsets.only(top: 20),
+            padding: const EdgeInsets.only(top: 20, right: 30, left: 30),
             child: Container(
-              decoration: BoxDecoration(
-                border: Border.all(
-                  color: Colors.white,
-                  style: BorderStyle.solid,
-                  width: 1.0,
+              color: Colors.white,
+              child: Flexible(
+                child: TextField(
+                  controller: _address,
+                  keyboardType: TextInputType.multiline,
+                  minLines: 1,
+                  maxLines: 5,
+                  decoration: InputDecoration(
+                    // border: InputBorder.none,
+                    hintText: 'Address',
+                  ),
                 ),
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(30.0),
-              ),
-              width: 430,
-              height: 120,
-              child: Column(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(right: 180, top: 20),
-                    child: Text('ที่อยู่จัดส่ง : นายสมหมาย ชาเขียว'),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(right: 110, top: 5),
-                    child: Text('(+66)845272463 714 ม.1 ต.ท่าสุด อ.อเมือง'),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(right: 280, top: 5),
-                    child: Text('จ.เชียงราย 57100'),
-                  ),
-                ],
               ),
             ),
           ),
@@ -439,7 +426,7 @@ class _CheckoutState extends State<Checkout> {
                                                 print('password correct');
                                                 sellProduct(productID);
                                                 newOrder(productID);
-                                                
+
                                                 _cartController.cartList
                                                     .clear();
                                                 Get.offNamed('/cart');
