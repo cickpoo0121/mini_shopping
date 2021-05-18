@@ -84,14 +84,9 @@ class _FavoriteState extends State<Favorite> {
         backgroundColor: kBackgroundColor,
         title: Text(
           "Favorite",
-          style: TextStyle(color: kTextColor, fontWeight: FontWeight.bold),
+          style: TextStyle(color: kPurpleColor, fontWeight: FontWeight.bold),
         ),
-        actions: <Widget>[
-          IconButton(
-            icon: const Icon(Icons.search),
-            onPressed: () {},
-          )
-        ],
+        
         centerTitle: true,
       ),
       body: Column(
@@ -129,7 +124,7 @@ class _FavoriteState extends State<Favorite> {
       floatingActionButton: FloatingActionButton(
           child: Icon(
             Icons.shopping_cart_outlined,
-            color: kBtColor,
+            color: kPurpleColor,
           ),
           backgroundColor: kBlueColor,
           onPressed: () {}),

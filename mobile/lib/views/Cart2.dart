@@ -29,17 +29,9 @@ class _Cart2State extends State<Cart2> {
           title: Center(
               child: Text(
             "Cart",
-            style: TextStyle(color: kBtColor, fontSize: 30),
+            style: TextStyle(color: kPurpleColor, fontSize: 30),
           )),
-          actions: <Widget>[
-            IconButton(
-              icon: const Icon(
-                Icons.search,
-                color: Colors.black,
-              ),
-              onPressed: () {},
-            )
-          ],
+         
         ),
         body: Obx(
           () => Column(
@@ -61,7 +53,7 @@ class _Cart2State extends State<Cart2> {
                                   children: [
                                     Container(
                                       decoration: BoxDecoration(
-                                          color: Colors.white,
+                                          color: kBabyBlueColor,
                                           borderRadius:
                                               BorderRadius.circular(18)),
                                       height: size.height / 7,
@@ -85,7 +77,7 @@ class _Cart2State extends State<Cart2> {
                                                 _cartController.cartList[index]
                                                     .productTitle,
                                                 style: TextStyle(
-                                                    color: kBtColor,
+                                                    color: kPurpleColor,
                                                     fontSize: 20,
                                                     fontWeight:
                                                         FontWeight.bold),
@@ -96,7 +88,7 @@ class _Cart2State extends State<Cart2> {
                                                 _cartController.cartList[index]
                                                     .productDescription,
                                                 style:
-                                                    TextStyle(color: kBtColor),
+                                                    TextStyle(color: kPurpleColor),
                                               ), //Description
                                               SizedBox(
                                                   height: size.height / 100),
@@ -121,8 +113,7 @@ class _Cart2State extends State<Cart2> {
                                               // height: size.height / 15,
                                               // width: size.width / 10,
                                               decoration: BoxDecoration(
-                                                color: Color.fromRGBO(
-                                                    251, 233, 222, 1),
+                                                color: kBackgroundColor,
                                                 shape: BoxShape.circle,
                                                 boxShadow: [
                                                   BoxShadow(
@@ -155,8 +146,7 @@ class _Cart2State extends State<Cart2> {
                                               // height: size.height / 15,
                                               // width: size.width / 10,
                                               decoration: BoxDecoration(
-                                                color: Color.fromRGBO(
-                                                    201, 228, 243, 1),
+                                                color: kBlueColor,
                                                 shape: BoxShape.circle,
                                                 boxShadow: [
                                                   BoxShadow(
@@ -241,7 +231,7 @@ class _Cart2State extends State<Cart2> {
                       //Btn Add to cart
                       ElevatedButton(
                         style: ElevatedButton.styleFrom(
-                          primary: kBtColor,
+                          primary: kPurpleColor,
                           onPrimary: Colors.white,
                           padding: EdgeInsets.symmetric(
                               horizontal: 80, vertical: 15),
