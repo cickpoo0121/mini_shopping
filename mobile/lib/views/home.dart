@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:mobile/constants.dart';
-import 'package:mobile/models/product.dart';
 import 'package:mobile/views/components/drawer.dart';
 import 'package:http/http.dart' as http;
 
@@ -16,18 +15,18 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   String _urlShirt = 'http://10.0.2.2:35000/product/1';
   String _urlShose = 'http://10.0.2.2:35000/product/2';
+  String _urlSearch = 'http://10.0.2.2:35000/product/search/';
+
   String _token;
   var data;
   String toggle = 'shirt';
+  TextEditingController searchWord = TextEditingController();
 
   Icon cusIcon = Icon(Icons.search);
   Widget cusSearchBar = Text("Home",
       style: TextStyle(color: kTextColor, fontWeight: FontWeight.bold));
 
   Future<dynamic> getShirt() async {
-    _token =
-        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOjEsInVzZXJuYW1lIjoiYWRtaW4iLCJpYXQiOjE2MjExNzkwNjUsImV4cCI6MTYyMTI2NTQ2NX0.ryd-6JOflfC5BT6FwP-rV9_CjERVLlaL7t24i7faeb8';
-
     if (_token != null) {
       http.Response response = await http.get(Uri.parse(_urlShirt),
           headers: {HttpHeaders.authorizationHeader: _token});
@@ -42,9 +41,6 @@ class _HomeState extends State<Home> {
   }
 
   Future<dynamic> getShoes() async {
-    _token =
-        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOjEsInVzZXJuYW1lIjoiYWRtaW4iLCJpYXQiOjE2MjExNzkwNjUsImV4cCI6MTYyMTI2NTQ2NX0.ryd-6JOflfC5BT6FwP-rV9_CjERVLlaL7t24i7faeb8';
-
     if (_token != null) {
       http.Response response = await http.get(Uri.parse(_urlShose),
           headers: {HttpHeaders.authorizationHeader: _token});
@@ -76,7 +72,7 @@ class _HomeState extends State<Home> {
               ),
             ),
             onTap: () {
-              GetStorage().write('idproduct', data[index]["ProductID"]);
+              // GetStorage().write('idproduct', data[index]["ProductID"]);
               Get.toNamed('/productInfo');
             },
           );
@@ -88,6 +84,7 @@ class _HomeState extends State<Home> {
   @override
   void initState() {
     super.initState();
+    _token = GetStorage().read('token');
     getShirt();
   }
 
@@ -101,28 +98,6 @@ class _HomeState extends State<Home> {
         iconTheme: IconThemeData(color: Colors.black),
         backgroundColor: kBackgroundColor,
         title: cusSearchBar,
-        actions: <Widget>[
-          IconButton(
-            icon: cusIcon,
-            onPressed: () {
-              setState(() {
-                if (this.cusIcon.icon == Icons.search) {
-                  this.cusIcon = Icon(Icons.cancel);
-                  this.cusSearchBar = TextField(
-                    textInputAction: TextInputAction.go,
-                    decoration: InputDecoration(
-                        border: InputBorder.none, hintText: "Search Product"),
-                  );
-                } else {
-                  this.cusIcon = Icon(Icons.search);
-                  this.cusSearchBar = Text("Home",
-                      style: TextStyle(
-                          color: kTextColor, fontWeight: FontWeight.bold));
-                }
-              });
-            },
-          )
-        ],
         centerTitle: true,
       ),
       body: Column(
@@ -163,6 +138,7 @@ class _HomeState extends State<Home> {
               )
             ],
           ),
+          // Text(word),
           FutureBuilder(
               future: toggle == 'shirt' ? getShirt() : getShoes(),
               builder: (context, snapshot) {
@@ -189,11 +165,6 @@ class _HomeState extends State<Home> {
           backgroundColor: kBlueColor,
           onPressed: () {
             Get.toNamed('/cart');
-            // setState(() {
-            //   item.add(
-            //     {'name': 'Kiwi', 'price': 14, 'image': 'kiwi.png'},
-            //   );
-            // });
           }),
     );
   }
