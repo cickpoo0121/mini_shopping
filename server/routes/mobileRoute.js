@@ -101,6 +101,7 @@ router.post("/mobile/register", function (req, res) {
 router.get('/myProduct/:category', checkUserMobile, (req, res) => {
     // const ProductOwner = req.body.ProductOwner;
     const CategoryID = req.params.category;
+    console.log(req.afterDecoded.userID)
     let sql = 'SELECT * FROM `product` WHERE ProductOwner=? AND CategoryID=? AND Status=1'
     con.query(sql, [req.afterDecoded.userID, CategoryID], (err, result) => {
         if (err) {

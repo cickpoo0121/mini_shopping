@@ -60,10 +60,13 @@ class _InfoProductState extends State<InfoProduct> {
   Future<void> refresh() async {
     var token = tokenall.read('token');
     print(idpro);
-    var url = 'http://10.255.60.102:35000/getfavoritebyid';
-    
+    var url = 'http://10.0.2.2:35000/getfavoritebyid';
+
     http.Response response = await http.post(Uri.parse(url),
-        headers: {'authorization': token,'Content-Type': 'application/json; charset=UTF-8'},
+        headers: {
+          'authorization': token,
+          'Content-Type': 'application/json; charset=UTF-8'
+        },
         body: jsonEncode(
           {
             'productid': idpro,

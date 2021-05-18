@@ -14,8 +14,8 @@ class MyProduct extends StatefulWidget {
 }
 
 class _MyProductState extends State<MyProduct> {
-  String _urlShirt = 'http://10.0.2.2:35000/product/1';
-  String _urlShose = 'http://10.0.2.2:35000/product/2';
+  String _urlShirt = 'http://10.0.2.2:35000/myProduct/1';
+  String _urlShose = 'http://10.0.2.2:35000/myProduct/2';
   String _token;
   var data;
   String toggle = 'shirt';
