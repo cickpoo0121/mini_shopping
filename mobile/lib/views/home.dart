@@ -20,6 +20,7 @@ class _HomeState extends State<Home> {
   String _token;
   var data;
   String toggle = 'shirt';
+  String catergory = 'category';
   TextEditingController searchWord = TextEditingController();
 
   Icon cusIcon = Icon(Icons.search);
@@ -108,32 +109,54 @@ class _HomeState extends State<Home> {
               ButtonBar(
                 alignment: MainAxisAlignment.center,
                 children: [
-                  FlatButton(
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      primary:
+                          catergory == 'category' ? kPurpleColor : Colors.white,
+                      onPrimary:
+                          catergory == 'category' ? Colors.white : Colors.black,
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 40, vertical: 10),
+                      shape: new RoundedRectangleBorder(
+                        borderRadius: new BorderRadius.circular(20.0),
+                      ),
+                    ),
+                    child: Text(
+                      'Shirt',
+                      // style: TextStyle(color: Colors.black),
+                    ),
                     onPressed: () {
                       setState(() {
                         toggle = 'shirt';
+                        catergory = 'category';
+                        
                       });
                     },
-                    child: Text("Shirt"),
-                    color: kPurpleColor,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(15.0)),
                   ),
                   SizedBox(width: 120),
-                  FlatButton(
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      primary:
+                          catergory != 'category' ? kPurpleColor : Colors.white,
+                      onPrimary:
+                          catergory != 'category' ? Colors.white : Colors.black,
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 40, vertical: 10),
+                      shape: new RoundedRectangleBorder(
+                        borderRadius: new BorderRadius.circular(20.0),
+                      ),
+                    ),
+                    child: Text(
+                      'Shose',
+                      // style: TextStyle(color: Colors.black),
+                    ),
                     onPressed: () {
                       setState(() {
                         toggle = 'shoes';
+                        catergory = 'shose';
                       });
                     },
-                    child: Text(
-                      "Shoes",
-                      style: TextStyle(color: Colors.black),
-                    ),
-                    color: Colors.white,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(15.0)),
-                  ),
+                  )
                 ],
               )
             ],
