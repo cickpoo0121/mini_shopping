@@ -85,7 +85,12 @@ class _AddproductState extends State<Addproduct> {
       backgroundColor: kBackgroundColor,
       drawer: HamManu(),
       appBar: AppBar(
-        title: Text("Addproduct"),
+        backgroundColor: kBackgroundColor,
+        iconTheme: IconThemeData(color: Colors.black),
+        title: Text(
+          "Addproduct",
+          style: TextStyle(color: kPurpleColor, fontWeight: FontWeight.bold),
+        ),
         centerTitle: true,
         elevation: defaultTargetPlatform == TargetPlatform.android ? 5.0 : 0.0,
       ),
@@ -101,7 +106,7 @@ class _AddproductState extends State<Addproduct> {
                         ? Container(
                             alignment: Alignment.center,
                             height: MediaQuery.of(context).size.height * .35,
-                            color: Colors.blue,
+                            color: Colors.white,
                             child: Icon(
                               Icons.add_a_photo,
                               size: 50,
@@ -139,7 +144,7 @@ class _AddproductState extends State<Addproduct> {
                       borderRadius: BorderRadius.only(
                           topRight: Radius.circular(40),
                           topLeft: Radius.circular(40)),
-                      color: Colors.black26,
+                      color: kBackgroundColor,
                     ),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -152,7 +157,8 @@ class _AddproductState extends State<Addproduct> {
                           child: TextField(
                             controller: title,
                             decoration: InputDecoration(
-                                prefixIcon: Icon(Icons.text_fields),
+                                prefixIcon: Icon(Icons.text_fields,
+                                    color: Colors.black),
                                 filled: true,
                                 fillColor: Colors.white,
                                 focusedBorder: OutlineInputBorder(
@@ -170,7 +176,8 @@ class _AddproductState extends State<Addproduct> {
                                     const Radius.circular(40),
                                   ),
                                 ),
-                                hintText: 'Title'),
+                                hintText: 'Title',
+                                hintStyle: TextStyle(color: kPurpleColor)),
                           ),
                         ),
                         Container(
@@ -181,7 +188,8 @@ class _AddproductState extends State<Addproduct> {
                           child: TextField(
                             controller: descripttion,
                             decoration: InputDecoration(
-                                prefixIcon: Icon(Icons.description),
+                                prefixIcon: Icon(Icons.description,
+                                    color: Colors.black),
                                 filled: true,
                                 fillColor: Colors.white,
                                 focusedBorder: OutlineInputBorder(
@@ -199,7 +207,8 @@ class _AddproductState extends State<Addproduct> {
                                     const Radius.circular(40),
                                   ),
                                 ),
-                                hintText: 'Discription'),
+                                hintText: 'Discription',
+                                hintStyle: TextStyle(color: kPurpleColor)),
                           ),
                         ),
                         Container(
@@ -210,7 +219,8 @@ class _AddproductState extends State<Addproduct> {
                           child: TextField(
                             controller: price,
                             decoration: InputDecoration(
-                                prefixIcon: Icon(Icons.attach_money),
+                                prefixIcon: Icon(Icons.attach_money,
+                                    color: Colors.black),
                                 filled: true,
                                 fillColor: Colors.white,
                                 focusedBorder: OutlineInputBorder(
@@ -228,7 +238,8 @@ class _AddproductState extends State<Addproduct> {
                                     const Radius.circular(40),
                                   ),
                                 ),
-                                hintText: 'Price'),
+                                hintText: 'Price',
+                                hintStyle: TextStyle(color: kPurpleColor)),
                           ),
                         ),
                         Container(
@@ -240,7 +251,8 @@ class _AddproductState extends State<Addproduct> {
                           child: TextField(
                             controller: amount,
                             decoration: InputDecoration(
-                                prefixIcon: Icon(Icons.equalizer_rounded),
+                                prefixIcon: Icon(Icons.equalizer_rounded,
+                                    color: Colors.black),
                                 filled: true,
                                 fillColor: Colors.white,
                                 focusedBorder: OutlineInputBorder(
@@ -258,7 +270,8 @@ class _AddproductState extends State<Addproduct> {
                                     const Radius.circular(40),
                                   ),
                                 ),
-                                hintText: 'Amount'),
+                                hintText: 'Amount',
+                                hintStyle: TextStyle(color: kPurpleColor)),
                           ),
                         ),
                         Container(
@@ -276,11 +289,11 @@ class _AddproductState extends State<Addproduct> {
                             child: DropdownButtonHideUnderline(
                               child: DropdownButton(
                                 value: dropdownValue,
-                                icon: const Icon(Icons.arrow_drop_down_rounded),
+                                icon: const Icon(Icons.arrow_drop_down_rounded,
+                                    color: Colors.black),
                                 iconSize: 24,
                                 elevation: 10,
-                                style:
-                                    const TextStyle(color: Colors.deepPurple),
+                                style: const TextStyle(color: kPurpleColor),
                                 onChanged: (String newValue) {
                                   setState(() {
                                     dropdownValue = newValue;
@@ -328,8 +341,7 @@ class _AddproductState extends State<Addproduct> {
                                   child: TextButton(
                                     child: Text(
                                       "Add",
-                                      style:
-                                          TextStyle(color: Colors.purple[600]),
+                                      style: TextStyle(color: kPurpleColor),
                                     ),
                                     onPressed: addproduct,
                                     style: ButtonStyle(
@@ -342,7 +354,7 @@ class _AddproductState extends State<Addproduct> {
                                       ),
                                       backgroundColor:
                                           MaterialStateProperty.all<Color>(
-                                              Colors.blueAccent),
+                                              kBlueColor),
                                     ),
                                   ),
                                 ),

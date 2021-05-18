@@ -202,7 +202,7 @@ class _CusregisterState extends State<Cusregister> {
                   child: Text(
                     "Register",
                     style:
-                        TextStyle(color: kBtColor, fontWeight: FontWeight.bold),
+                        TextStyle(color: kPurpleColor, fontWeight: FontWeight.bold),
                   ),
                   onPressed: () => register(context),
                 ),
@@ -250,7 +250,7 @@ class RoundedTextField extends StatelessWidget {
             color: Colors.black,
           ),
           hintText: hintText,
-          hintStyle: TextStyle(color: kTextColor),
+          hintStyle: TextStyle(color: kPurpleColor),
           border: InputBorder.none,
         ),
       ),
