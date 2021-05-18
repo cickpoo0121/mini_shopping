@@ -116,7 +116,7 @@ router.get('/myProduct/:category', checkUserMobile, (req, res) => {
 router.post('/product/new', upload.single("picture"), (req, res) => {
     const { ProductTitle, ProductDescription, ProductPrice, Amount, CategoryID } = req.body;
     console.log("Received file" + req.file.originalname);
-    const user = req.afterDecoded.userID
+    
     var src = fs.createReadStream(req.file.path);
     var dest = fs.createWriteStream('uploads/' + req.file.originalname);
     src.pipe(dest)
@@ -131,7 +131,7 @@ router.post('/product/new', upload.single("picture"), (req, res) => {
 
     const sql = "INSERT INTO `product` ( `ProductImage`, `ProductTitle`, `ProductDescription`, `ProductPrice`, `Amount`, `ProductOwner`, `CategoryID`) VALUES ( ?, ?, ?, ?, ?, ?, ?);"
 
-    con.query(sql, [req.file.originalname, ProductTitle, ProductDescription, ProductPrice, Amount, user, CategoryID], (err, result) => {
+    con.query(sql, [req.file.originalname, ProductTitle, ProductDescription, ProductPrice, Amount, req.afterDecoded.userID, CategoryID], (err, result) => {
         if (err) {
             console.log(err)
             return res.status(500).send('Database error')

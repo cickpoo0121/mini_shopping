@@ -91,8 +91,8 @@ class _HomeState extends State<Home> {
                       width: size.width / 1.2,
                       child: Row(
                         children: [
-                          Image.asset(
-                            'assets/images/${data[index]['ProductImage']}',
+                          Image.network(
+                            'http://10.0.2.2:35000/images/${data[index]['ProductImage']}',
                             height: size.height / 8,
                             width: size.width / 4,
                           ),

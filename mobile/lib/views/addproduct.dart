@@ -36,14 +36,17 @@ class _AddproductState extends State<Addproduct> {
     //     'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOjEsInVzZXJuYW1lIjoiYWRtaW4iLCJpYXQiOjE2MjExNTc5OTMsImV4cCI6MTYyMTI0NDM5M30.67BTXXPKZWxWcMr65EiCZ3qyY_cIePVS4t_ScOFsZ5I';
 
     // String token = await storage.read(key: 'token');
-    var url = 'http://10.255.60.102:35000/product/new';
+    var url = 'http://10.0.2.2:35000/product/new';
 
     var filename = _image.path;
     http.MultipartRequest request = http.MultipartRequest(
       'POST',
       Uri.parse(url),
     );
-
+    title.text = '';
+    descripttion.text = '';
+    price.text = '';
+    amount.text = '';
     request.files.add(await http.MultipartFile.fromPath('picture', filename));
 
     request.fields.addAll({
