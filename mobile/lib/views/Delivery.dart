@@ -88,7 +88,7 @@ class _DeliveryState extends State<Delivery> {
                     children: [
                       Container(
                         decoration: BoxDecoration(
-                            color: Colors.white,
+                            color: kBabyBlueColor,
                             borderRadius: BorderRadius.circular(18)),
                         height: size.height / 7,
                         width: size.width / 1.2,
@@ -108,14 +108,14 @@ class _DeliveryState extends State<Delivery> {
                                 Text(
                                   data[index]['ProductTitle'],
                                   style: TextStyle(
-                                      color: kBtColor,
+                                      color: kPurpleColor,
                                       fontSize: 20,
                                       fontWeight: FontWeight.bold),
                                 ), //Title
                                 SizedBox(height: size.height / 200),
                                 Text(
                                   data[index]['ProductDescription'],
-                                  style: TextStyle(color: kBtColor),
+                                  style: TextStyle(color: kPurpleColor),
                                 ), //Description
                                 SizedBox(height: size.height / 100),
 
@@ -185,7 +185,7 @@ class _DeliveryState extends State<Delivery> {
               child: Text(
             "Delivery",
             style: TextStyle(
-                color: kBtColor, fontSize: 30, fontWeight: FontWeight.bold),
+                color: kPurpleColor, fontSize: 30, fontWeight: FontWeight.bold),
           )),
           actions: <Widget>[
             IconButton(
@@ -208,7 +208,7 @@ class _DeliveryState extends State<Delivery> {
                     ElevatedButton(
                       style: ElevatedButton.styleFrom(
                         primary:
-                            catergory == 'onRoad' ? kBtColor : Colors.white,
+                            catergory == 'onRoad' ? kPurpleColor : Colors.white,
                         onPrimary:
                             catergory == 'onRoad' ? Colors.white : Colors.black,
                         padding:
@@ -238,7 +238,7 @@ class _DeliveryState extends State<Delivery> {
                     ElevatedButton(
                       style: ElevatedButton.styleFrom(
                         primary:
-                            catergory != 'onRoad' ? kBtColor : Colors.white,
+                            catergory != 'onRoad' ? kPurpleColor : Colors.white,
                         onPrimary:
                             catergory != 'onRoad' ? Colors.white : Colors.black,
                         padding:

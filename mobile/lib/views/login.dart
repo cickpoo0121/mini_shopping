@@ -52,7 +52,7 @@ class _LoginState extends State<Login> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[50],
+      backgroundColor: kBackgroundColor,
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(8.0),
@@ -94,7 +94,7 @@ class _LoginState extends State<Login> {
                     Text(
                       ' Forgot Password?',
                       style: TextStyle(
-                        color: kTextColor,
+                        color: kPurpleColor,
                       ),
                     )
                   ],
@@ -110,7 +110,7 @@ class _LoginState extends State<Login> {
                   padding: const EdgeInsets.fromLTRB(44, 20, 44, 0),
                   child: RaisedButton(
                     elevation: 2.0,
-                    color: kBtColor,
+                    color: kPurpleColor,
                     child: Text(
                       "Sign in",
                       style: TextStyle(
@@ -135,7 +135,7 @@ class _LoginState extends State<Login> {
                     child: Text(
                       "Register",
                       style: TextStyle(
-                          color: kTextColor, fontWeight: FontWeight.bold),
+                          color: kPurpleColor, fontWeight: FontWeight.bold),
                     ),
                     onPressed: () {
                       Get.toNamed('/register');
@@ -185,7 +185,7 @@ class RoundedTextField extends StatelessWidget {
             color: Colors.black,
           ),
           hintText: hintText,
-          hintStyle: TextStyle(color: kTextColor),
+          hintStyle: TextStyle(color: kPurpleColor),
           border: InputBorder.none,
         ),
       ),

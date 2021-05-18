@@ -83,7 +83,7 @@ class _ProfileState extends State<Profile> {
         backgroundColor: kBackgroundColor,
         title: Text(
           "Profile",
-          style: TextStyle(color: kTextColor, fontWeight: FontWeight.bold),
+          style: TextStyle(color: kPurpleColor, fontWeight: FontWeight.bold),
         ),
         actions: <Widget>[
           IconButton(
@@ -204,7 +204,7 @@ class _ProfileState extends State<Profile> {
                           child: Text(
                             "Save",
                             style: TextStyle(
-                                color: kBtColor, fontWeight: FontWeight.bold),
+                                color: kPurpleColor, fontWeight: FontWeight.bold),
                           ),
                           onPressed: savedata,
                         ),
@@ -243,7 +243,7 @@ class _ProfileState extends State<Profile> {
                                   SizedBox(width: 4),
                                   Text(
                                     name,
-                                    style: TextStyle(color: kTextColor),
+                                    style: TextStyle(color: kPurpleColor),
                                   )
                                 ],
                               ),
@@ -269,7 +269,7 @@ class _ProfileState extends State<Profile> {
                                   Icon(Icons.email_rounded),
                                   SizedBox(width: 4),
                                   Text(email,
-                                      style: TextStyle(color: kTextColor))
+                                      style: TextStyle(color: kPurpleColor))
                                 ],
                               ),
                             ),
@@ -294,7 +294,7 @@ class _ProfileState extends State<Profile> {
                                   Icon(Icons.phone),
                                   SizedBox(width: 4),
                                   Text(tell,
-                                      style: TextStyle(color: kTextColor))
+                                      style: TextStyle(color: kPurpleColor))
                                 ],
                               ),
                             ),
@@ -318,7 +318,7 @@ class _ProfileState extends State<Profile> {
                           child: Text(
                             "Edit",
                             style: TextStyle(
-                                color: kBtColor, fontWeight: FontWeight.bold),
+                                color: kPurpleColor, fontWeight: FontWeight.bold),
                           ),
                           onPressed: () {
                             setState(() {

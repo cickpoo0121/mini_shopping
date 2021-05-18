@@ -22,7 +22,7 @@ class _MyProductState extends State<MyProduct> {
 
   Icon cusIcon = Icon(Icons.search);
   Widget cusSearchBar = Text("My Product",
-      style: TextStyle(color: kTextColor, fontWeight: FontWeight.bold));
+      style: TextStyle(color: kPurpleColor, fontWeight: FontWeight.bold));
 
   Future<dynamic> getShirt() async {
 
@@ -82,7 +82,7 @@ class _MyProductState extends State<MyProduct> {
                     color: kBlueColor,
                     child: Text(
                       "Edit Product",
-                      style: TextStyle(color: kBtColor),
+                      style: TextStyle(color: kPurpleColor),
                     ),
                     onPressed: () {},
                   ),
@@ -115,7 +115,7 @@ class _MyProductState extends State<MyProduct> {
         title: cusSearchBar,
         // Text(
         //   "My Product",
-        //   style: TextStyle(color: kTextColor, fontWeight: FontWeight.bold),
+        //   style: TextStyle(color: kPurpleColor, fontWeight: FontWeight.bold),
         // ),
         actions: <Widget>[
           IconButton(
@@ -133,7 +133,7 @@ class _MyProductState extends State<MyProduct> {
                   this.cusIcon = Icon(Icons.search);
                   this.cusSearchBar = Text("My Product",
                       style: TextStyle(
-                          color: kTextColor, fontWeight: FontWeight.bold));
+                          color: kPurpleColor, fontWeight: FontWeight.bold));
                 }
               });
             },
@@ -156,7 +156,7 @@ class _MyProductState extends State<MyProduct> {
                       });
                     },
                     child: Text("Shirt"),
-                    color: kBtColor,
+                    color: kPurpleColor,
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(15.0)),
                   ),
@@ -202,7 +202,7 @@ class _MyProductState extends State<MyProduct> {
             Icons.add,
             color: kBlueColor,
           ),
-          backgroundColor: kBtColor,
+          backgroundColor: kPurpleColor,
           onPressed: () {
             Get.toNamed('/addproduct');
             // setState(() {
