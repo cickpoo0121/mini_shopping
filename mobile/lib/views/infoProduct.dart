@@ -107,13 +107,13 @@ class _InfoProductState extends State<InfoProduct> {
       appBar: AppBar(
         elevation: 0,
         backgroundColor: Colors.white,
-        iconTheme: IconThemeData(color: kBtColor),
+        iconTheme: IconThemeData(color: kPurpleColor),
         actions: <Widget>[
           IconButton(
             icon: likeornot == 0
                 ? Icon(
                     Icons.favorite_outline_sharp,
-                    color: kBtColor,
+                    color: kPurpleColor,
                   )
                 : Icon(
                     Icons.favorite_outlined,
@@ -154,14 +154,14 @@ class _InfoProductState extends State<InfoProduct> {
                   title,
                   style: TextStyle(
                       fontWeight: FontWeight.bold,
-                      color: kBtColor,
+                      color: kPurpleColor,
                       fontSize: 22),
                 ),
                 Text(
                   descript,
                   style: TextStyle(
                       fontWeight: FontWeight.bold,
-                      color: kBtColor,
+                      color: kPurpleColor,
                       fontSize: 22),
                 ),
                 SizedBox(
@@ -173,7 +173,7 @@ class _InfoProductState extends State<InfoProduct> {
                   '$price',
                   style: TextStyle(
                       fontWeight: FontWeight.bold,
-                      color: kTextColor,
+                      color: kPurpleColor,
                       fontSize: 22),
                 ),
                 SizedBox(
@@ -183,7 +183,7 @@ class _InfoProductState extends State<InfoProduct> {
                 //Amount Product
                 Text(
                   "$amount Pieces left!",
-                  style: TextStyle(color: kTextColor, fontSize: 22),
+                  style: TextStyle(color: kPurpleColor, fontSize: 22),
                 ),
                 SizedBox(
                   height: 20,
@@ -198,7 +198,7 @@ class _InfoProductState extends State<InfoProduct> {
                     ElevatedButton(
                       style: ElevatedButton.styleFrom(
                         primary: getsize == 'S'
-                            ? kBtColor
+                            ? kPurpleColor
                             : Colors.white, // background
                         onPrimary: getsize == 'S'
                             ? Colors.white
@@ -218,7 +218,7 @@ class _InfoProductState extends State<InfoProduct> {
                     ElevatedButton(
                       style: ElevatedButton.styleFrom(
                         primary: getsize == 'M'
-                            ? kBtColor
+                            ? kPurpleColor
                             : Colors.white, // background
                         onPrimary: getsize == 'M'
                             ? Colors.white
@@ -238,7 +238,7 @@ class _InfoProductState extends State<InfoProduct> {
                     ElevatedButton(
                       style: ElevatedButton.styleFrom(
                         primary: getsize == 'L'
-                            ? kBtColor
+                            ? kPurpleColor
                             : Colors.white, // background
                         onPrimary: getsize == 'L'
                             ? Colors.white
@@ -258,7 +258,7 @@ class _InfoProductState extends State<InfoProduct> {
                     ElevatedButton(
                       style: ElevatedButton.styleFrom(
                         primary: getsize == 'XL'
-                            ? kBtColor
+                            ? kPurpleColor
                             : Colors.white, // background
                         onPrimary: getsize == 'XL'
                             ? Colors.white
@@ -288,7 +288,7 @@ class _InfoProductState extends State<InfoProduct> {
                     //Btn - Product
                     ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                        primary: kBtColor, // background
+                        primary: kPurpleColor, // background
                         onPrimary: Colors.white, // foreground
                       ),
                       onPressed: () {
@@ -315,7 +315,7 @@ class _InfoProductState extends State<InfoProduct> {
                     //Btn + Product
                     ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                        primary: kBtColor, // background
+                        primary: kPurpleColor, // background
                         onPrimary: Colors.white, // foreground
                       ),
                       onPressed: () {
@@ -350,7 +350,7 @@ class _InfoProductState extends State<InfoProduct> {
                       //Btn Add to cart
                       ElevatedButton(
                         style: ElevatedButton.styleFrom(
-                          primary: kBtColor,
+                          primary: kPurpleColor,
                           onPrimary: Colors.white,
                           padding: EdgeInsets.symmetric(
                               horizontal: 80, vertical: 15),

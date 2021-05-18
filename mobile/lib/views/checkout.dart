@@ -119,17 +119,9 @@ class _CheckoutState extends State<Checkout> {
         title: Center(
             child: Text(
           "Check Out",
-          style: TextStyle(color: kTextColor, fontSize: 30),
+          style: TextStyle(color: kPurpleColor, fontSize: 30),
         )),
-        actions: <Widget>[
-          IconButton(
-            icon: const Icon(
-              Icons.search,
-              color: Colors.black,
-            ),
-            onPressed: () {},
-          )
-        ],
+        
       ),
       body: Column(
         children: [
@@ -273,7 +265,7 @@ class _CheckoutState extends State<Checkout> {
                 Spacer(),
                 Text(
                   '$cartTotalPrice Baht',
-                  style: TextStyle(color: kTextColor, fontSize: 20),
+                  style: TextStyle(color: kPurpleColor, fontSize: 20),
                 ),
               ],
             ),
@@ -291,7 +283,7 @@ class _CheckoutState extends State<Checkout> {
                 Spacer(),
                 Text(
                   '$shippingCost Baht',
-                  style: TextStyle(color: kTextColor, fontSize: 20),
+                  style: TextStyle(color: kPurpleColor, fontSize: 20),
                 ),
               ],
             ),
@@ -309,7 +301,7 @@ class _CheckoutState extends State<Checkout> {
                 Spacer(),
                 Text(
                   '${cartTotalPrice + shippingCost} Baht',
-                  style: TextStyle(color: kTextColor, fontSize: 20),
+                  style: TextStyle(color: kPurpleColor, fontSize: 20),
                 ),
               ],
             ),
@@ -370,7 +362,7 @@ class _CheckoutState extends State<Checkout> {
                 Spacer(),
                 Text(
                   '$discount Baht',
-                  style: TextStyle(color: kTextColor, fontSize: 20),
+                  style: TextStyle(color: kPurpleColor, fontSize: 20),
                 ),
               ],
             ),
@@ -404,7 +396,7 @@ class _CheckoutState extends State<Checkout> {
                       ),
                       Text(
                         '${cartTotalPrice + shippingCost - discount} Baht',
-                        style: TextStyle(color: kTextColor, fontSize: 25),
+                        style: TextStyle(color: kPurpleColor, fontSize: 25),
                       ),
                     ],
                   ),
@@ -494,11 +486,11 @@ class _CheckoutState extends State<Checkout> {
                       child: Container(
                         decoration: BoxDecoration(
                           border: Border.all(
-                            color: kTextColor,
+                            color: kPurpleColor,
                             style: BorderStyle.solid,
                             width: 1.0,
                           ),
-                          color: kTextColor,
+                          color: kPurpleColor,
                           borderRadius: BorderRadius.circular(30.0),
                         ),
                         child: Row(

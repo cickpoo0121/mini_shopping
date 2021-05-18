@@ -25,7 +25,6 @@ class _MyProductState extends State<MyProduct> {
       style: TextStyle(color: kPurpleColor, fontWeight: FontWeight.bold));
 
   Future<dynamic> getShirt() async {
-
     if (_token != null) {
       http.Response response = await http.get(Uri.parse(_urlShirt),
           headers: {HttpHeaders.authorizationHeader: _token});
@@ -40,7 +39,6 @@ class _MyProductState extends State<MyProduct> {
   }
 
   Future<dynamic> getShoes() async {
-
     if (_token != null) {
       http.Response response = await http.get(Uri.parse(_urlShose),
           headers: {HttpHeaders.authorizationHeader: _token});
@@ -117,28 +115,6 @@ class _MyProductState extends State<MyProduct> {
         //   "My Product",
         //   style: TextStyle(color: kPurpleColor, fontWeight: FontWeight.bold),
         // ),
-        actions: <Widget>[
-          IconButton(
-            icon: cusIcon,
-            onPressed: () {
-              setState(() {
-                if (this.cusIcon.icon == Icons.search) {
-                  this.cusIcon = Icon(Icons.cancel);
-                  this.cusSearchBar = TextField(
-                    textInputAction: TextInputAction.go,
-                    decoration: InputDecoration(
-                        border: InputBorder.none, hintText: "Search Product"),
-                  );
-                } else {
-                  this.cusIcon = Icon(Icons.search);
-                  this.cusSearchBar = Text("My Product",
-                      style: TextStyle(
-                          color: kPurpleColor, fontWeight: FontWeight.bold));
-                }
-              });
-            },
-          )
-        ],
         centerTitle: true,
       ),
       body: Column(

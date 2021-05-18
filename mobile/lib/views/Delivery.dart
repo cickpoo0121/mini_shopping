@@ -187,15 +187,7 @@ class _DeliveryState extends State<Delivery> {
             style: TextStyle(
                 color: kPurpleColor, fontSize: 30, fontWeight: FontWeight.bold),
           )),
-          actions: <Widget>[
-            IconButton(
-              icon: const Icon(
-                Icons.search,
-                color: Colors.black,
-              ),
-              onPressed: () {},
-            )
-          ],
+          
         ),
         body: Column(
           children: [

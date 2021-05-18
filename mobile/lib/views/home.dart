@@ -24,7 +24,7 @@ class _HomeState extends State<Home> {
 
   Icon cusIcon = Icon(Icons.search);
   Widget cusSearchBar = Text("Home",
-      style: TextStyle(color: kTextColor, fontWeight: FontWeight.bold));
+      style: TextStyle(color: kPurpleColor, fontWeight: FontWeight.bold));
 
   Future<dynamic> getShirt() async {
     if (_token != null) {
@@ -115,7 +115,7 @@ class _HomeState extends State<Home> {
                       });
                     },
                     child: Text("Shirt"),
-                    color: kBtColor,
+                    color: kPurpleColor,
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(15.0)),
                   ),
@@ -160,7 +160,7 @@ class _HomeState extends State<Home> {
       floatingActionButton: FloatingActionButton(
           child: Icon(
             Icons.shopping_cart_outlined,
-            color: kBtColor,
+            color: kPurpleColor,
           ),
           backgroundColor: kBlueColor,
           onPressed: () {
