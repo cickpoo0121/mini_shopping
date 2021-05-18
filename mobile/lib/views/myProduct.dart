@@ -90,7 +90,7 @@ class _MyProductState extends State<MyProduct> {
               child: Card(
             child: ListTile(
               leading: Image.network(
-                "http://10.0.2.2:35000/${data[index]["ProductImage"]}",
+                "http://10.0.2.2:35000/images/${data[index]["ProductImage"]}",
                 height: 80,
                 width: 80,
               ),

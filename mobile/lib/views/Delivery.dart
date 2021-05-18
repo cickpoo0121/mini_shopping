@@ -95,7 +95,7 @@ class _DeliveryState extends State<Delivery> {
                         child: Row(
                           children: [
                             Image.network(
-                              'http://10.0.2.2:35000/${data[index]['ProductImage']}',
+                              'http://10.0.2.2:35000/images/${data[index]['ProductImage']}',
                               height: size.height / 8,
                               width: size.width / 4,
                             ),
