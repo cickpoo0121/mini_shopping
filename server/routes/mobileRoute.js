@@ -258,8 +258,8 @@ router.post('/order/new', checkUserMobile, async (req, res) => {
 // show deliver or on road (Status 0 is on road, 1 is delivery successed)
 router.get('/order/:status', checkUserMobile, (req, res) => {
     const status = req.params.status;
-    let sql = 'SELECT productorder.OrderID,productorder.BuyerID,productorder.Status,productorder.Amount as Order_amount,productorder.Size, product.ProductImage,product.ProductTitle,product.ProductDescription,product.ProductPrice,product.ProductOwner,product.Amount as Product_Amount,product.ProductID FROM productorder,product WHERE productorder.Status =? AND product.ProductID=productorder.ProductID'
-    con.query(sql, [status], (err, result) => {
+    let sql = 'SELECT productorder.OrderID,productorder.BuyerID,productorder.Status,productorder.Amount as Order_amount,productorder.Size, product.ProductImage,product.ProductTitle,product.ProductDescription,product.ProductPrice,product.ProductOwner,product.Amount as Product_Amount,product.ProductID FROM productorder,product WHERE productorder.Status =? AND product.ProductID=productorder.ProductID AND productorder.BuyerID=?'
+    con.query(sql, [status,req.afterDecoded.userID], (err, result) => {
         if (err) {
             console.log(err)
             return res.status(500).send('Database error')

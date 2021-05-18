@@ -115,20 +115,7 @@ class _LoginState extends State<Login> {
                   ),
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.all(10),
-                child: Row(
-                  children: [
-                    Spacer(),
-                    Text(
-                      ' Forgot Password?',
-                      style: TextStyle(
-                        color: kPurpleColor,
-                      ),
-                    )
-                  ],
-                ),
-              ),
+             
               ButtonTheme(
                 minWidth: 300.0,
                 height: 40,

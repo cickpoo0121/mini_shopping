@@ -47,7 +47,7 @@ class _CusregisterState extends State<Cusregister> {
         if (response.statusCode == 200) {
           showAlert2(context, response.body.toString());
           Future.delayed(Duration(seconds: 3), () {
-            Get.toNamed('/home');
+            Get.toNamed('/login');
           });
         } else {
           showAlert(context, response.body.toString());

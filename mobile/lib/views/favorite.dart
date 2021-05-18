@@ -14,13 +14,13 @@ class Favorite extends StatefulWidget {
 
 class _FavoriteState extends State<Favorite> {
   final tokenall = GetStorage();
-  
+
   final List item = [].obs;
 
   Future<void> refresh() async {
     var token = tokenall.read('token');
-    
-    var url = 'http://10.255.60.102:35000/getfavoriteOfUser';
+
+    var url = 'http://10.0.2.2:35000/getfavoriteOfUser';
     // await Future.delayed(Duration(seconds: 2));
     http.Response response = await http.get(
       Uri.parse(url),
@@ -28,6 +28,7 @@ class _FavoriteState extends State<Favorite> {
     );
     var info = response.body;
     var decode = jsonDecode(info);
+    print(decode);
     // setState(() {
     print('hello');
     for (var prop in decode) {
@@ -46,7 +47,6 @@ class _FavoriteState extends State<Favorite> {
   void like(id) async {
     print('delete seccess');
     var token = tokenall.read('token');
-    
 
     var url = 'http://10.0.2.2:35000/updatefavoriteOfUser';
     http.Response response = await http.post(Uri.parse(url),
@@ -119,13 +119,7 @@ class _FavoriteState extends State<Favorite> {
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-          child: Icon(
-            Icons.shopping_cart_outlined,
-            color: kPurpleColor,
-          ),
-          backgroundColor: kBlueColor,
-          onPressed: () {}),
+      
     );
   }
 }
